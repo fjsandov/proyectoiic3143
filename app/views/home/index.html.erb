@@ -1,0 +1,25 @@
+<div class='span3'>
+    <%= form_tag login_path do%>
+      <%= render 'shared/action_feedback' %>
+
+      <div class="control-group">
+        <%= label_tag :username, 'Usuario', :class=>'control-label' %>
+        <div class="controls">
+          <%= text_field_tag :username %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :password, 'Contraseña', :class=>"control-label" %>
+        <div class="controls">
+          <%= password_field_tag :password %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+          <%= submit_tag 'Ingresar', :class =>'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+</div>
