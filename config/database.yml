@@ -14,9 +14,9 @@ development:
   reconnect: false
   database: cua_dev
   pool: 5
-  username: CUA_dev
+  username: cua_dev
   password: cualeslapassword
-  host: 127.0.0.1
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -25,18 +25,18 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: CUALimpieza_test
+  database: cua_test
   pool: 5
-  username: root
-  password:
+  username: cua_test
+  password: cualeslapassword
   host: localhost
 
 production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: CUALimpieza_production
+  database: cua_prod
   pool: 5
-  username: root
-  password:
+  username: cua_prod
+  password: cualeslapassword
   host: localhost
