@@ -1,4 +1,8 @@
 CUALimpieza::Application.routes.draw do
+  namespace :limpieza do
+    get "general/index", :as => 'general'
+  end
+
   post "home/login"  => 'home#login', :as => 'login'
   get "home/logout"  => 'home#logout', :as => 'logout'
 

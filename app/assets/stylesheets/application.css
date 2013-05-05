@@ -11,3 +11,12 @@
  *= require_self
  *= require_tree .
  */
+
+span.legend
+{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 14px;
+}

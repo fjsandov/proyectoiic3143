@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
   def session_control
     if !public_sites && !signed_in?
       session_end
-      redirect_to :controller=>'home', :action => 'index'
+      redirect_to :root
     elsif public_sites && signed_in?
-      # redirect_to :controller=>'cleaning', :action => 'index'    #CAMBIAR POR PRINCIPAL DE LIMPIEZA
+      redirect_to :limpieza_general
     end
   end
 
@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
 
   def public_sites
     #Sitios en los que se puede estar sin estar autenticado
-    #En Home:
-    @is_public_site = (@current_controller=='home')
+    #En Home: (solo logout es reservado para autenticados)
+    @is_public_site = (@current_controller=='home' && @current_action != 'logout')
   end
 
   def session_restart(user)

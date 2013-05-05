@@ -1,0 +1,2 @@
+module Limpieza::GeneralHelper
+end

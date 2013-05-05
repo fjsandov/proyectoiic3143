@@ -8,7 +8,7 @@ class HomeController < ApplicationController
         session_restart(user)
         success = true
       else
-        flash[:error] = "Cuenta congelada. Para reactivar contactar a Jefe de Servicio de Aseo y Limpieza"
+        flash[:error] = "Cuenta deshabilitada. Para reactivar contactar a Jefe de Servicio de Aseo y Limpieza"
         success = false
       end
     else
@@ -16,7 +16,7 @@ class HomeController < ApplicationController
       success = false
     end
 
-    (success) ? (redirect_to :root) : (redirect_to :root)
+    (success) ? (redirect_to :limpieza_general) : (redirect_to :root)
   end
 
   def logout
