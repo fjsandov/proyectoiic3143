@@ -1,14 +1,79 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>CUALimpieza</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : 'CUALimpieza' %></title>
+    <%= csrf_meta_tags %>
 
-<%= yield %>
+    <%= stylesheet_link_tag 'application', :media => 'all' %>
 
-</body>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body>
+    <div class="navbar navbar-fluid-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">CUALimpieza</a>
+            <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
+            <ul class="nav">
+              <li class="active"><%= link_to 'Limpieza', :controller => 'limpieza/general'  %></li>
+              <li><%= link_to 'Personal', '#'  %></li>
+              <li><%= link_to 'Inventario', '#'  %></li>
+            </ul>
+
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-user"></i>
+                  <strong>María Eugenia</strong>
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Mi cuenta', '#' %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to 'Cerrar sesión', '/home/logout' %></li>
+                </ul>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
+            <ul class="nav nav-list">
+              <li class="nav-header">Módulo Limpieza</li>
+              <li class="active">
+                <%= link_to :controller => 'limpieza/general' do %>
+                    <i class="icon-home icon-white"></i> Dashboard<% end %>
+              </li>
+              <li><%= link_to '#' do %>
+                    <i class="icon-book icon-black"></i> Agenda diaria<% end %>
+              </li>
+              <li><%= link_to '#' do %>
+                    <i class="icon-calendar icon-black"></i> Calendario<% end %>
+              </li>
+              <li><%= link_to '#' do %>
+                    <i class="icon-th-large icon-black"></i> Vista Global<% end %>
+              </li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+      </div><!--/row-->
+
+      <footer>
+        <!--<p>&copy; IIC3143 2013</p>-->
+      </footer>
+
+    </div> <!-- /container -->
+  </body>
 </html>

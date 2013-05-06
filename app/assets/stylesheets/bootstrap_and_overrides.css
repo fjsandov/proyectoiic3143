@@ -5,3 +5,13 @@
   To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
   =require twitter-bootstrap-static/fontawesome
   */
+
+/* Fluido, pero no taaan fluido */
+.container-fluid {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.icon-black {
+    color: #333;
+}

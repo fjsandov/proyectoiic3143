@@ -1,5 +1,6 @@
-<div class='span3'>
-    <%= form_tag login_path do%>
+<div class='span4'><!--Espacio vacio para centrar login--></div>
+<div class='span4'>
+    <%= form_tag login_path, { :class => "well" } do %>
       <%= render 'shared/action_feedback' %>
 
       <div class="control-group">
