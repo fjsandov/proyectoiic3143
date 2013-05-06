@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130506215112) do
+ActiveRecord::Schema.define(:version => 20130506222514) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -35,6 +35,11 @@ ActiveRecord::Schema.define(:version => 20130506215112) do
   add_index "cleanup_requests", ["started_by"], :name => "index_cleanup_requests_on_started_by"
   add_index "cleanup_requests", ["status"], :name => "index_cleanup_requests_on_status"
 
+  create_table "cleanup_requests_employees", :id => false, :force => true do |t|
+    t.integer "cleanup_request_id"
+    t.integer "employee_id"
+  end
+
   create_table "employees", :force => true do |t|
     t.string   "name"
     t.string   "last_name1"
@@ -57,6 +62,11 @@ ActiveRecord::Schema.define(:version => 20130506215112) do
   end
 
   add_index "employees", ["occupation_id"], :name => "index_employees_on_occupation_id"
+
+  create_table "employees_terminal_cleanups", :id => false, :force => true do |t|
+    t.integer "employee_id"
+    t.integer "terminal_cleanup_id"
+  end
 
   create_table "maintenance_records", :force => true do |t|
     t.integer  "room_id"
