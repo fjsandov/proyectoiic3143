@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  room: 
+  start_date: 2013-05-06
+  interval: 1
+  comments: MyText
+
+two:
+  room: 
+  start_date: 2013-05-06
+  interval: 1
+  comments: MyText

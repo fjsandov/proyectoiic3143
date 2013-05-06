@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  attr_accessible :username, :password, :password_confirmation, :active
+  attr_accessible :username, :password, :password_confirmation, :active, :user_type, :name, :last_name1, :last_name2,
+                  :gender
   has_secure_password
 
 #----------------Validations---------------

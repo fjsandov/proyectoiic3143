@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  room: 
+  priority: 1
+  status: MyString
+  comments: MyText
+  requested_at: 2013-05-06 17:42:16
+  started_at: 2013-05-06 17:42:16
+  finished_at: 2013-05-06 17:42:16
+  requested_by: 1
+  started_by: 1
+  finished_by: 1
+
+two:
+  room: 
+  priority: 1
+  status: MyString
+  comments: MyText
+  requested_at: 2013-05-06 17:42:16
+  started_at: 2013-05-06 17:42:16
+  finished_at: 2013-05-06 17:42:16
+  requested_by: 1
+  started_by: 1
+  finished_by: 1

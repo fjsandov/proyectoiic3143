@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  terminal_cleanup: 
+  exception_type: MyString
+  exception_date: 2013-05-06
+  original_date: 2013-05-06
+  comments: MyText
+
+two:
+  terminal_cleanup: 
+  exception_type: MyString
+  exception_date: 2013-05-06
+  original_date: 2013-05-06
+  comments: MyText

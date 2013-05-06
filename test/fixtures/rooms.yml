@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  floor: 1
+  status: MyString
+  sector: 
+
+two:
+  name: MyString
+  floor: 1
+  status: MyString
+  sector: 

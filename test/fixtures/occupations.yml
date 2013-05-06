@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  vacation_days: 1
+  admin_leave_days: 1
+
+two:
+  name: MyString
+  vacation_days: 1
+  admin_leave_days: 1

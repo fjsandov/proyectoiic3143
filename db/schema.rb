@@ -11,7 +11,126 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502064937) do
+ActiveRecord::Schema.define(:version => 20130506215112) do
+
+  create_table "cleanup_requests", :force => true do |t|
+    t.integer  "room_id"
+    t.integer  "priority"
+    t.string   "status"
+    t.text     "comments"
+    t.datetime "requested_at"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.integer  "requested_by"
+    t.integer  "started_by"
+    t.integer  "finished_by"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "cleanup_requests", ["finished_by"], :name => "index_cleanup_requests_on_finished_by"
+  add_index "cleanup_requests", ["priority"], :name => "index_cleanup_requests_on_priority"
+  add_index "cleanup_requests", ["requested_at"], :name => "index_cleanup_requests_on_requested_at"
+  add_index "cleanup_requests", ["room_id"], :name => "index_cleanup_requests_on_room_id"
+  add_index "cleanup_requests", ["started_by"], :name => "index_cleanup_requests_on_started_by"
+  add_index "cleanup_requests", ["status"], :name => "index_cleanup_requests_on_status"
+
+  create_table "employees", :force => true do |t|
+    t.string   "name"
+    t.string   "last_name1"
+    t.string   "last_name2"
+    t.string   "gender"
+    t.string   "religion"
+    t.string   "marital_status"
+    t.string   "spouse_name"
+    t.string   "spouse_occupation"
+    t.string   "education_level"
+    t.string   "birth_date"
+    t.integer  "children"
+    t.integer  "occupation_id"
+    t.date     "joined_at"
+    t.date     "uniform_date"
+    t.date     "equipment_date"
+    t.boolean  "training"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "employees", ["occupation_id"], :name => "index_employees_on_occupation_id"
+
+  create_table "maintenance_records", :force => true do |t|
+    t.integer  "room_id"
+    t.text     "comments"
+    t.datetime "finished_at"
+    t.integer  "finished_by"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "maintenance_records", ["finished_by"], :name => "index_maintenance_records_on_finished_by"
+  add_index "maintenance_records", ["room_id"], :name => "index_maintenance_records_on_room_id"
+
+  create_table "occupations", :force => true do |t|
+    t.string   "name"
+    t.integer  "vacation_days"
+    t.integer  "admin_leave_days"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "rooms", :force => true do |t|
+    t.string   "name"
+    t.integer  "floor"
+    t.string   "status"
+    t.integer  "sector_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "rooms", ["floor"], :name => "index_rooms_on_floor"
+  add_index "rooms", ["sector_id"], :name => "index_rooms_on_sector_id"
+  add_index "rooms", ["status"], :name => "index_rooms_on_status"
+
+  create_table "sectors", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "terminal_cleanup_exceptions", :force => true do |t|
+    t.integer  "terminal_cleanup_id"
+    t.string   "exception_type"
+    t.date     "exception_date"
+    t.date     "original_date"
+    t.text     "comments"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "terminal_cleanup_exceptions", ["exception_date"], :name => "index_terminal_cleanup_exceptions_on_exception_date"
+  add_index "terminal_cleanup_exceptions", ["terminal_cleanup_id"], :name => "index_terminal_cleanup_exceptions_on_terminal_cleanup_id"
+
+  create_table "terminal_cleanup_instances", :force => true do |t|
+    t.integer  "terminal_cleanup_id"
+    t.datetime "finished_at"
+    t.integer  "finished_by"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "terminal_cleanup_instances", ["finished_by"], :name => "index_terminal_cleanup_instances_on_finished_by"
+  add_index "terminal_cleanup_instances", ["terminal_cleanup_id"], :name => "index_terminal_cleanup_instances_on_terminal_cleanup_id"
+
+  create_table "terminal_cleanups", :force => true do |t|
+    t.integer  "room_id"
+    t.date     "start_date"
+    t.integer  "interval"
+    t.text     "comments"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "terminal_cleanups", ["room_id"], :name => "index_terminal_cleanups_on_room_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"
@@ -19,6 +138,11 @@ ActiveRecord::Schema.define(:version => 20130502064937) do
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
     t.boolean  "active",          :default => true
+    t.string   "user_type"
+    t.string   "name"
+    t.string   "last_name1"
+    t.string   "last_name2"
+    t.string   "gender"
   end
 
 end

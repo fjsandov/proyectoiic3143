@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  room: 
+  comments: MyText
+  finished_at: 2013-05-06 17:51:12
+
+two:
+  room: 
+  comments: MyText
+  finished_at: 2013-05-06 17:51:12
