@@ -1,6 +1,10 @@
 CUALimpieza::Application.routes.draw do
   namespace :limpieza do
     get "general/index", :as => 'general'
+
+    get "calendario/index"
+    get "calendario/create_aseo_terminal"
+    get "calendario/get_events"
   end
 
   post "home/login"  => 'home#login', :as => 'login'

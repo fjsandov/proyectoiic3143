@@ -1,0 +1,35 @@
+<h1>Calendario</h1>
+
+<div id='calendar'></div>
+
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            // options
+            theme: false,
+            firstDay: 1,
+            weekMode: 'variable',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                        'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            // sources
+            events: {
+                url: '<%= url_for :controller => 'limpieza/calendario', :action => :get_events %>',
+                type: 'GET',
+                data: {
+                },
+                error: function() {
+                    alert('there was an error while fetching events!');
+                }
+            },
+            // callbacks
+            dayClick: function() {
+                alert('a day has been clicked!');
+            },
+            eventClick: function() {
+                alert('a event has been clicked!');
+            }
+        });
+    });
+</script>
