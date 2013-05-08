@@ -8,4 +8,8 @@ class CleanupRequest < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'started_by'
   belongs_to :user, :foreign_key => 'finished_by'
 
+  def self.getUnfinished
+    CleanupRequest.where("status != ?", "finished")
+  end
+
 end
