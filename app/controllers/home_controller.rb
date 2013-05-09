@@ -16,13 +16,13 @@ class HomeController < ApplicationController
       success = false
     end
 
-    (success) ? (redirect_to :limpieza_general) : (redirect_to :root)
+    (success) ? (redirect_to :limpieza_general) : (render 'index')
   end
 
   def logout
     session_end
     flash[:notice] = "Sesion terminada."
-    redirect_to :root
+    render 'index'
   end
 
 

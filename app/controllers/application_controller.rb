@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :current_user, :set_controller_and_action, :session_control
+  layout :check_if_display_layout
   force_ssl
 
   def set_controller_and_action
@@ -46,6 +47,15 @@ class ApplicationController < ActionController::Base
     @current_user = nil
     reset_session
   end
-#-------------------------------------- END Session Methods --------------------------------------
-
+#-------------------------------------- AJAX (se envian sin layout) --------------------------------------
+  def check_if_display_layout
+    if request.xhr?
+      false
+    elsif @current_user.blank?
+      "home"
+    else
+      "application"
+    end
+  end
+#--------------------------------------------------------------------------------------------------------
 end

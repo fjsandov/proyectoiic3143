@@ -12,7 +12,13 @@
  *= require_tree .
  */
 
-span.legend
+.loading-img{
+    height: 350px;
+    width: 350px;
+    margin: 0 80px;
+}
+
+span.legend-square
 {
     display: inline-block;
     width: 14px;

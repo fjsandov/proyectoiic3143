@@ -1,0 +1,2 @@
+module Limpieza::CleanupPopupHelper
+end

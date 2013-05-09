@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h1>Responder Solicitud de Limpieza</h1>
+</div>
+<div class="modal-body">
+  <%= form_tag limpieza_process_cleanup_request_response_path do %>
+      <%= render 'shared/action_feedback' %>
+      <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
+
+      <div class="control-group">
+        <%= label_tag :room, 'Sala', :class=>'control-label' %>
+        <div class="controls">
+          <%= text_field_tag :room, :value => '@cleanup_request.room.name' %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :requested_at, 'Hora Solicitud', :class=>"control-label" %>
+        <div class="controls">
+          <%= text_field_tag :requested_at, :value => @cleanup_request.get_requested_at_time, :disabled => true %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :priority, 'Urgencia', :class=>"control-label" %>
+        <div class="controls">
+          <%= text_field_tag :priority, :value => @cleanup_request.get_priority_str, :disabled => true %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <p>Lista de empleados asignados: <span id='employees-asigned-list'></span></p>
+        AGREGAR WIDGET DE AGREGAR AUXILIARES A LA LISTA
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :comments, 'Urgencia', :class=>"control-label" %>
+        <div class="controls">
+          <%= text_field_tag :comments, :value => @cleanup_request.comments %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls">
+          <%= submit_tag 'Guardar Solicitud', :class =>'btn btn-primary' %>
+        </div>
+      </div>
+  <% end %>
+</div>
+<div class="modal-footer">
+  <%= link_to 'Eliminar Solicitud', delete_cleanup_request_path(@cleanup_request) , :class =>'btn btn-danger' %>
+  <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
+</div>

@@ -5,6 +5,12 @@ CUALimpieza::Application.routes.draw do
     get "calendario/index"
     get "calendario/create_aseo_terminal"
     get "calendario/get_events"
+
+    get "popup_respuesta_solicitud" => 'general#popup_cleanup_request_response', :as => 'popup_cleanup_request_response'
+    get "popup_termino_solicitud" => 'general#popup_cleanup_request_finish', :as => 'popup_cleanup_request_finish'
+
+    post "procesar_respuesta_solicitud" => 'cleanup_popup#process_cleanup_request_response' , :as => 'process_cleanup_request_response'
+    post "procesar_termino_solicitud" => 'cleanup_popup#process_cleanup_request_finish' , :as => 'process_cleanup_request_finish'
   end
 
   post "home/login"  => 'home#login', :as => 'login'
