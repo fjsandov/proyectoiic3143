@@ -1,0 +1,22 @@
+/*--- Modificaciones al modal base para ajustarse a nuestras necesidades ---*/
+#modal-popup {
+  width: 700px !important;
+  margin: 0 0 0 -350px !important;
+}
+#modal-popup .modal.fade.in {
+  top: 7%!important;
+}
+#modal-popup .modal-body {
+  max-height: 750px;
+}
+#modal-popup textarea {
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+
+.loading-img {
+  height: 350px;
+  width: 350px;
+  margin: 0 80px;
+}

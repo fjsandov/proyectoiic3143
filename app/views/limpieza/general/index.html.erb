@@ -106,6 +106,6 @@
 </div>
 
 Ejemplos de como usar el modal popup (BORRAR CUANDO ESTE IMPLEMENTADO):
-<%= link_to 'esta_misma_pagina',root_path, 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
-<%= link_to 'un_form_sin_nada',limpieza_popup_cleanup_request_finish_path, 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
+<%= link_to 'nueva solicitud',limpieza_new_cleanup_request_path, 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
+<%= link_to 'un_form_sin_nada',limpieza_finish_cleanup_request_path(:id => 1), 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
 <%= render 'shared/modal_popup'%>

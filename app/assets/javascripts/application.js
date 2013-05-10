@@ -17,3 +17,13 @@
 //= require twitter/bootstrap
 //= require bootstrap
 //= require_tree .
+
+$(
+    function(){
+        //Aplica datepicker JQUERY UI a quien tenga la clase datepicker
+        var datepicker_list = $(".datepicker");
+        if(datepicker_list.length>0){
+            datepicker_list.datepicker({ dateFormat: 'dd-mm-yy' });
+        }
+    }
+)

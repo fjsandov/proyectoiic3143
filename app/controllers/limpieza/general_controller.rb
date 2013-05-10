@@ -5,13 +5,18 @@ class Limpieza::GeneralController < ApplicationController
     @unfinished_cleanup_requests =  CleanupRequest.get_unfinished
   end
 
+  def popup_cleanup_request_new
+    @cleanup_request = CleanupRequest.new
+    render 'limpieza/popup/cleanupRequestNew'
+  end
+
   def popup_cleanup_request_response
-    @cleanup_request = CleanupRequest.new  #TODO: cargar lo que corresponde
-    render 'limpieza/popup/cleanupResponse'
+    @cleanup_request = CleanupRequest.find(params[:id])  #TODO: cargar lo que corresponde
+    render 'limpieza/popup/cleanupRequestResponse'
   end
 
   def popup_cleanup_request_finish
-    @cleanup_request = CleanupRequest.new    #TODO: cargar lo que corresponde
-    render 'limpieza/popup/cleanupFinish'
+    @cleanup_request = CleanupRequest.find(params[:id])    #TODO: cargar lo que corresponde
+    render 'limpieza/popup/cleanupRequestFinish'
   end
 end

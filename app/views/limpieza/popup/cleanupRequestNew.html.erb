@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <h1>Nueva Solicitud de Limpieza</h1>
+</div>
+<%= form_for @cleanup_request, :url => limpieza_create_cleanup_request_path do |f| %>
+    <div class="modal-body">
+          <%= render 'shared/action_feedback' %>
+          <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
+
+          <div class="control-group">
+            <%= label_tag :room, 'Sala', :class=>'control-label' %>
+            <div class="controls">
+              <%= select_tag :room, options_for_select(Room.all), {:selected => @cleanup_request.room} %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <%= f.label :requested_at, 'Fecha y Hora', :class=>"control-label" %>
+            <div class="controls">
+                <%= f.text_field :requested_at, :class => 'datepicker', :value => Time.now.strftime("%d-%m-%Y") %>
+            </div>
+            <div class="controls">
+                <%= f.time_select :requested_at, :ignore_date => true, :default => Time.now %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <%= f.label 'cleanup_request[priority]', 'Urgencia', :class=>"control-label" %>
+            <div class="controls">
+              <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options), {:selected => @cleanup_request.priority} %>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <%= f.label :comments, 'Comentarios', :class=>"control-label" %>
+            <div class="controls">
+              <%= f.text_area :comments %>
+            </div>
+          </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.submit 'Crear Solicitud', :class =>'btn btn-primary' %>
+      <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
+    </div>
+<% end %>

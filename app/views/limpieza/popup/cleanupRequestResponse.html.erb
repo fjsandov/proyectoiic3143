@@ -2,14 +2,14 @@
   <h1>Responder Solicitud de Limpieza</h1>
 </div>
 <div class="modal-body">
-  <%= form_tag limpieza_process_cleanup_request_response_path do %>
+  <%= form_for @cleanup_request, limpieza_process_cleanup_request_response_path do |f| %>
       <%= render 'shared/action_feedback' %>
       <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
       <div class="control-group">
         <%= label_tag :room, 'Sala', :class=>'control-label' %>
         <div class="controls">
-          <%= text_field_tag :room, :value => '@cleanup_request.room.name' %>
+          <%= text_field_tag :room, :value => '@cleanup_request.room.name', :disabled => true %>
         </div>
       </div>
 
@@ -33,15 +33,15 @@
       </div>
 
       <div class="control-group">
-        <%= label_tag :comments, 'Urgencia', :class=>"control-label" %>
+        <%= f.label :comments, 'Comentarios', :class=>"control-label" %>
         <div class="controls">
-          <%= text_field_tag :comments, :value => @cleanup_request.comments %>
+          <%= f.text_area :comments %>
         </div>
       </div>
 
       <div class="control-group">
         <div class="controls">
-          <%= submit_tag 'Guardar Solicitud', :class =>'btn btn-primary' %>
+          <%= f.submit 'Guardar Solicitud', :class =>'btn btn-primary' %>
         </div>
       </div>
   <% end %>
