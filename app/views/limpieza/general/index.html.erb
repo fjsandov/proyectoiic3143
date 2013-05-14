@@ -29,6 +29,7 @@
     </div>
     <div class='span6'>
       <h3>Solicitudes de limpieza no finalizadas</h3>
+      <a href='<%=limpieza_new_cleanup_request_path%>' data-toggle='modal' data-target='#modal-popup'><i class="icon-plus"> Nueva Solicitud</i></a>
       <% if @unfinished_cleanup_requests.blank? %>
           <h6>No hay solicitudes de limpieza pendientes</h6>
       <% else %>
@@ -43,28 +44,12 @@
             <% @unfinished_cleanup_requests.each do |unfinished_cr| %>
                  <tr class='<%=unfinished_cr.get_priority_class %>'>
                   <td><%= unfinished_cr.room.name %></td>
-                  <td><%= unfinished_cr.get_requested_at_time %></td>
+                  <td><%= unfinished_cr.get_requested_at_smart_str %></td>
                   <td><%= unfinished_cr.get_status_str %></td>
-                  <td><%= link_to 'ver',limpieza_open_cleanup_request_path(:id => unfinished_cr.id),
+                  <td><%= link_to 'Ver',limpieza_show_cleanup_request_path(:id => unfinished_cr.id),
                                   'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %></td>
                 </tr>
             <% end %>
-
-            <tr class="priority-1">
-              <td>EJ:101</td>
-              <td>13:00</td>
-              <td>En Limpieza</td>
-            </tr>
-            <tr class="priority-2">
-              <td>EJ:402</td>
-              <td>13:20</td>
-              <td>Pendiente</td>
-            </tr>
-            <tr class="priority-3">
-              <td>EJ:309</td>
-              <td>13:12</td>
-              <td>Pendiente</td>
-            </tr>
           </table>
           <%= render 'shared/legend_priority' %>
       <% end %>
@@ -99,6 +84,3 @@
       <% end %>
     </div>
 </div>
-<%= link_to 'nueva',limpieza_new_cleanup_request_path,
-            'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
-<%= render 'shared/modal_popup'%>

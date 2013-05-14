@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
   <%= form_for @cleanup_request, limpieza_process_cleanup_request_response_path do |f| %>
-      <%= render 'shared/action_feedback' %>
+      <%= bootstrap_flash %>
       <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
       <div class="control-group">
@@ -16,7 +16,7 @@
       <div class="control-group">
         <%= label_tag :requested_at, 'Hora Solicitud', :class=>"control-label" %>
         <div class="controls">
-          <%= text_field_tag :requested_at, :value => @cleanup_request.get_requested_at_time, :disabled => true %>
+          <%= text_field_tag :requested_at, :value => @cleanup_request.get_requested_at_smart_str, :disabled => true %>
         </div>
       </div>
 
