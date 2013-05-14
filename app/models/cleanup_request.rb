@@ -8,6 +8,7 @@ class CleanupRequest < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'started_by'
   belongs_to :user, :foreign_key => 'finished_by'
 
+  after_save :change_room_status
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
 
@@ -61,8 +62,6 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
-  #TODO: En los siguientes 4 metodos, falta realizar el cambio de estado al room asociado a la solicitud
-
   def create_request(user)
     self.status = 'pending'
     self.requested_by = user.id
@@ -86,4 +85,20 @@ class CleanupRequest < ActiveRecord::Base
     self.status = 'finished'
     self.save
   end
+
+  def change_room_status
+    case self.status
+      when 'pending'
+        self.room.status = 'cleanup-pending'
+      when 'being-attended'
+        self.room.status = 'being-cleaned'
+      when 'finished'
+        self.room.status = 'free'
+      else #when 'deleted'
+        self.room.status = 'free'
+    end
+    self.room.save
+  end
+
+
 end

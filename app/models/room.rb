@@ -6,7 +6,25 @@ class Room < ActiveRecord::Base
   has_many :cleanup_requests
   has_many :maintenance_records
 
+  #Salas sobre las que se puede realizar una solicitud de limpieza
   def self.get_cleanup_requestable_rooms
-    Room.where('status = ?','free') #TODO: Hacer bien esta consulta. Deben ser las salas sobre las que se puede hacer una solicitud de limpieza
+    posible_status = ['free','maintenance','occupied']
+    Room.where('status in (?)',posible_status)
   end
+
+  def get_status_str
+    case self.status
+      when 'free'
+        'Libre'
+      when 'maintenance'
+        'En Mantenimiento'
+      when 'occupied'
+        'Ocupada'
+      when 'cleanup-pending'
+        'Solicitud pendiente'
+      else #when 'being-cleaned'
+        'En Limpieza'
+    end
+  end
+
 end
