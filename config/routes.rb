@@ -2,9 +2,15 @@ CUALimpieza::Application.routes.draw do
   namespace :limpieza do
     get "general/index", :as => 'general'
 
+    get "agenda" => "agenda#index"
+    get "agenda/index"
+
     get "calendario/index"
     get "calendario/create_aseo_terminal"
     get "calendario/get_events"
+
+    get "vista_salas" => "roomsView#index"
+    get "vista_salas/index" => "roomsView#index"
 
     get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
     get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
