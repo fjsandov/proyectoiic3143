@@ -48,8 +48,11 @@
         </div><!--/span-->
         <div class="span9">
           <%= bootstrap_flash %>
-          <%= yield %>
+          <div id='yield-container'>
+            <%= yield %>
+          </div>
         </div>
+        <%= render 'shared/modal_popup'%>
       </div><!--/row-->
 
       <footer>

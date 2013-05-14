@@ -3,13 +3,13 @@
 </div>
 <%= form_for @cleanup_request, :url => limpieza_create_cleanup_request_path do |f| %>
     <div class="modal-body">
-          <%= render 'shared/action_feedback' %>
+          <%= bootstrap_flash %>
           <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
           <div class="control-group">
-            <%= label_tag :room, 'Sala', :class=>'control-label' %>
+            <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
-              <%= select_tag :room, options_for_select(Room.all), {:selected => @cleanup_request.room} %>
+              <%= f.collection_select :room_id, @requestable_rooms, :id, :name %>
             </div>
           </div>
 

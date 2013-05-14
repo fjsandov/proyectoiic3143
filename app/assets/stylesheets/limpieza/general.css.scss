@@ -24,15 +24,15 @@
 
 
 //Clases para identificar urgencia de solicitudes
-.urgency-high
+.priority-1
 {
   background-color: rgb(255,70,70);  //rojo
 }
-.urgency-medium
+.priority-2
 {
   background-color: rgb(229, 255, 13); //amarillo
 }
-.urgency-low
+.priority-3
  {
   background-color: rgb(158, 240, 150); //verde
  }

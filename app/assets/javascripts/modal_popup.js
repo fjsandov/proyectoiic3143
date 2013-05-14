@@ -13,9 +13,14 @@ $(
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function(data) {
-                        $modal_popup.removeData('modal');
-                        $('.modal-body').replaceWith(data);
-                        initModal();
+                        if(data == 'OK'){
+                            $modal_popup.modal('hide');
+                        }
+                        else{
+                            $modal_popup.removeData('modal');
+                            $('.modal-body').replaceWith(data);
+                            initModal();
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown){
                         console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
