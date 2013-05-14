@@ -8,6 +8,9 @@ class CleanupRequest < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'started_by'
   belongs_to :user, :foreign_key => 'finished_by'
 
+  ##---------------------VALIDACIONES-------------------##
+  validates_presence_of :room,:priority,:status
+
   def self.get_unfinished
     CleanupRequest.where("status = ? or status = ?", "pending", "being-attended")
   end
@@ -58,14 +61,27 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def create_request(user)
+    self.status = 'pending'
+    self.requested_by = user
+    self.save
+  end
+
   def delete_request(user)
     #TODO: falta un deleted_by y un deleted-at?
+  end
+
+  def response_request(user)
+    self.started_at = Time.now
+    self.started_by = user
+    self.status = 'being-attended'
+    self.save
   end
 
   def finish_request(user)
     self.finished_at = Time.now
     self.finished_by = user
     self.status = 'finished'
-    #TODO: falta guardar los comentarios de finalizacion
+    self.save
   end
 end

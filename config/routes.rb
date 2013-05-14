@@ -6,15 +6,11 @@ CUALimpieza::Application.routes.draw do
     get "calendario/create_aseo_terminal"
     get "calendario/get_events"
 
-    get "popup_nueva_solicitud" => 'general#popup_cleanup_request_new', :as => 'new_cleanup_request'
-    get "popup_respuesta_solicitud/:id" => 'general#popup_cleanup_request_response', :as => 'response_cleanup_request'
-    get "popup_termino_solicitud/:id" => 'general#popup_cleanup_request_finish', :as => 'finish_cleanup_request'
-
+    get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
+    get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request', :as => 'open_cleanup_request'
     post "crear_solicitud" => 'cleanup_popup#create', :as =>'create_cleanup_request'
     post "eliminar_solicitud" => 'cleanup_popup#delete', :as => 'delete_cleanup_request'
-
-    post "procesar_respuesta_solicitud" => 'cleanup_popup#process_response' , :as => 'process_cleanup_request_response'
-    post "procesar_termino_solicitud" => 'cleanup_popup#process_finish' , :as => 'process_cleanup_request_finish'
+    post "procesar_solicitud" => 'cleanup_popup#process_cleanup_request' , :as => 'process_cleanup_request'
   end
 
   post "home/login"  => 'home#login', :as => 'login'

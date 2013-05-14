@@ -37,13 +37,16 @@
               <th>Sala</th>
               <th>Hora Solicitud</th>
               <th>Estado</th>
+              <th>Acciones</th>
             </tr>
 
             <% @unfinished_cleanup_requests.each do |unfinished_cr| %>
-                <tr class='<%=unfinished_cr.get_priority_class %>'>
+                 <tr class='<%=unfinished_cr.get_priority_class %>'>
                   <td><%= unfinished_cr.room.name %></td>
                   <td><%= unfinished_cr.get_requested_at_time %></td>
                   <td><%= unfinished_cr.get_status_str %></td>
+                  <td><%= link_to 'ver',limpieza_open_cleanup_request_path(:id => unfinished_cr.id),
+                                  'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %></td>
                 </tr>
             <% end %>
 
@@ -92,20 +95,10 @@
               <td>EJ:13:00</td>
               <td>Se ingreso solicitud de limpieza para la sala 101</td>
             </tr>
-            <tr>
-              <td>EJ:12:00</td>
-              <td>Se liberó la sala 505</td>
-            </tr>
-            <tr>
-              <td>EJ:11:56</td>
-              <td>Se liberó la sala 501</td>
-            </tr>
           </table>
       <% end %>
     </div>
 </div>
-
-Ejemplos de como usar el modal popup (BORRAR CUANDO ESTE IMPLEMENTADO):
-<%= link_to 'nueva solicitud',limpieza_new_cleanup_request_path, 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
-<%= link_to 'un_form_sin_nada',limpieza_finish_cleanup_request_path(:id => 1), 'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
+<%= link_to 'nueva',limpieza_new_cleanup_request_path,
+            'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %>
 <%= render 'shared/modal_popup'%>
