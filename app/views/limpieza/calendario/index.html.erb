@@ -1,6 +1,21 @@
 <h1>Calendario</h1>
 
+<div style="margin-bottom: 20px">
+    <button class="btn"><i class="icon-plus"></i> Agregar aseo terminal</button>
+</div>
+
 <div id='calendar'></div>
+
+<style>
+  .calendar-cleanup-instance {
+      color: white;
+      font-weight: bold;
+  }
+
+  .calendar-cleanup {
+      color: yellow;
+  }
+</style>
 
 <script>
     $(document).ready(function() {
@@ -15,7 +30,7 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
             // sources
             events: {
-                url: '<%= url_for :controller => 'limpieza/calendario', :action => :get_events %>',
+                url: '<%= url_for :action => :get_events %>',
                 type: 'GET',
                 data: {
                 },
@@ -24,11 +39,11 @@
                 }
             },
             // callbacks
-            dayClick: function() {
-                alert('a day has been clicked!');
+            dayClick: function(date, allDay, jsEvent, view) {
+                alert('a day has been clicked! Current view: ' + view.name);
             },
-            eventClick: function() {
-                alert('a event has been clicked!');
+            eventClick: function(calEvent, jsEvent, view) {
+                alert('a event has been clicked! Event: ' + calEvent.title);
             }
         });
     });

@@ -1,4 +1,5 @@
 CUALimpieza::Application.routes.draw do
+
   namespace :limpieza do
     get "general/index", :as => 'general'
 

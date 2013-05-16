@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130506222514) do
+ActiveRecord::Schema.define(:version => 20130507041137) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -110,14 +110,13 @@ ActiveRecord::Schema.define(:version => 20130506222514) do
   create_table "terminal_cleanup_exceptions", :force => true do |t|
     t.integer  "terminal_cleanup_id"
     t.string   "exception_type"
-    t.date     "exception_date"
-    t.date     "original_date"
     t.text     "comments"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.datetime "exception_date"
+    t.datetime "original_date"
   end
 
-  add_index "terminal_cleanup_exceptions", ["exception_date"], :name => "index_terminal_cleanup_exceptions_on_exception_date"
   add_index "terminal_cleanup_exceptions", ["terminal_cleanup_id"], :name => "index_terminal_cleanup_exceptions_on_terminal_cleanup_id"
 
   create_table "terminal_cleanup_instances", :force => true do |t|
@@ -133,11 +132,11 @@ ActiveRecord::Schema.define(:version => 20130506222514) do
 
   create_table "terminal_cleanups", :force => true do |t|
     t.integer  "room_id"
-    t.date     "start_date"
     t.integer  "interval"
     t.text     "comments"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.datetime "start_date"
   end
 
   add_index "terminal_cleanups", ["room_id"], :name => "index_terminal_cleanups_on_room_id"
