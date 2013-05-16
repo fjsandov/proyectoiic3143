@@ -21,7 +21,11 @@
 function init_yield_container(){
     var yield_container = $('#yield-container');
     var datepickers = $(".datepicker",yield_container);
-    datepickers.datepicker({ dateFormat: 'dd-mm-yy' });
+    datepickers.datetimepicker({
+        format: 'dd-MM-yyyy HH:mm PP',
+        language: 'es',
+        pickTime: false
+    });
 
     var datetimepickers = $('.datetimepicker',yield_container);
     datetimepickers.datetimepicker({

@@ -1,5 +1,5 @@
 class CleanupRequest < ActiveRecord::Base
-  attr_accessible :comments, :finished_at, :finished_by, :priority, :requested_at, :requested_by, :started_at,
+  attr_accessible :start_comments, :end_comments, :finished_at, :finished_by, :priority, :requested_at, :requested_by, :started_at,
                   :started_by, :status, :room_id
 
   belongs_to :room

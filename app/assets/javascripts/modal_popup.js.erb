@@ -30,7 +30,11 @@ function init_modal_popup(){
     var modal_popup = $('#modal-popup');
 
     var datepickers = $(".datepicker",modal_popup);
-    datepickers.datepicker({ dateFormat: 'dd-mm-yy' });
+    datepickers.datetimepicker({
+        format: 'dd-MM-yyyy HH:mm PP',
+        language: 'es',
+        pickTime: false
+    });
 
     var datetimepickers = $('.datetimepicker',modal_popup);
     datetimepickers.datetimepicker({

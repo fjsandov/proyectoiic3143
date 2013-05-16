@@ -11,21 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130507041137) do
+ActiveRecord::Schema.define(:version => 20130516232603) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
     t.integer  "priority"
     t.string   "status"
-    t.text     "comments"
+    t.text     "start_comments"
     t.datetime "requested_at"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.integer  "requested_by"
     t.integer  "started_by"
     t.integer  "finished_by"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.text     "end_comments"
   end
 
   add_index "cleanup_requests", ["finished_by"], :name => "index_cleanup_requests_on_finished_by"
