@@ -1,0 +1,102 @@
+function init_links_to_modal(){
+    var links_modal = $('a[data-modal=true] ');
+    if(links_modal.length > 0){
+        links_modal.each(function(){
+            $(this).bind('click', function(e) {
+                e.preventDefault();
+                var anchor_href = $(this).attr('href');
+                $.get(anchor_href, function(data) {
+                    var modal_popup = $('#modal-popup');
+                    reset_modal_content(modal_popup);
+                    $('#modal-content').html(data);
+                    modal_popup.modal('show');
+                });
+            })
+        });
+    }
+}
+
+function reset_modal_content(modal_popup){
+    var default_modal_content = '<%= image_tag "cargando.gif", :class=>"loading-img"%>';
+    $('#modal-content').html(default_modal_content);
+}
+
+function modal_replace_content(data,modal_popup){
+    $('#modal-content').html(data);
+    init_modal_popup();
+}
+
+function init_modal_popup(){
+    var modal_popup = $('#modal-popup');
+
+    var datepickers = $(".datepicker",modal_popup);
+    datepickers.datepicker({ dateFormat: 'dd-mm-yy' });
+
+    var datetimepickers = $('.datetimepicker',modal_popup);
+    datetimepickers.datetimepicker({
+        format: 'dd-MM-yyyy HH:mm PP',
+        language: 'es',
+        pick12HourFormat: true,
+        pickSeconds: false
+    });
+}
+
+$(
+    function(){
+        init_links_to_modal();
+
+        var modal_popup = $('#modal-popup');
+        modal_popup.on('show', function () {
+            init_modal_popup();
+        });
+
+        modal_popup.on('hidden',function(){
+            reset_modal_content($(this));
+            $('#yield-container').html('<%= image_tag "cargando.gif", :class=>"loading-img"%>');
+            $.get(window.location.href, function(data) {
+                $('#yield-container').html(data);
+                init_links_to_modal();
+                init_yield_container();
+            });
+        });
+
+        // form input submit
+        var submitActor = null;
+        modal_popup.on('click', 'input[type=submit]', function (event) {
+            submitActor = this;
+        });
+
+        // form submit
+        modal_popup.on('submit', 'form', function (event) {
+            var frm = $(this);
+            //Evita que ocurra el comportamiento por defecto.
+            event.preventDefault();
+
+            //Ocupa el submit por default (el primero) en caso de no haber presionado uno.
+            if(submitActor == null){
+                submitActor=submitActors[0];
+            }
+
+            var form_info = 'submit_type=' + submitActor.name + '&' + frm.serialize();
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+                data: form_info,
+                success: function(data) {
+                    if(data == 'OK'){
+                        //Cuando se termino de usar el modal, se esconde el modal y se vuelve
+                        // a la pagina de fondo una vez se haya recargado su contenido
+                        modal_popup.modal('hide');
+                    }
+                    else{
+                        //Si no es OK, es porque es el contenido de un modal que debe cargarse en el mismo modal
+                        modal_replace_content(data,modal_popup);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown){
+                    console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
+                }
+            });
+        });
+    }
+);

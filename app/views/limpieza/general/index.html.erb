@@ -1,3 +1,4 @@
+<%= bootstrap_flash %>
 <div class="row-fluid">
     <div class="span6">
       <h3>Próximos aseos terminales</h3>
@@ -29,7 +30,9 @@
     </div>
     <div class='span6'>
       <h3>Solicitudes de limpieza no finalizadas</h3>
-      <a href='<%=limpieza_new_cleanup_request_path%>' data-toggle='modal' data-target='#modal-popup'><i class="icon-plus"> Nueva Solicitud</i></a>
+      <% if Room.exist_requestable_rooms? %>
+        <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true'><i class="icon-plus"> Nueva Solicitud</i></a>
+      <%end%>
       <% if @unfinished_cleanup_requests.blank? %>
           <h6>No hay solicitudes de limpieza pendientes</h6>
       <% else %>
@@ -47,7 +50,7 @@
                   <td><%= unfinished_cr.get_requested_at_smart_str %></td>
                   <td><%= unfinished_cr.get_status_str %></td>
                   <td><%= link_to 'Ver',limpieza_show_cleanup_request_path(:id => unfinished_cr.id),
-                                  'data-toggle'=>"modal", 'data-target'=>"#modal-popup" %></td>
+                                  'data-modal'=>"true" %></td>
                 </tr>
             <% end %>
           </table>

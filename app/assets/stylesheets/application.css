@@ -21,3 +21,10 @@ span.legend-square
     margin-top: 1px;
     line-height: 14px;
 }
+
+.loading-img {
+    height: 350px;
+    width: 350px;
+    margin: 0 auto;
+    display: block;
+}

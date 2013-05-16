@@ -12,6 +12,11 @@ class Room < ActiveRecord::Base
     Room.where('status in (?)',posible_status)
   end
 
+  def self.exist_requestable_rooms?
+     !Room.get_cleanup_requestable_rooms.blank?
+  end
+
+
   def get_status_str
     case self.status
       when 'free'

@@ -23,7 +23,6 @@
                 </span>
               </div>
             </div>
-
            </div>
 
           <div class="control-group">
@@ -41,7 +40,10 @@
           </div>
     </div>
     <div class="modal-footer">
-      <%= f.submit 'Crear Solicitud', :class =>'btn btn-primary' %>
+      <%= f.submit 'Crear Solicitud',:name => 'just_create', :class =>'btn btn-primary' %>
+      <% if @requestable_rooms.size > 1 %>
+        <%= f.submit 'Crear y seguir agregando', :name => 'create_and_continue', :class =>'btn btn-primary' %>
+      <%end%>
       <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
