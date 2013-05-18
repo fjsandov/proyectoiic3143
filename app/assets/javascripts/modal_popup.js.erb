@@ -1,3 +1,12 @@
+function show_modal(link_href){
+    $.get(link_href, function(data) {
+        var modal_popup = $('#modal-popup');
+        reset_modal_content(modal_popup);
+        $('#modal-content').html(data);
+        modal_popup.modal('show');
+    });
+}
+
 function init_links_to_modal(){
     var links_modal = $('a[data-modal=true] ');
     if(links_modal.length > 0){
@@ -5,12 +14,7 @@ function init_links_to_modal(){
             $(this).bind('click', function(e) {
                 e.preventDefault();
                 var anchor_href = $(this).attr('href');
-                $.get(anchor_href, function(data) {
-                    var modal_popup = $('#modal-popup');
-                    reset_modal_content(modal_popup);
-                    $('#modal-content').html(data);
-                    modal_popup.modal('show');
-                });
+                show_modal(anchor_href);
             })
         });
     }
@@ -31,9 +35,10 @@ function init_modal_popup(){
 
     var datepickers = $(".datepicker",modal_popup);
     datepickers.datetimepicker({
-        format: 'dd-MM-yyyy HH:mm PP',
+        format: 'dd-MM-yyyy',
         language: 'es',
-        pickTime: false
+        pickTime: false,
+        weekStart: 1
     });
 
     var datetimepickers = $('.datetimepicker',modal_popup);
@@ -41,8 +46,50 @@ function init_modal_popup(){
         format: 'dd-MM-yyyy HH:mm PP',
         language: 'es',
         pick12HourFormat: true,
-        pickSeconds: false
+        pickSeconds: false,
+        weekStart: 1
     });
+
+
+    /*
+    //--------------------- Esto es para tener el autocomplado de empleados---------------------
+    var employee_autocomplete = $('#employee_autocomplete',modal_popup);
+    employee_autocomplete.select2({
+        placeholder: "Ingrese empleados",
+        minimumInputLength: 2,
+        ajax: {
+            url: , // url a la que estamos solicitando request
+            dataType: 'json', // tipo de dato que estamos pidiendo
+            quietMillis: 100, // tiempo de espera entre requests
+            data: function (term, page) { // page is the one-based page number tracked by Select2
+                return {
+                    term: term, // esto se pasa a params[:term]
+                    id: $("#cleanup_request_id").val()
+                    id_hash: $("#cleanup_request_secret").val()
+                };
+            },
+            results: function (data, page) {
+                return { results: data };
+            }
+        },
+        createSearchChoice: function(term){
+            return { name: term, id: term, email: term };
+        },
+        multiple: true,
+        formatResult: function(employee) {
+            return "<p>"+employee.complete_name+"</p>";
+        },
+        formatSelection: function(employee) {
+            return employee.complete_name;
+        },
+        formatInputTooShort: function(term,minLength){
+            return 'Por favor ingresa '+(minLength-term.length)+' caracteres';
+        },
+        formatNoMatches: function(term){
+            return 'No hubo resultados para <strong>"'+term+'"</strong>';
+        }
+    });  */
+    //------------------------- FIN select2---------------------------------
 }
 
 $(

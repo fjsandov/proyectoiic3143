@@ -5,6 +5,9 @@ gem 'rails', '3.2.13'
 #Twitter Bootstrap
 gem "twitter-bootstrap-rails"
 
+# Select2 for rails
+gem "select2-rails"
+
 #JQuery UI
 gem 'jquery-ui-rails'
 

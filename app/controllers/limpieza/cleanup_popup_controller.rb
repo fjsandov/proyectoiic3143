@@ -78,4 +78,13 @@ private
       render 'limpieza/cleanup_request_popup/cleanup_request_finish'
     end
   end
+
+  def autocomplete
+    idle_employees = nil #TODO: Deben ser los empleados de turno que no estan atendiendo ninguna solicitud en este momento. (filtro por sala, sector, etc??)
+    print "Generando lista \n"
+    idle_employees_list = idle_employees.map {|e| Hash[ id: e.id, cmoplete_name: e.cmoplete_name]}
+    print "Empleados ociosos \n"
+    print idle_employees_list
+    render json: idle_employees_list
+  end
 end

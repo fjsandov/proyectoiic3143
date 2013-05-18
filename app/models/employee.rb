@@ -5,4 +5,25 @@ class Employee < ActiveRecord::Base
   belongs_to :occupation
   has_and_belongs_to_many :terminal_cleanups
   has_and_belongs_to_many :cleanup_requests
+
+  def self.on_turn_employees  #TODO: Que en verdad sean los que estan de turno
+     Employee.all
+  end
+
+  def self.on_turn_employees_for_select
+    self.on_turn_employees.collect do |employee|
+      [employee.complete_name, employee.id]
+    end
+  end
+
+  def complete_name
+    cn = self.name
+    unless self.last_name1.blank?
+      cn = cn + ' ' +self.last_name1
+      unless self.last_name2.blank?
+        cn = cn + ' ' + self.last_name2
+      end
+    end
+    cn
+  end
 end

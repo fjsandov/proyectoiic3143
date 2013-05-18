@@ -24,5 +24,9 @@ r9 = Room.create(name: 'R03', floor: 1, status: 'free', sector_id: s4.id)
 r10 = Room.create(name: 'R04', floor: 1, status: 'free', sector_id: s4.id)
 
 
+e1 = Employee.create(name: 'Francisco Javier', last_name1: 'Sandoval', last_name2: 'Aburto')
+e2 = Employee.create(name: 'Pablo', last_name1: 'Cruz')
+e3 = Employee.create(name: 'Giovanni', last_name1: 'De Lucca')
+e4 = Employee.create(name: 'Larry', last_name1: 'Capizza')
 
 

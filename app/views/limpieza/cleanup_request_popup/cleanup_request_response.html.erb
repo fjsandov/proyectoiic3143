@@ -28,8 +28,9 @@
       </div>
 
       <div class="control-group">
-        <p>Lista de empleados asignados: <span id='employees-asigned-list'></span></p>
-        AGREGAR WIDGET DE AGREGAR AUXILIARES A LA LISTA
+
+        <h6 class="bold">Empleados asignados</h6>
+        <%= select_tag 'cleanup_request[employees_asigned]', options_for_select(Employee.on_turn_employees_for_select) %>
       </div>
 
       <div class="control-group">

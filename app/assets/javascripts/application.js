@@ -16,13 +16,14 @@
 //= require jquery.ui.all
 //= require twitter/bootstrap
 //= require bootstrap
+//= require select2
 //= require_tree .
 
 function init_yield_container(){
     var yield_container = $('#yield-container');
     var datepickers = $(".datepicker",yield_container);
     datepickers.datetimepicker({
-        format: 'dd-MM-yyyy HH:mm PP',
+        format: 'dd-MM-yyyy',
         language: 'es',
         pickTime: false
     });
