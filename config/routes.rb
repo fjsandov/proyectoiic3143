@@ -16,10 +16,11 @@ CUALimpieza::Application.routes.draw do
     get "vista_salas/load_sector" => "roomsView#load_sector"
 
     get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
-    get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
     post "crear_solicitud" => 'cleanup_popup#create', :as =>'create_cleanup_request'
+
+    get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
     post "eliminar_solicitud" => 'cleanup_popup#delete', :as => 'delete_cleanup_request'
-    post "procesar_solicitud" => 'cleanup_popup#process_cleanup_request' , :as => 'process_cleanup_request'
+    put "procesar_solicitud" => 'cleanup_popup#process_cleanup_request', :as => 'process_cleanup_request'
   end
 
   post "home/login"  => 'home#login', :as => 'login'

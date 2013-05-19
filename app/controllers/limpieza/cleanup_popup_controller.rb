@@ -23,17 +23,6 @@ class Limpieza::CleanupPopupController < ApplicationController
     end
   end
 
-  def delete
-    @cleanup_request = CleanupRequest.find(params[:cleanup_request][:id])
-    if @cleanup_request.delete_request(@current_user)
-      flash[:notice] = 'Se ha eliminado la Solicitud de Limpieza exitosamente'
-      render 'shared/modal_popup_success'
-    else
-      flash.now[:error] = 'No se ha podido eliminar la Solicitud de Limpieza'
-    end
-    select_render(@cleanup_request)
-  end
-
   #Dependiendo del estado de la solicitud, renderea distintos modal popup:
   def popup_cleanup_request_show
     @cleanup_request = CleanupRequest.find(params[:id])
@@ -50,41 +39,52 @@ class Limpieza::CleanupPopupController < ApplicationController
   #SUPUESTO: Se asume que solo se puede llamar a procesamiento a aquellas solicitudes que estan
   #          Pendientes o En Limpieza.
   def process_cleanup_request
-    @cleanup_request = CleanupRequest.new(params[:cleanup_request]) #TODO: Error de seguridad (formulario con posibilidad de injeccion html)
-    if @cleanup_request.status == 'pending'
-      process_pending_request(@cleanup_request)
-    elsif @cleanup_request.status == 'being-attended'
-      process_being_attended_request(@cleanup_request)
+    @cleanup_request = CleanupRequest.new(params[:cleanup_request]) #TODO: Error de seguridad (formulario con posibilidad de inyeccion html)
+
+    if params[:submit_type]=='delete'
+      render delete(@cleanup_request)
+    else
+      if @cleanup_request.status == 'pending'
+        render process_pending_request(@cleanup_request)
+      elsif @cleanup_request.status == 'being-attended'
+        render process_being_attended_request(@cleanup_request)
+      end
     end
   end
 
 private
-  def process_pending_request(cleanup_request)
-    if cleanup_request.response_request(current_user)
+  def process_pending_request(cleanup_request,employees_assigned)
+    if cleanup_request.response_request(current_user,employees_assigned)
       flash[:notice] = 'Se ha respondido a la Solicitud de Limpieza exitosamente'
-      render 'shared/modal_popup_success'
+      'shared/modal_popup_success'
     else
       flash.now[:error] = 'No se ha podido responder a la Solicitud de Limpieza'
-      render 'limpieza/cleanup_request_popup/cleanup_request_response'
+      'limpieza/cleanup_request_popup/cleanup_request_response'
     end
   end
 
   def process_being_attended_request(cleanup_request)
     if cleanup_request.finish_request(@current_user)
       flash[:notice] = 'Se ha finalizado la Solicitud de Limpieza exitosamente'
-      render 'shared/modal_popup_success'
+      'shared/modal_popup_success'
     else
       flash.now[:error] = 'No se ha podido finalizar la Solicitud de Limpieza'
-      render 'limpieza/cleanup_request_popup/cleanup_request_finish'
+      'limpieza/cleanup_request_popup/cleanup_request_finish'
     end
   end
 
-  def autocomplete
-    idle_employees = nil #TODO: Deben ser los empleados de turno que no estan atendiendo ninguna solicitud en este momento. (filtro por sala, sector, etc??)
-    print "Generando lista \n"
-    idle_employees_list = idle_employees.map {|e| Hash[ id: e.id, cmoplete_name: e.cmoplete_name]}
-    print "Empleados ociosos \n"
-    print idle_employees_list
-    render json: idle_employees_list
+  def delete(cleanup_request)
+    if cleanup_request.delete_request(@current_user)
+      flash[:notice] = 'Se ha eliminado la Solicitud de Limpieza exitosamente'
+      'shared/modal_popup_success'
+    else
+      @cleanup_request = cleanup_request
+      flash.now[:error] = 'No se ha podido eliminar la Solicitud de Limpieza'
+      if cleanup_request.status == 'being-attended'
+        'limpieza/cleanup_request_popup/cleanup_request_finish'
+      else #cleanup_request.status == 'pending'
+        'limpieza/cleanup_request_popup/cleanup_request_response'
+      end
+    end
   end
 end
