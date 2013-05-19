@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130516232603) do
+ActiveRecord::Schema.define(:version => 20130517040112) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20130516232603) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "zone",       :null => false
   end
 
   create_table "terminal_cleanup_exceptions", :force => true do |t|

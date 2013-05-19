@@ -1,0 +1,59 @@
+.rooms_selector_panel
+{
+  margin-top: 10px;
+}
+
+.rooms_selector_panel .sector_label,
+.rooms_selector_panel .zone_label
+{
+  margin-top: 4px;
+  margin-right: 10px;
+}
+
+#rooms_container
+{
+  margin-top: 10px;
+
+  .row-fluid
+  {
+    [class*="span"]:first-child
+    {
+      padding-left: 0px;
+    }
+
+    .span4
+    {
+      padding: 15px 20px;
+
+      .rooms_button
+      {
+        height: 40px;
+        font-size: 15px;
+        border-radius: 4px;
+        text-align: center;
+        padding-top: 9px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.rooms_state_occupied
+{
+  background: dodgerblue;
+}
+
+.rooms_state_pendant
+{
+  background: red;
+}
+
+.rooms_state_cleaning
+{
+  background: yellow;
+}
+
+.rooms_state_maintenance
+{
+  background: chocolate;
+}

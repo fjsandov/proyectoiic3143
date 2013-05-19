@@ -12,6 +12,8 @@ CUALimpieza::Application.routes.draw do
 
     get "vista_salas" => "roomsView#index"
     get "vista_salas/index" => "roomsView#index"
+    get "vista_salas/load_zone" => "roomsView#load_zone"
+    get "vista_salas/load_sector" => "roomsView#load_sector"
 
     get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
     get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'

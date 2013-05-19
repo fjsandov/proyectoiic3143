@@ -45,7 +45,7 @@
             </tr>
 
             <% @unfinished_cleanup_requests.each do |unfinished_cr| %>
-                 <tr class='<%=unfinished_cr.get_priority_class %>'>
+                 <tr class='priority-<%=unfinished_cr.priority %>'>
                   <td><%= unfinished_cr.room.name %></td>
                   <td><%= unfinished_cr.get_requested_at_smart_str %></td>
                   <td><%= unfinished_cr.get_status_str %></td>

@@ -46,10 +46,6 @@ class CleanupRequest < ActiveRecord::Base
       get_formatted_requested_at
     end
   end
-
-  def get_priority_class
-     'priority-'+self.priority.to_s
-  end
   
   def get_priority_str
     case self.priority
@@ -89,9 +85,9 @@ class CleanupRequest < ActiveRecord::Base
   def change_room_status
     case self.status
       when 'pending'
-        self.room.status = 'cleanup-pending'
+        self.room.status = 'pending'
       when 'being-attended'
-        self.room.status = 'being-cleaned'
+        self.room.status = 'cleaning'
       when 'finished'
         self.room.status = 'free'
       else #when 'deleted'

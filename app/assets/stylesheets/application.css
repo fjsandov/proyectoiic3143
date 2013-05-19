@@ -10,7 +10,6 @@
  *
  *= require_self
  *= require jquery.ui.all
- *= require select2
  *= require_tree .
  */
 
@@ -28,4 +27,33 @@ span.legend-square
     width: 350px;
     margin: 0 auto;
     display: block;
+}
+
+@media (min-width:768px)
+{
+    .row-fluid .sidebar-nav
+    {
+        min-height: 500px;
+    }
+}
+
+.status-maintenance
+{
+    background-color: chocolate; //cafe
+}
+.status-free
+{
+    background-color: #00BE00; //verde
+}
+.status-occupied
+{
+    background-color: #4A97BD;  //azul
+}
+.status-cleaning
+{
+    background-color: #E9F300; //amarillo
+}
+.status-pending
+{
+    background-color: #E63030; //rojo
 }

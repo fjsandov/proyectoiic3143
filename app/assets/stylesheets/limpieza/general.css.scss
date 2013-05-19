@@ -1,27 +1,5 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-//Clases para identificar estado de sala:
-.state-mantention
-{
-  background-color: rgb(165,93,42); //cafe
-}
-.state-free
-{
-  background-color: rgb(158, 240, 150); //verde
-}
-.state-occupied
-{
-  background-color: rgb(83, 136, 255);  //azul
-}
-.state-cleaning
-{
-  background-color: rgb(229, 255, 13); //amarillo
-}
-.state-request-pending
-{
-  background-color: rgb(255,70,70); //rojo
-}
-
 
 //Clases para identificar urgencia de solicitudes
 .priority-1
