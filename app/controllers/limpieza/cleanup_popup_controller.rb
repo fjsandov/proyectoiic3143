@@ -26,6 +26,7 @@ class Limpieza::CleanupPopupController < ApplicationController
   #Dependiendo del estado de la solicitud, renderea distintos modal popup:
   def popup_cleanup_request_show
     @cleanup_request = CleanupRequest.find(params[:id])
+    @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(params[:id]))
 
     if @cleanup_request.status == 'pending'
       render 'limpieza/cleanup_request_popup/cleanup_request_response'
@@ -39,17 +40,24 @@ class Limpieza::CleanupPopupController < ApplicationController
   #SUPUESTO: Se asume que solo se puede llamar a procesamiento a aquellas solicitudes que estan
   #          Pendientes o En Limpieza.
   def process_cleanup_request
-    @cleanup_request = CleanupRequest.new(params[:cleanup_request]) #TODO: Error de seguridad (formulario con posibilidad de inyeccion html)
+    render_view = 'shared/modal_popup_success'
+    #NOTA: hidden con id de cleanup_request se comprueba que no fue modificado con el secreto adjunto (mas dificil de modificar)
+    hacking_attempt = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(params[:req])) != params[:sec]
+    unless hacking_attempt
+      @cleanup_request = CleanupRequest.find(params[:req])
+      @cleanup_request.end_comments = params[:end_comments]
 
-    if params[:submit_type]=='delete'
-      render delete(@cleanup_request)
-    else
-      if @cleanup_request.status == 'pending'
-        render process_pending_request(@cleanup_request)
-      elsif @cleanup_request.status == 'being-attended'
-        render process_being_attended_request(@cleanup_request)
+      if params[:submit_type]=='delete'
+        render_view = delete(@cleanup_request)
+      else
+        if @cleanup_request.status == 'pending'
+          render_view = process_pending_request(@cleanup_request,params[:employees_assigned])
+        elsif @cleanup_request.status == 'being-attended'
+          render_view = process_being_attended_request(@cleanup_request)
+        end
       end
     end
+    render render_view
   end
 
 private

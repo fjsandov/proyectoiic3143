@@ -59,6 +59,10 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def get_who_requested
+    User.find(self.requested_by)
+  end
+
   def create_request(user)
     self.status = 'pending'
     self.requested_by = user.id

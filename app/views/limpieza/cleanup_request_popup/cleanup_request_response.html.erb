@@ -7,35 +7,39 @@
       <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
       <div class='row'>
-        <div class='span8 offset2'>
+        <div class='span10 offset1'>
               <table class="table table-striped table-condensed center">
                 <tr>
                  <th>Sala</th>
                  <th>Hora de Solicitud</th>
                  <th>Prioridad</th>
+                 <th>Solicitante</th>
+                 <th>Comentario</th>
                 </tr>
                 <tr class='info'>
                   <td><%=@cleanup_request.room.name%></td>
                   <td><%=@cleanup_request.get_requested_at_smart_str%></td>
                   <td> <%=@cleanup_request.get_priority_str%></td>
+                  <td><%=@cleanup_request.get_who_requested.complete_name%></td>
+                  <td><%=@cleanup_request.start_comments%></td>
                 </tr>
               </table>
         </div>
       </div>
-
       <div class="control-group">
-        <h6 class="bold">Empleados asignados</h6>
-        <%= select_tag 'employees_assigned', options_for_select(Employee.on_turn_employees_for_select),
+        <%= label_tag :employees_assigned, 'Empleados asignados' %>
+        <%= select_tag :employees_assigned, options_for_select(Employee.on_turn_employees_for_select),
                        :multiple => true, :class => 'input-xxlarge select2' %>
       </div>
-
       <div class="control-group">
         <%= f.label :end_comments, 'Comentarios', :class=>"control-label" %>
-        <p>Escriba un comentario de finalización o eliminación de esta solicitud</p>
+        <p class='label-comments'>Agregue un comentario de finalización o eliminación de esta solicitud</p>
         <div class="controls">
           <%= f.text_area :end_comments, :value=>@cleanup_request.end_comments %>
         </div>
       </div>
+      <%= hidden_field_tag :sec, @sec%>
+      <%= hidden_field_tag :req, @cleanup_request.id %>
     </div>
     <div class="modal-footer">
       <%= f.submit 'Guardar e iniciar atención', :name => 'response', :class =>'btn btn-primary' %>
