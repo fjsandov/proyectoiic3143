@@ -26,7 +26,7 @@ class CleanupRequest < ActiveRecord::Base
   # las que aun no han sido solicitadas segun la programacion). Se muestran arriba las mas antiguas (esas se
   # deberian tratar de resolver primero)
   def self.get_unfinished_and_requested
-    CleanupRequest.get_unfinished.where('requested_at < ?',Time.now).order('requested_at ASC')
+    CleanupRequest.get_unfinished.where('requested_at < ?',Time.current).order('requested_at ASC')
   end
 
   def self.get_unfinished
@@ -53,7 +53,7 @@ class CleanupRequest < ActiveRecord::Base
   # Entrega "Hoy" y la hora del request en caso de ser el mismo dia de la consulta,
   # y timestamp con dia y hora en caso de no ser del mismo dia de la consulta.
   def get_requested_at_smart_str
-    if Time.now.to_date == self.requested_at.to_date
+    if Time.current.to_date == self.requested_at.to_date
       requested_at.strftime("%H:%M")
     else
       get_formatted_datetime(self.requested_at)
@@ -62,7 +62,7 @@ class CleanupRequest < ActiveRecord::Base
 
   # Idem al de request pero con started
   def get_started_at_smart_str
-    if Time.now.to_date == self.started_at.to_date
+    if Time.current.to_date == self.started_at.to_date
       started_at.strftime("%H:%M")
     else
       self.get_formatted_datetime(self.started_at)
@@ -107,14 +107,14 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def delete_request(user)
-    self.deleted_at = Time.now
+    self.deleted_at = Time.current
     self.deleted_by = user.id
     self.status = 'deleted'
     self.save
   end
 
   def response_request(user,employees_assigned)
-    self.started_at = Time.now
+    self.started_at = Time.current
     self.started_by = user.id
     self.status = 'being-attended'
     self.employees = Employee.where('id in (?)',employees_assigned)
@@ -122,7 +122,7 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def finish_request(user)
-    self.finished_at = Time.now
+    self.finished_at = Time.current
     self.finished_by = user.id
     self.status = 'finished'
     self.save

@@ -7,6 +7,43 @@
  */
 //2. Crear listbox AJAX
 $(function() {
+
+    $('#agenda').fullCalendar({
+        // options
+        theme: false,
+        buttonText:
+        {
+            today: 'Hoy',
+            week: 'Semanal',
+            day: 'Diario'
+        },
+        firstDay: 1,
+        header:
+        {
+            left: 'basicDay, basicWeek',
+            center: 'title',
+            right: 'today, prev, next'
+        },
+        defaultView: 'basicDay',
+        weekMode: 'variable',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep',
+            'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+        // sources
+
+        // callbacks
+        dayClick: function(date, allDay, jsEvent, view) {
+            alert('a day has been clicked! Current view: ' + view.name);
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+            alert('a event has been clicked! Event: ' + calEvent.title);
+        }
+    });
+
+
     $('#zones_collection').change(function() {
         //incrusta html devuelto dentro del <option> sectors
         if($('#zones_collection').val())

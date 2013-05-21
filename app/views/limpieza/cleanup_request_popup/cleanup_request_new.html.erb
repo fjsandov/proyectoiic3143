@@ -9,7 +9,7 @@
           <div class="control-group form-horizontal">
             <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
-              <%= f.collection_select :room_id, @requestable_rooms, :id, :name %>
+              <%= f.collection_select :room_id, @requestable_rooms, :id, :name, {}, {:class=>'select2 input-medium'} %>
             </div>
           </div>
 
@@ -25,7 +25,7 @@
             <%= f.label :requested_at, 'Fecha y Hora', :class=>"control-label" %>
             <div class="controls">
               <div class="datetimepicker input-append date">
-                <%= f.text_field :requested_at, :value => Time.now.strftime("%d-%m-%Y %I:%M %p") %>
+                <%= f.text_field :requested_at, :value => Time.current.strftime("%d-%m-%Y %I:%M %p") %>
                 <span class="add-on">
                       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                 </span>

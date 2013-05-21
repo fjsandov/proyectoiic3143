@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :current_user, :set_controller_and_action, :session_control
+  before_filter :current_user, :set_controller_and_action, :session_control, :check_if_ajax_request
   layout :check_if_display_layout
   force_ssl
 
@@ -48,6 +48,10 @@ class ApplicationController < ActionController::Base
     reset_session
   end
 #-------------------------------------- AJAX (se envian sin layout) --------------------------------------
+  def check_if_ajax_request
+    @is_ajax_request = request.xhr?
+  end
+
   def check_if_display_layout
     if request.xhr?
       false

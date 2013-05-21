@@ -28,43 +28,6 @@
     <button class="btn span12"><i class="icon-print"></i> Imprimir tareas supervisor</button>
   </div>
 </div>
-
-
-<script>
-    $(document).ready(function() {
-        $('#agenda').fullCalendar({
-            // options
-            theme: false,
-            buttonText:
-            {
-                today: 'Hoy',
-                week: 'Semanal',
-                day: 'Diario'
-            },
-            firstDay: 1,
-            header:
-            {
-                left: 'basicDay, basicWeek',
-                center: 'title',
-                right: 'today, prev, next'
-            },
-            defaultView: 'basicDay',
-            weekMode: 'variable',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
-                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep',
-                'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-            // sources
-
-            // callbacks
-            dayClick: function(date, allDay, jsEvent, view) {
-                alert('a day has been clicked! Current view: ' + view.name);
-            },
-            eventClick: function(calEvent, jsEvent, view) {
-                alert('a event has been clicked! Event: ' + calEvent.title);
-            }
-        });
-    });
-</script>
+<% if @is_ajax_request %>
+    <%= javascript_include_tag 'limpieza/agenda' %>
+<% end %>
