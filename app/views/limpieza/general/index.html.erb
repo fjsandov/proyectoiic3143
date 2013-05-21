@@ -12,7 +12,7 @@
             </tr>
             <% @next_terminal_cleanups.each do |tc_instance| %>
                 <tr>
-                  <td><%= tc_instance.get_formatted_datetime %></td>
+                  <td><%= tc_instance.get_datetime_str %></td>
                   <td><%= tc_instance.get_description %></td>
                 </tr>
             <% end %>

@@ -45,14 +45,16 @@ class Limpieza::CleanupPopupController < ApplicationController
     hacking_attempt = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(params[:req])) != params[:sec]
     unless hacking_attempt
       @cleanup_request = CleanupRequest.find(params[:req])
-      @cleanup_request.end_comments = params[:end_comments]
 
       if params[:submit_type]=='delete'
+        @cleanup_request.end_comments = params[:comments]
         render_view = delete(@cleanup_request)
       else
         if @cleanup_request.status == 'pending'
+          @cleanup_request.response_comments = params[:comments]
           render_view = process_pending_request(@cleanup_request,params[:employees_assigned])
         elsif @cleanup_request.status == 'being-attended'
+          @cleanup_request.end_comments = params[:comments]
           render_view = process_being_attended_request(@cleanup_request)
         end
       end

@@ -1,6 +1,13 @@
+require 'modules/utils_lib'
+
 class CleanupRequest < ActiveRecord::Base
-  attr_accessible :start_comments, :end_comments, :finished_at, :finished_by, :priority, :requested_at, :requested_by,
-                  :started_at, :started_by, :status, :room_id
+  include Modules::UtilsLib
+  #Nota: end_comments tiene los comentarios de finish o de delete dependiendo del caso.
+  attr_accessible :priority, :status, :room_id, :end_comments,
+                  :requested_at, :requested_by, :start_comments,
+                  :started_at, :started_by, :response_comments,
+                  :finished_at, :finished_by
+
 
   belongs_to :room
   has_and_belongs_to_many :employees
@@ -34,20 +41,40 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
-  def get_formatted_requested_at
-    requested_at.strftime("%d-%m-%Y %H:%M")
-  end
-
   # Entrega "Hoy" y la hora del request en caso de ser el mismo dia de la consulta,
   # y timestamp con dia y hora en caso de no ser del mismo dia de la consulta.
   def get_requested_at_smart_str
     if Time.now.to_date == self.requested_at.to_date
-      'Hoy a las '+requested_at.strftime("%H:%M")
+      requested_at.strftime("%H:%M")
     else
-      get_formatted_requested_at
+      get_formatted_datetime(self.requested_at)
     end
   end
-  
+
+  # Idem al de request pero con started
+  def get_started_at_smart_str
+    if Time.now.to_date == self.started_at.to_date
+      started_at.strftime("%H:%M")
+    else
+      self.get_formatted_datetime(self.started_at)
+    end
+  end
+
+  #Lapso entre que se solicito y se respondio la solicitud:
+  def get_waiting_time_str
+    get_time_diff_string(self.requested_at, self.started_at)
+  end
+
+  #Lapso entre que se comenzo a atender y que se termino la solicitud:
+  #NOTA: si no se ha terminado, se toma la hora actual como al de termino
+  def get_cleaning_time_str
+    end_datetime = Time.now
+    unless self.finished_at.blank?
+      end_datetime = self.finished_at
+    end
+    get_time_diff_string(self.started_at, end_datetime)
+  end
+
   def get_priority_str
     case self.priority
       when 1
@@ -64,13 +91,14 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def create_request(user)
+    self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
     self.status = 'pending'
     self.requested_by = user.id
     self.save
   end
 
   def delete_request(user)
-    #TODO: falta un deleted_by y un deleted-at?
+    #TODO: falta un deleted_by y un deleted_at?
   end
 
   def response_request(user,employees_assigned)

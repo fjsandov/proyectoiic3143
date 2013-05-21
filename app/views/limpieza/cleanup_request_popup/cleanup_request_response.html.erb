@@ -26,16 +26,16 @@
               </table>
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group span11">
         <%= label_tag :employees_assigned, 'Empleados asignados' %>
         <%= select_tag :employees_assigned, options_for_select(Employee.on_turn_employees_for_select),
                        :multiple => true, :class => 'input-xxlarge select2' %>
       </div>
-      <div class="control-group">
-        <%= f.label :end_comments, 'Comentarios', :class=>"control-label" %>
-        <p class='label-comments'>Agregue un comentario de finalización o eliminación de esta solicitud</p>
+      <div class="control-group span11">
+        <%= label_tag :comments, 'Comentarios', :class=>"control-label" %>
+        <p class='label-comments'>Agregue un comentario de inicio de atención o de eliminación de esta solicitud</p>
         <div class="controls">
-          <%= f.text_area :end_comments, :value=>@cleanup_request.end_comments %>
+          <%= text_area_tag :comments, @cleanup_request.response_comments %>
         </div>
       </div>
       <%= hidden_field_tag :sec, @sec%>

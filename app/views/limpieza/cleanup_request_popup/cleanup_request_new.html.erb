@@ -5,15 +5,23 @@
     <div class="modal-body">
           <%= bootstrap_flash %>
           <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
-
-          <div class="control-group">
+      <div class='fluid-row'>
+          <div class="control-group form-horizontal">
             <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
               <%= f.collection_select :room_id, @requestable_rooms, :id, :name %>
             </div>
           </div>
 
-          <div class="control-group">
+        <div class="control-group form-horizontal">
+            <%= f.label 'cleanup_request[priority]', 'Urgencia', :class=>"control-label" %>
+            <div class="controls">
+                <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options),
+                           {:selected => @cleanup_request.priority} %>
+            </div>
+        </div>
+
+          <div class="control-group form-horizontal">
             <%= f.label :requested_at, 'Fecha y Hora', :class=>"control-label" %>
             <div class="controls">
               <div class="datetimepicker input-append date">
@@ -25,19 +33,11 @@
             </div>
            </div>
 
-          <div class="control-group">
-            <%= f.label 'cleanup_request[priority]', 'Urgencia', :class=>"control-label" %>
-            <div class="controls">
-              <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options), {:selected => @cleanup_request.priority} %>
-            </div>
-          </div>
-
-          <div class="control-group">
+          <div class="control-group span11">
             <%= f.label :start_comments, 'Comentarios', :class=>"control-label" %>
-            <div class="controls">
               <%= f.text_area :start_comments %>
-            </div>
           </div>
+        </div>
     </div>
     <div class="modal-footer">
       <%= f.submit 'Crear',:name => 'just_create', :class =>'btn btn-primary' %>
