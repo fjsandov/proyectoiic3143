@@ -50,46 +50,8 @@ function init_modal_popup(){
         weekStart: 1
     });
 
-
-    /*
-    //--------------------- Esto es para tener el autocomplado de empleados---------------------
-    var employee_autocomplete = $('#employee_autocomplete',modal_popup);
-    employee_autocomplete.select2({
-        placeholder: "Ingrese empleados",
-        minimumInputLength: 2,
-        ajax: {
-            url: , // url a la que estamos solicitando request
-            dataType: 'json', // tipo de dato que estamos pidiendo
-            quietMillis: 100, // tiempo de espera entre requests
-            data: function (term, page) { // page is the one-based page number tracked by Select2
-                return {
-                    term: term, // esto se pasa a params[:term]
-                    id: $("#cleanup_request_id").val()
-                    id_hash: $("#cleanup_request_secret").val()
-                };
-            },
-            results: function (data, page) {
-                return { results: data };
-            }
-        },
-        createSearchChoice: function(term){
-            return { name: term, id: term, email: term };
-        },
-        multiple: true,
-        formatResult: function(employee) {
-            return "<p>"+employee.complete_name+"</p>";
-        },
-        formatSelection: function(employee) {
-            return employee.complete_name;
-        },
-        formatInputTooShort: function(term,minLength){
-            return 'Por favor ingresa '+(minLength-term.length)+' caracteres';
-        },
-        formatNoMatches: function(term){
-            return 'No hubo resultados para <strong>"'+term+'"</strong>';
-        }
-    });  */
-    //------------------------- FIN select2---------------------------------
+    var select2s = $('.select2',modal_popup);
+    select2s.select2();
 }
 
 $(

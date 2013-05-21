@@ -1,6 +1,6 @@
 class CleanupRequest < ActiveRecord::Base
-  attr_accessible :start_comments, :end_comments, :finished_at, :finished_by, :priority, :requested_at, :requested_by, :started_at,
-                  :started_by, :status, :room_id
+  attr_accessible :start_comments, :end_comments, :finished_at, :finished_by, :priority, :requested_at, :requested_by,
+                  :started_at, :started_by, :status, :room_id
 
   belongs_to :room
   has_and_belongs_to_many :employees
@@ -9,6 +9,7 @@ class CleanupRequest < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'finished_by'
 
   after_save :change_room_status
+
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
 
@@ -58,6 +59,10 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def get_who_requested
+    User.find(self.requested_by)
+  end
+
   def create_request(user)
     self.status = 'pending'
     self.requested_by = user.id
@@ -68,10 +73,11 @@ class CleanupRequest < ActiveRecord::Base
     #TODO: falta un deleted_by y un deleted-at?
   end
 
-  def response_request(user)
+  def response_request(user,employees_assigned)
     self.started_at = Time.now
     self.started_by = user.id
     self.status = 'being-attended'
+    self.employees = Employee.where('id in (?)',employees_assigned)
     self.save
   end
 
@@ -95,6 +101,5 @@ class CleanupRequest < ActiveRecord::Base
     end
     self.room.save
   end
-
 
 end

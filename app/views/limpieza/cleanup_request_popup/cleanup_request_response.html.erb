@@ -6,43 +6,44 @@
       <%= bootstrap_flash %>
       <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
-      <div class="control-group">
-        <%= label_tag :room, 'Sala', :class=>'control-label' %>
-        <div class="controls">
-          <%= text_field_tag :room, @cleanup_request.room.name, :disabled => true %>
+      <div class='row'>
+        <div class='span10 offset1'>
+              <table class="table table-striped table-condensed center">
+                <tr>
+                 <th>Sala</th>
+                 <th>Hora de Solicitud</th>
+                 <th>Prioridad</th>
+                 <th>Solicitante</th>
+                 <th>Comentario</th>
+                </tr>
+                <tr class='info'>
+                  <td><%=@cleanup_request.room.name%></td>
+                  <td><%=@cleanup_request.get_requested_at_smart_str%></td>
+                  <td> <%=@cleanup_request.get_priority_str%></td>
+                  <td><%=@cleanup_request.get_who_requested.complete_name%></td>
+                  <td><%=@cleanup_request.start_comments%></td>
+                </tr>
+              </table>
         </div>
       </div>
-
       <div class="control-group">
-        <%= label_tag :requested_at, 'Fecha y Hora Solicitud', :class=>"control-label" %>
-        <div class="controls">
-          <%= text_field_tag :requested_at, @cleanup_request.get_requested_at_smart_str, :disabled => true %>
-        </div>
+        <%= label_tag :employees_assigned, 'Empleados asignados' %>
+        <%= select_tag :employees_assigned, options_for_select(Employee.on_turn_employees_for_select),
+                       :multiple => true, :class => 'input-xxlarge select2' %>
       </div>
-
-      <div class="control-group">
-        <%= label_tag :priority, 'Urgencia', :class=>"control-label" %>
-        <div class="controls">
-          <%= text_field_tag :priority, @cleanup_request.get_priority_str, :disabled => true %>
-        </div>
-      </div>
-
-      <div class="control-group">
-
-        <h6 class="bold">Empleados asignados</h6>
-        <%= select_tag 'cleanup_request[employees_asigned]', options_for_select(Employee.on_turn_employees_for_select) %>
-      </div>
-
       <div class="control-group">
         <%= f.label :end_comments, 'Comentarios', :class=>"control-label" %>
+        <p class='label-comments'>Agregue un comentario de finalización o eliminación de esta solicitud</p>
         <div class="controls">
           <%= f.text_area :end_comments, :value=>@cleanup_request.end_comments %>
         </div>
       </div>
+      <%= hidden_field_tag :sec, @sec%>
+      <%= hidden_field_tag :req, @cleanup_request.id %>
     </div>
     <div class="modal-footer">
-      <%= f.submit 'Guardar Solicitud', :class =>'btn btn-primary' %>
-      <%= link_to 'Eliminar Solicitud', limpieza_delete_cleanup_request_path(@cleanup_request) , :class =>'btn btn-danger' %>
+      <%= f.submit 'Guardar e iniciar atención', :name => 'response', :class =>'btn btn-primary' %>
+      <%= f.submit 'Eliminar', :name => 'delete', :class =>'btn btn-danger' %>
       <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>

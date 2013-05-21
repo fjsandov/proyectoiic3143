@@ -3,6 +3,8 @@
 </div>
 <div class="modal-body">
      <h3>Falta el contenido</h3>
+  <% hidden_field_tag :sec, @sec%>
+  <% hidden_field_tag :req, @cleanup_request.id %>
 </div>
 <div class="modal-footer">
   <%= link_to 'Cerrar', '#' , :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
