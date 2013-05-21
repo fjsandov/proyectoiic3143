@@ -25,9 +25,9 @@ class Room < ActiveRecord::Base
         'En Mantenimiento'
       when 'occupied'
         'Ocupada'
-      when 'cleanup-pending'
+      when 'pending'
         'Solicitud pendiente'
-      else #when 'being-cleaned'
+      else #when 'cleaning'
         'En Limpieza'
     end
   end

@@ -22,6 +22,15 @@ class CleanupRequest < ActiveRecord::Base
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
 
+  #Entrega el request sin terminar asociado al room (nil si no existe tal)
+  def self.unfinish_request_of_room(room)
+    if room.status == 'pending' || room.status == 'cleaning'
+      CleanupRequest.where('room_id = ? and (status = ? or status = ?)',room.id, "pending", "being-attended").first
+    else
+      nil
+    end
+  end
+
   #Entrega las solicitudes tanto "Pendiente" como "En Limpieza" cuya fecha de inicio ya paso (evito mostrar
   # las que aun no han sido solicitadas segun la programacion). Se muestran arriba las mas antiguas (esas se
   # deberian tratar de resolver primero)

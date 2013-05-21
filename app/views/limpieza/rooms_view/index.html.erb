@@ -19,10 +19,10 @@
       <% for pos in 3*i..3*i+2 %>
         <% if pos < @rooms.size %>
           <div class="span4">
-            <div class="rooms_button status-<%= @rooms[pos].status %> span12" data-modal=true
-                 href="<%=limpieza_new_cleanup_request_path%>">
+            <a class="rooms_button status-<%= @rooms[pos].status %> span12" data-modal='true'
+                 href="<%=url_room_by_status(@rooms[pos])%>">
               <%= @rooms[pos].name %>
-            </div>
+            </a>
           </div>
         <% end %>
       <% end %>
