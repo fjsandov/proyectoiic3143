@@ -1,1 +1,66 @@
-<h1>Agenda diaria</h1>
+<h2>Agenda diaria</h2>
+
+<div class="span8 agenda_selector_panel">
+  <div class="row-fluid span5">
+    <%= label_tag "zones_collection", "Zona", :class => "zone_label span3" %>
+    <%= select_tag :zones_collection, options_for_select(@zones), :class => "span9" %>
+  </div>
+  <div class="row-fluid span5">
+    <%= label_tag "sectors_collection", "Sector", :class => "sector_label span3" %>
+    <%= select_tag :sectors_collection, options_from_collection_for_select(@sectors, "id", "name"), :class => "span9" %>
+  </div>
+</div>
+
+<%= bootstrap_flash %>
+
+<div class="agenda-container span12">
+  <div class="span8">
+       <div id="agenda"></div>
+  </div>
+  <div class="span4">
+    <div id="calendar_for_agenda" class="datepicker span12"></div>
+    <button class="btn span12"><i class="icon-plus"></i> Agregar solicitud limpieza</button>
+    <button class="btn span12"><i class="icon-folder-open"></i> Importar Excel de altas</button>
+    <button class="btn span12"><i class="icon-print"></i> Imprimir tareas supervisor</button>
+  </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#agenda').fullCalendar({
+            // options
+            theme: false,
+            buttonText:
+            {
+                today: 'Hoy',
+                week: 'Semanal',
+                day: 'Diario'
+            },
+            firstDay: 1,
+            header:
+            {
+                left: 'basicDay, basicWeek',
+                center: 'title',
+                right: 'today, prev, next'
+            },
+            defaultView: 'basicDay',
+            weekMode: 'variable',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep',
+                'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            // sources
+
+            // callbacks
+            dayClick: function(date, allDay, jsEvent, view) {
+                alert('a day has been clicked! Current view: ' + view.name);
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                alert('a event has been clicked! Event: ' + calEvent.title);
+            }
+        });
+    });
+</script>

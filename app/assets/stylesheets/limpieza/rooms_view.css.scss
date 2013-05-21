@@ -1,13 +1,13 @@
 .rooms_selector_panel
 {
   margin-top: 10px;
-}
 
-.rooms_selector_panel .sector_label,
-.rooms_selector_panel .zone_label
-{
-  margin-top: 4px;
-  margin-right: 10px;
+  .sector_label,
+  .zone_label
+  {
+    margin-top: 4px;
+    margin-right: 10px;
+  }
 }
 
 #rooms_container
@@ -33,27 +33,8 @@
         text-align: center;
         padding-top: 9px;
         font-weight: bold;
+        cursor: pointer;
       }
     }
   }
-}
-
-.rooms_state_occupied
-{
-  background: dodgerblue;
-}
-
-.rooms_state_pendant
-{
-  background: red;
-}
-
-.rooms_state_cleaning
-{
-  background: yellow;
-}
-
-.rooms_state_maintenance
-{
-  background: chocolate;
 }

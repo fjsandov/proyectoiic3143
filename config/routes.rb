@@ -4,7 +4,8 @@ CUALimpieza::Application.routes.draw do
     get "general/index", :as => 'general'
 
     get "agenda" => "agenda#index"
-    get "agenda/index"
+    get "agenda/index" => "agenda#index"
+    get "agenda/load_zone" => "agenda#load_zone"
 
     get "calendario/index"
     get "calendario/create_aseo_terminal"

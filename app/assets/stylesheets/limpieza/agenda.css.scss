@@ -1,0 +1,53 @@
+.agenda_selector_panel
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  .row-fluid:first-child
+  {
+    margin-right: 17%;
+  }
+
+  .sector_label,
+  .zone_label
+  {
+    margin-top: 4px;
+  }
+}
+
+.agenda-container
+{
+  #agenda
+  {
+    h2
+    {
+      font-size: 18px;
+    }
+
+    .fc-button
+    {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+
+    .fc-header-space
+    {
+      padding-left: 5px;
+    }
+
+    .fc-content div:first-child
+    {
+      min-height: 344px;
+    }
+  }
+
+  .ui-datepicker
+  {
+    width: 100%;
+  }
+
+  .btn
+  {
+    margin-top: 20px;
+  }
+}
