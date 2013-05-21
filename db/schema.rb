@@ -127,14 +127,17 @@ ActiveRecord::Schema.define(:version => 20130521051901) do
 
   create_table "terminal_cleanup_instances", :force => true do |t|
     t.integer  "terminal_cleanup_id"
-    t.datetime "finished_at"
-    t.integer  "finished_by"
+    t.datetime "instance_date"
+    t.integer  "updated_by"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.text     "comments"
+    t.datetime "original_date"
+    t.boolean  "is_finished"
   end
 
-  add_index "terminal_cleanup_instances", ["finished_by"], :name => "index_terminal_cleanup_instances_on_finished_by"
   add_index "terminal_cleanup_instances", ["terminal_cleanup_id"], :name => "index_terminal_cleanup_instances_on_terminal_cleanup_id"
+  add_index "terminal_cleanup_instances", ["updated_by"], :name => "index_terminal_cleanup_instances_on_finished_by"
 
   create_table "terminal_cleanups", :force => true do |t|
     t.integer  "room_id"
@@ -143,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20130521051901) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   add_index "terminal_cleanups", ["room_id"], :name => "index_terminal_cleanups_on_room_id"

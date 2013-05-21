@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h1>Modificar Aseo Terminal</h1>
+</div>
+<%= form_for @terminal_cleanup_instance, :url => limpieza_update_tc_instance_path, :html => {:class => 'form-horizontal'} do |f| %>
+    <div class="modal-body">
+      <%= bootstrap_flash %>
+      <%= render :partial => 'shared/model_errors', :object => @terminal_cleanup_instance, :as => 'token' %>
+
+      <%= f.hidden_field :id %>
+
+      <div class="control-group">
+        <%= label_tag :room_id, 'Sala', :class => 'control-label' %>
+        <div class="controls">
+          <span class="uneditable-input">
+            <%= @terminal_cleanup_instance.terminal_cleanup.room.name %>
+          </span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Fecha fijada</label>
+
+        <div class="controls">
+          <span class="uneditable-input">
+            <%= @terminal_cleanup_instance.original_date.strftime("%d-%m-%Y") %>
+          </span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= f.label :instance_date, 'Fecha realización', :class => "control-label" %>
+        <div class="controls">
+          <div class="datetimepicker input-append date">
+            <%= f.text_field :instance_date, :value => @terminal_cleanup_instance.instance_date ? @terminal_cleanup_instance.instance_date.strftime("%d-%m-%Y %I:%M %p") : '' %>
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Cometarios de la regla</label>
+        <div class="controls">
+          <p><%= @terminal_cleanup_instance.terminal_cleanup.comments %></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= f.label :comments, 'Comentarios de esta fecha', :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_area :comments %>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <%= f.submit 'Actualizar', :class => 'btn btn-primary' %>
+      <%= link_to 'Cancelar', '#', :class => 'btn', 'data-dismiss' => 'modal' %>
+    </div>
+<% end %>

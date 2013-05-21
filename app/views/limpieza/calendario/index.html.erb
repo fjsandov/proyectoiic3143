@@ -1,20 +1,62 @@
-<h1>Calendario</h1>
+<h1>Aseos terminales</h1>
 
-<div style="margin-bottom: 20px">
-    <button class="btn"><i class="icon-plus"></i> Agregar aseo terminal</button>
+<div id="calendar" style="margin-bottom: 40px"></div>
+
+<div style="margin-bottom: 40px">
+  Leyenda:
+  <span class="fc-event cleanup-rule">Regla</span>
+  <span class="fc-event cleanup-instance">Instancia pendiente</span>
+  <span class="fc-event cleanup-instance-finished">Instancia finalizada</span>
 </div>
 
-<div id='calendar'></div>
+<h3>Reglas de aseo terminal</h3>
+
+<div style="margin-bottom: 20px">
+  <a href='<%= limpieza_new_terminal_cleanup_path %>' class="btn btn-primary" data-modal="true">
+    <i class="icon-plus"> Crear regla de aseo terminal</i>
+  </a>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Sala</th>
+      <th>Intervalo</th>
+      <th>Primera fecha</th>
+      <th>Comentarios</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @terminal_cleanups.each do |tc| %>
+    <tr>
+      <td><%= tc.room.name %></td>
+      <td><%= tc.interval %> días</td>
+      <td><%= tc.start_date.strftime('%d-%m-%Y') %></td>
+      <td><%= tc.comments %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <style>
-  .calendar-cleanup-instance {
-      color: white;
-      font-weight: bold;
-  }
+.cleanup-instance {
+    color: white;
+    font-weight: bold;
+    border-radius: 3px;
+}
 
-  .calendar-cleanup {
-      color: yellow;
-  }
+.cleanup-instance-finished {
+    color: white;
+    background-color: gray;
+    border-radius: 3px;
+}
+
+.cleanup-rule {
+    color: yellow;
+    font-weight: bold;
+    font-style: italic;
+    border-radius: 3px;
+}
 </style>
 
 <script>
@@ -28,6 +70,7 @@
                         'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            buttonText: { today : 'hoy' },
             // sources
             events: {
                 url: '<%= url_for :action => :get_events %>',
@@ -40,10 +83,29 @@
             },
             // callbacks
             dayClick: function(date, allDay, jsEvent, view) {
-                alert('a day has been clicked! Current view: ' + view.name);
+                //alert('a day has been clicked! Current view: ' + view.name);
             },
             eventClick: function(calEvent, jsEvent, view) {
-                alert('a event has been clicked! Event: ' + calEvent.title);
+                //alert('a event has been clicked! Event: ' + calEvent.title);
+                var year = calEvent.start.getFullYear();
+                var month = calEvent.start.getMonth();
+                var day = calEvent.start.getDate();
+                if (calEvent.eventType == 'rule')
+                {
+                    var id = calEvent.id.split('-')[1]; // "rule-42"
+                    show_modal('<%= limpieza_new_tc_instance_path %>' +
+                            '?tc_id=' + id +
+                            '&tc_year=' + year +
+                            '&tc_month=' + (month+1) +
+                            '&tc_day=' + day);
+                }
+                else if (calEvent.eventType == 'instance')
+                {
+                    var id = calEvent.id.split('-')[1]; // "instance-42"
+                    show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
+                }
+                else
+                    alert('???');
             }
         });
     });

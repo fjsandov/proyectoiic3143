@@ -8,8 +8,17 @@ CUALimpieza::Application.routes.draw do
     get "agenda/load_zone" => "agenda#load_zone"
 
     get "calendario/index"
-    get "calendario/create_aseo_terminal"
     get "calendario/get_events"
+    # terminal cleanup
+    get "calendario/new", :as => 'new_terminal_cleanup'
+    post "calendario/create", :as => 'create_terminal_cleanup'
+    get "calendario/edit", :as => 'edit_terminal_cleanup'
+    put "calendario/update", :as => 'update_terminal_cleanup'
+    # terminal cleanup instance
+    get "calendario/new_tc_instance", :as => 'new_tc_instance'
+    post "calendario/create_tc_instance", :as => 'create_tc_instance'
+    get "calendario/edit_tc_instance", :as => 'edit_tc_instance'
+    put "calendario/update_tc_instance", :as => 'update_tc_instance'
 
     get "vista_salas" => "roomsView#index"
     get "vista_salas/index" => "roomsView#index"
