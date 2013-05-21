@@ -6,7 +6,8 @@ class CleanupRequest < ActiveRecord::Base
   attr_accessible :priority, :status, :room_id, :end_comments,
                   :requested_at, :requested_by, :start_comments,
                   :started_at, :started_by, :response_comments,
-                  :finished_at, :finished_by
+                  :finished_at, :finished_by,
+                  :deleted_by, :deleted_at
 
 
   belongs_to :room
@@ -14,11 +15,19 @@ class CleanupRequest < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'requested_by'
   belongs_to :user, :foreign_key => 'started_by'
   belongs_to :user, :foreign_key => 'finished_by'
+  belongs_to :user, :foreign_key => 'deleted_by'
 
   after_save :change_room_status
 
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
+
+  #Entrega las solicitudes tanto "Pendiente" como "En Limpieza" cuya fecha de inicio ya paso (evito mostrar
+  # las que aun no han sido solicitadas segun la programacion). Se muestran arriba las mas antiguas (esas se
+  # deberian tratar de resolver primero)
+  def self.get_unfinished_and_requested
+    CleanupRequest.get_unfinished.where('requested_at < ?',Time.now).order('requested_at ASC')
+  end
 
   def self.get_unfinished
     CleanupRequest.where("status = ? or status = ?", "pending", "being-attended")
@@ -98,7 +107,10 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def delete_request(user)
-    #TODO: falta un deleted_by y un deleted_at?
+    self.deleted_at = Time.now
+    self.deleted_by = user.id
+    self.status = 'deleted'
+    self.save
   end
 
   def response_request(user,employees_assigned)

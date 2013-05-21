@@ -29,10 +29,14 @@
       <% end %>
     </div>
     <div class='span6'>
-      <h3>Solicitudes de limpieza no finalizadas</h3>
-      <% if Room.exist_requestable_rooms? %>
-        <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true'><i class="icon-plus"> Nueva Solicitud</i></a>
-      <%end%>
+      <h3>
+        Solicitudes de Limpieza
+        <% if Room.exist_requestable_rooms? %>
+            <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true'>
+                <i class="icon-plus-sign"></i>
+            </a>
+        <%end%>
+      </h3>
       <% if @unfinished_cleanup_requests.blank? %>
           <h6>No hay solicitudes de limpieza pendientes</h6>
       <% else %>
@@ -50,7 +54,7 @@
                   <td><%= unfinished_cr.get_requested_at_smart_str %></td>
                   <td><%= unfinished_cr.get_status_str %></td>
                   <td><%= link_to 'Ver',limpieza_show_cleanup_request_path(:id => unfinished_cr.id),
-                                  'data-modal'=>"true" %></td>
+                                  :class => 'btn btn-primary', 'data-modal'=>"true" %></td>
                 </tr>
             <% end %>
           </table>

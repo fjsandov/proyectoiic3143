@@ -30,6 +30,12 @@ span.legend-square
     display: block;
 }
 
+/*Alinear texto de las tablas al centro*/
+.table td,
+.table th {
+    text-align: center!important;
+}
+
 @media (min-width:768px)
 {
     .row-fluid .sidebar-nav

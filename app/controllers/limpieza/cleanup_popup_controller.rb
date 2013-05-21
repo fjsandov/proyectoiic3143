@@ -26,7 +26,7 @@ class Limpieza::CleanupPopupController < ApplicationController
   #Dependiendo del estado de la solicitud, renderea distintos modal popup:
   def popup_cleanup_request_show
     @cleanup_request = CleanupRequest.find(params[:id])
-    @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(params[:id]))
+    @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
 
     if @cleanup_request.status == 'pending'
       render 'limpieza/cleanup_request_popup/cleanup_request_response'
@@ -41,8 +41,10 @@ class Limpieza::CleanupPopupController < ApplicationController
   #          Pendientes o En Limpieza.
   def process_cleanup_request
     render_view = 'shared/modal_popup_success'
-    #NOTA: hidden con id de cleanup_request se comprueba que no fue modificado con el secreto adjunto (mas dificil de modificar)
-    hacking_attempt = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(params[:req])) != params[:sec]
+    #NOTA: hidden con id de cleanup_request se comprueba que no fue modificado con el secreto adjunto
+    #      (mas dificil de modificar)
+    secret_value = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:req]))
+    hacking_attempt =  secret_value != params[:sec]
     unless hacking_attempt
       @cleanup_request = CleanupRequest.find(params[:req])
 
@@ -55,7 +57,8 @@ class Limpieza::CleanupPopupController < ApplicationController
           render_view = process_pending_request(@cleanup_request,params[:employees_assigned])
         elsif @cleanup_request.status == 'being-attended'
           @cleanup_request.end_comments = params[:comments]
-          render_view = process_being_attended_request(@cleanup_request)
+          to_maintenance = params[:submit_type]=='finish_and_maintenance'
+          render_view = process_being_attended_request(@cleanup_request,to_maintenance)
         end
       end
     end
@@ -73,8 +76,12 @@ private
     end
   end
 
-  def process_being_attended_request(cleanup_request)
+  def process_being_attended_request(cleanup_request,to_maintenance)
     if cleanup_request.finish_request(@current_user)
+      if to_maintenance
+        cleanup_request.room.status = 'maintenance'
+        cleanup_request.room.save
+      end
       flash[:notice] = 'Se ha finalizado la Solicitud de Limpieza exitosamente'
       'shared/modal_popup_success'
     else

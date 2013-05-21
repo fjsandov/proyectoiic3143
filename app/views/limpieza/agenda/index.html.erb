@@ -19,7 +19,11 @@
   </div>
   <div class="span4">
     <div id="calendar_for_agenda" class="datepicker span12"></div>
-    <button class="btn span12"><i class="icon-plus"></i> Agregar solicitud limpieza</button>
+    <% if Room.exist_requestable_rooms? %>
+        <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true' class='btn span12'>
+          <i class="icon-plus"></i> Agregar solicitud de limpieza
+        </a>
+    <%end%>
     <button class="btn span12"><i class="icon-folder-open"></i> Importar Excel de altas</button>
     <button class="btn span12"><i class="icon-print"></i> Imprimir tareas supervisor</button>
   </div>
