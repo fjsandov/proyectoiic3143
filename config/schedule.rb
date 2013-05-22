@@ -19,6 +19,9 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, "#{Whenever.path}/log/cron.log"
+job_type :runner_with_bash_profile, "source ~/.bash_profile && cd :path && ruby script/rails runner -e development ':task' :output"
+
 every 1.minute do
-  runner "CleanupRequest.activate_requests"
+  runner_with_bash_profile "CleanupRequest.activate_requests"
 end
