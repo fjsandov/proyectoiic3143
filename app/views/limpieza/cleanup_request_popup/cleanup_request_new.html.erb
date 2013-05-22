@@ -9,7 +9,7 @@
           <div class="control-group form-horizontal">
             <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
-              <%= f.collection_select :room_id, @requestable_rooms, :id, :name, {}, {:class=>'select2 input-medium'} %>
+              <%= f.collection_select :room_id, @requestable_rooms, :id, :name %>
             </div>
           </div>
 

@@ -11,6 +11,9 @@ gem "select2-rails"
 #JQuery UI
 gem 'jquery-ui-rails'
 
+#Whenever. Cron jobs.
+gem 'whenever', :require => false
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

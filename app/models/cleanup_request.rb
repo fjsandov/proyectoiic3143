@@ -9,7 +9,6 @@ class CleanupRequest < ActiveRecord::Base
                   :finished_at, :finished_by,
                   :deleted_by, :deleted_at
 
-
   belongs_to :room
   has_and_belongs_to_many :employees
   belongs_to :user, :foreign_key => 'requested_by'
@@ -21,6 +20,29 @@ class CleanupRequest < ActiveRecord::Base
 
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
+
+  #Metodo estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
+  # y no hay ninguna activa
+  def self.activate_requests
+    #Busco request inactivas que deberian activarse (por su requested_at)
+    inactive_crs = CleanupRequest.where('requested_at < ? and status = ?',Time.current, 'inactive')
+    inactive_crs.each do |inactive_cr|
+      active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', inactive_cr.room_id,
+                           "pending", "being-attended" ).first
+      if inactive_cr.room.status == 'maintenance' || !active_request.blank?
+        #Hay una solicitud para la sala, y esta "activa" => se borra la solicitud nueva.
+        #La sala esta en mantencion => se borra la solicitud nueva.
+        inactive_cr.status = 'deleted'
+        inactive_cr.deleted_at = Time.current
+        inactive_cr.deleted_by = 1 #EL USUARIO QUE LO BORRA ES EL ADMIN.
+        inactive_cr.save
+      else
+        #Se puede activar sin preocupaciones
+        inactive_cr.status = 'pending'
+        inactive_cr.save
+      end
+    end
+  end
 
   #Entrega el request sin terminar asociado al room (nil si no existe tal)
   def self.unfinish_request_of_room(room)
@@ -54,8 +76,10 @@ class CleanupRequest < ActiveRecord::Base
         'En Limpieza'
       when 'finished'
         'Terminada'
-      else #when 'deleted'
+      when 'deleted'
         'Eliminada'
+      else #when inactive
+        'Inactiva'
     end
   end
 
@@ -110,7 +134,7 @@ class CleanupRequest < ActiveRecord::Base
 
   def create_request(user)
     self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
-    self.status = 'pending'
+    self.status = 'inactive' #NOTA: Pasara "solo" a pending cuando el metodo en config/schedule.rb lo active.
     self.requested_by = user.id
     self.save
   end
@@ -145,8 +169,10 @@ class CleanupRequest < ActiveRecord::Base
         self.room.status = 'cleaning'
       when 'finished'
         self.room.status = 'free'
-      else #when 'deleted'
+      when 'deleted'
         self.room.status = 'free'
+      else #when inactive
+        #NO HAGO NADA
     end
     self.room.save
   end

@@ -1,7 +1,10 @@
 /*--- Modificaciones al modal base para ajustarse a nuestras necesidades ---*/
-#modal-popup {
-  width: 700px !important;
-  margin: 0 0 0 -350px !important;
+
+@media (min-width: 768px){
+  #modal-popup {
+    width: 700px !important;
+    margin: 0 0 0 -350px !important;
+  }
 }
 
 .modal.fade.in {
