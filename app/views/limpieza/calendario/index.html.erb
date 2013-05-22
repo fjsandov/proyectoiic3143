@@ -21,18 +21,25 @@
   <thead>
     <tr>
       <th>Sala</th>
-      <th>Intervalo</th>
       <th>Primera fecha</th>
+      <th>Intervalo</th>
       <th>Comentarios</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
     <% @terminal_cleanups.each do |tc| %>
     <tr>
       <td><%= tc.room.name %></td>
-      <td><%= tc.interval %> días</td>
       <td><%= tc.start_date.strftime('%d-%m-%Y') %></td>
+      <td><%= tc.interval %> días</td>
       <td><%= tc.comments %></td>
+      <td><%= link_to limpieza_delete_terminal_cleanup_path + "?id=#{tc.id}", method: :delete,
+                      data: { confirm: '¿Eliminar esta regla de aseo terminal?' +
+                              'Se conservarán los aseos en el pasado, pero no se agendarán nuevos aseos.' } do %>
+            <i class="icon-trash"></i> Eliminar
+          <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>
@@ -70,7 +77,7 @@
                         'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-            buttonText: { today : 'hoy' },
+            buttonText: { today : 'Hoy' },
             // sources
             events: {
                 url: '<%= url_for :action => :get_events %>',

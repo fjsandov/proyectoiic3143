@@ -37,16 +37,11 @@
               <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
             </span>
           </div>
-          <br/><br/>
-          <label class="checkbox">
-            <input id="checkbox-excepcion" type="checkbox" <%= @terminal_cleanup_instance.instance_date ? '' : 'checked' %>>
-            No realizar este aseo
-          </label>
         </div>
       </div>
 
       <div class="control-group">
-        <label class="control-label">Cometarios de la regla</label>
+        <label class="control-label">Comentarios de la regla</label>
 
         <div class="controls">
           <p><%= @terminal_cleanup_instance.terminal_cleanup.comments %></p>
@@ -63,15 +58,14 @@
 
     <div class="modal-footer">
       <%= f.submit 'Guardar', :class => 'btn btn-primary' %>
+      <%= f.submit 'Eliminar', :id => 'btn-delete', :class =>'btn btn-danger pull-left' %>
       <%= link_to 'Cancelar', '#', :class => 'btn', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
 
 <script>
-    $('#checkbox-excepcion').on('change', function () {
-        var disabled = this.checked;
-        $('#terminal_cleanup_instance_instance_date').prop('disabled', disabled);
+    $('#btn-delete').on('click', function () {
+        $('#terminal_cleanup_instance_instance_date')
+                .prop('disabled', true);
     });
-    $('#terminal_cleanup_instance_instance_date')
-            .prop('disabled', ('#checkbox-excepcion')[0].checked);
 </script>

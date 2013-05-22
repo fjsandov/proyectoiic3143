@@ -40,7 +40,7 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label">Cometarios de la regla</label>
+        <label class="control-label">Comentarios de la regla</label>
         <div class="controls">
           <p><%= @terminal_cleanup_instance.terminal_cleanup.comments %></p>
         </div>
@@ -55,6 +55,14 @@
     </div>
     <div class="modal-footer">
       <%= f.submit 'Actualizar', :class => 'btn btn-primary' %>
+      <%= f.submit 'Eliminar', :id => 'btn-delete', :class =>'btn btn-danger pull-left' %>
       <%= link_to 'Cancelar', '#', :class => 'btn', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
+
+<script>
+    $('#btn-delete').on('click', function () {
+        $('#terminal_cleanup_instance_instance_date')
+                .val('');
+    });
+</script>

@@ -3,7 +3,7 @@ require 'date'
 class Limpieza::CalendarioController < ApplicationController
   # GET /limpieza/calendario
   def index
-    @terminal_cleanups = TerminalCleanup.all
+    @terminal_cleanups = TerminalCleanup.where('end_date is NULL')
   end
 
   # GET /limpieza/calendario/get_events
@@ -17,51 +17,48 @@ class Limpieza::CalendarioController < ApplicationController
 
       # Calcular los aseos
       # TODO: Mover esta logica al modelo
-      if end_date >= today
-        TerminalCleanup.find_each do |tc|
-          if tc.start_date < today
-            # no mostrar los tc agendados en el pasado
-            #current_date = 1.days + tc.start_date + ((today - tc.start_date) % tc.interval.days)
-            current_date = tc.start_date
-            while current_date < start_date #today
-              current_date += tc.interval.days  # TODO: calc. iterativo no es eficiente
+      TerminalCleanup.find_each do |tc|
+        rule_date = tc.start_date
+        if rule_date < today
+          # Primera fecha debe ser >= start_date
+          while rule_date < start_date
+            rule_date += tc.interval.days  # TODO: calc. iterativo no es eficiente
+          end
+        end
+
+        # Cachear tci para evitar demasiadas consultas
+        tci_collection = tc.terminal_cleanup_instances.where(:original_date => start_date .. end_date)
+
+        rule_end_date = (tc.end_date or end_date)
+        while rule_date <= rule_end_date
+          # check terminal_cleanup_instances
+          tci = tci_collection.find { |tc_instance| tc_instance.original_date == rule_date }
+          if tci
+            if tci.instance_date && tci.instance_date <= end_date
+              # generado a partir de una instancia
+              @events << {
+                  :id => "instance-#{tci.id}",
+                  :eventType => 'instance',
+                  :start => tci.instance_date,
+                  :title => tci.terminal_cleanup.room.name,
+                  :className => ' cleanup-instance-finished'
+              }
+            else
+              # es una excepcion
             end
           else
-            current_date = tc.start_date
+            # generado a partir de la regla
+            @events << {
+                :id => "rule-#{tc.id}",
+                :eventType => 'rule',
+                :start => rule_date,
+                :allDay => true,
+                :title => tc.room.name,
+                :className => 'cleanup-rule'
+            }
           end
 
-          tci_collection = TerminalCleanupInstance.where(:terminal_cleanup_id => tc.id, :original_date => start_date .. end_date)
-
-          while current_date <= end_date
-            # check terminal_cleanup_instances
-            tci = tci_collection.find { |tc_instance| tc_instance.original_date == current_date }
-            if tci
-              if tci.instance_date && tci.instance_date <= end_date
-                # generado a partir de una instancia
-                @events << {
-                    :id => "instance-#{tci.id}",
-                    :eventType => 'instance',
-                    :start => tci.instance_date,
-                    :title => tci.terminal_cleanup.room.name,
-                    :className => (tci.is_finished ? ' cleanup-instance-finished' : 'cleanup-instance')
-                }
-              else
-                # es una excepcion
-              end
-            else
-              # generado a partir de la regla
-              @events << {
-                  :id => "rule-#{tc.id}",
-                  :eventType => 'rule',
-                  :start => current_date,
-                  :allDay => true,
-                  :title => tc.room.name,
-                  :className => 'cleanup-rule'
-              }
-            end
-
-            current_date += tc.interval.days
-          end
+          rule_date += tc.interval.days
         end
       end
 
@@ -78,6 +75,7 @@ class Limpieza::CalendarioController < ApplicationController
   #GET
   def new
     @terminal_cleanup = TerminalCleanup.new
+    @terminal_cleanup.start_date = Time.current
     @requestable_rooms = Room.all
     render 'limpieza/terminal_cleanup_popup/new'
   end
@@ -113,6 +111,19 @@ class Limpieza::CalendarioController < ApplicationController
     end
   end
 
+  #DELETE
+  def destroy
+    @terminal_cleanup = TerminalCleanup.find(params[:id])
+    @terminal_cleanup.end_date = Time.zone.today
+
+    respond_to do |format|
+      if @terminal_cleanup.save
+        format.html { redirect_to :action => :index }
+        format.json { render 'shared/modal_popup_success' }
+      end
+    end
+  end
+
 
   # terminal cleanup instances :
 
@@ -134,9 +145,6 @@ class Limpieza::CalendarioController < ApplicationController
   #POST
   def create_tc_instance
     @terminal_cleanup_instance = TerminalCleanupInstance.new(params[:terminal_cleanup_instance])
-    # Marcar automaticamente como realizado si es que se fija en el pasado
-    @terminal_cleanup_instance.is_finished = @terminal_cleanup_instance.instance_date == nil ||
-                                             @terminal_cleanup_instance.instance_date <= Time.current
 
     if @terminal_cleanup_instance.save
       render 'shared/modal_popup_success'

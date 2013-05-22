@@ -14,6 +14,7 @@ CUALimpieza::Application.routes.draw do
     post "calendario/create", :as => 'create_terminal_cleanup'
     get "calendario/edit", :as => 'edit_terminal_cleanup'
     put "calendario/update", :as => 'update_terminal_cleanup'
+    delete "calendario/destroy", :as => 'delete_terminal_cleanup'
     # terminal cleanup instance
     get "calendario/new_tc_instance", :as => 'new_tc_instance'
     post "calendario/create_tc_instance", :as => 'create_tc_instance'

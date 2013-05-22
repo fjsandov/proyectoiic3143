@@ -2,6 +2,7 @@ class TerminalCleanup < ActiveRecord::Base
   attr_accessible :comments, :interval, :start_date, :end_date, :room_id
 
   belongs_to :room
+  has_many :terminal_cleanup_instances
 
   validates_presence_of :interval, :start_date, :room_id
 
