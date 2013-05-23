@@ -21,7 +21,7 @@ class CleanupRequest < ActiveRecord::Base
   ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
 
-  #Metodo estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
+  # Método estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
   # y no hay ninguna activa
   def self.activate_requests
     #Busco request inactivas que deberian activarse (por su requested_at)
@@ -35,12 +35,19 @@ class CleanupRequest < ActiveRecord::Base
         inactive_cr.status = 'deleted'
         inactive_cr.deleted_at = Time.current
         inactive_cr.deleted_by = 1 #EL USUARIO QUE LO BORRA ES EL ADMIN.
-        inactive_cr.save
+        if inactive_cr.room.status == 'maintenance'
+          comments = 'Solicitud eliminada por el sistema.'
+          comments += 'Sala estaba en mantencion al momento de activar de esta solicitud'
+        else
+          comments = 'Solicitud eliminada por el sistema.'
+          comments += 'Sala tenia solicitudes activas al momento de activar de esta solicitud'
+        end
+        inactive_cr.end_comments = comments
       else
         #Se puede activar sin preocupaciones
         inactive_cr.status = 'pending'
-        inactive_cr.save
       end
+      inactive_cr.save
     end
   end
 
@@ -134,9 +141,22 @@ class CleanupRequest < ActiveRecord::Base
 
   def create_request(user)
     self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
-    self.status = 'inactive' #NOTA: Pasara "solo" a pending cuando el metodo en config/schedule.rb lo active.
+    self.status = 'pending'
     self.requested_by = user.id
-    self.save
+
+    if self.requested_at.between?(Time.current-60,Time.current+60)
+      active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
+                                            "pending", "being-attended" ).first
+      if active_request.blank?
+        self.save
+      else
+        self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala")
+        false
+      end
+    else
+      self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
+      self.save
+    end
   end
 
   def delete_request(user)
