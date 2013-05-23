@@ -52,7 +52,7 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   #Entrega el request sin terminar asociado al room (nil si no existe tal)
-  def self.unfinish_request_of_room(room)
+  def self.unfinished_request_of_room(room)
     if room.status == 'pending' || room.status == 'cleaning'
       CleanupRequest.where('room_id = ? and (status = ? or status = ?)',room.id, "pending", "being-attended").first
     else
