@@ -1,6 +1,7 @@
 class Limpieza::CleanupPopupController < ApplicationController
   def popup_cleanup_request_new
     @cleanup_request = CleanupRequest.new
+    @room_disable = false
     @requestable_rooms = Room.get_cleanup_requestable_rooms
     render 'limpieza/cleanup_request_popup/cleanup_request_new'
   end

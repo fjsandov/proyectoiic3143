@@ -26,6 +26,11 @@ CUALimpieza::Application.routes.draw do
     get "vista_salas/load_zone" => "roomsView#load_zone"
     get "vista_salas/load_sector" => "roomsView#load_sector"
 
+    get "vista_salas/edit_room_status" => "roomsView#edit_room_status" , :as => "edit_room_status"
+    put "vista_salas/change_room_status" => "roomsView#change_room_status" , :as => "change_room_status"
+    get "vista_salas/edit_maintenance_room" => "roomsView#edit_maintenance_room", :as => "edit_maintenance_room"
+    put "vista_salas/finish_maintenance" => "roomsView#finish_maintenance", :as => "finish_maintenance"
+
     get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
     post "crear_solicitud" => 'cleanup_popup#create', :as =>'create_cleanup_request'
 

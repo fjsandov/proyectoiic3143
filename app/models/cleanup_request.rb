@@ -71,6 +71,15 @@ class CleanupRequest < ActiveRecord::Base
     CleanupRequest.where("status = ? or status = ?", "pending", "being-attended")
   end
 
+  def self.get_today_request
+    CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
+        where('Date(started_at) = ?', Time.zone.today)
+  end
+
+  def self.get_today_request_from_sector(sector)
+    CleanupRequest.joins(:room).get_today_request().where('rooms.sector_id' => sector.id)
+  end
+
   def self.priority_options
       [['Baja',3],['Media',2], ['Alta',1]]
   end

@@ -34,7 +34,15 @@
         padding-top: 9px;
         font-weight: bold;
         cursor: pointer;
+        color: black;
+      }
+
+      .rooms_button:hover
+      {
+        color: black;
+        text-decoration: none;
       }
     }
   }
 }
+

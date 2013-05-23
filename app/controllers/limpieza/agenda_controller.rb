@@ -2,6 +2,8 @@ class Limpieza::AgendaController < ApplicationController
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
     @sectors = Sector.where(:zone => @zones[0]).order(:name)
+
+    @cleanup_requests = CleanupRequest.get_today_request_from_sector(@sectors[0])
   end
 
   def load_zone

@@ -52,6 +52,14 @@ function init_modal_popup(){
 
     var select2s = $('.select2',modal_popup);
     select2s.select2();
+
+    //Para el popup de cambio de estado
+    $("input[name='room_status']").change(function(){
+        if($("input[name='room_status']:checked").val() == 'maintenance')
+            $('#maintenance_start_comments').removeAttr('disabled');
+        else
+            $('#maintenance_start_comments').attr('disabled','disabled');
+    });
 }
 
 $(

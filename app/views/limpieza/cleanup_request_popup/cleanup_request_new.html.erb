@@ -9,7 +9,8 @@
           <div class="control-group form-horizontal">
             <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
-              <%= f.collection_select :room_id, @requestable_rooms, :id, :name %>
+              <%= f.collection_select :room_id, @requestable_rooms, :id, :name,{}, {
+                 :selected => @cleanup_request.room_id} %>
             </div>
           </div>
 

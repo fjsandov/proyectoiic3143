@@ -16,4 +16,63 @@ class Limpieza::RoomsViewController < ApplicationController
     @rooms = Room.where(:sector_id => params['sector']).order(:name)
     render :json => @rooms.to_json(:only => [:id, :name, :status])
   end
+
+  def edit_room_status
+    @room = Room.find(params[:id])
+
+    render 'limpieza/rooms_view/edit_room_status'
+  end
+
+  def change_room_status
+    render_view = 'shared/modal_popup_success'
+    room = Room.find(params[:req])
+    status = params[:room_status]
+    if(room.status != status )
+      if(room.status == 'free' || room.status == 'occupied')
+        if(status == 'pending')
+          @cleanup_request = CleanupRequest.new(:room_id => room.id)
+          @requestable_rooms = Room.get_cleanup_requestable_rooms
+          @room_disable = true
+          render_view = 'limpieza/cleanup_request_popup/cleanup_request_new'
+        else
+          room.status = status
+          room.save
+          if(status == 'maintenance')
+            maintenance = MaintenanceRecord.new
+            maintenance.room_id = room.id
+            maintenance.start_comments = params[:maintenance_start_comments]
+            maintenance.save
+          end
+        end
+      end
+    end
+
+    render render_view
+  end
+
+  def edit_maintenance_room
+    @room = Room.find(params[:id])
+    @maintenance = MaintenanceRecord.get_unfinished_by_room(@room.id)
+
+    render 'limpieza/rooms_view/edit_maintenance_room'
+  end
+
+  def finish_maintenance
+    @room = Room.find(params[:req])
+    @maintenance = MaintenanceRecord.get_unfinished_by_room(@room.id)
+    status = params[:room_status]
+    if(@room.status == 'maintenance')
+      if(status == 'free' || status == 'occupied')
+        @room.status = status
+        @maintenance.finished_at = Time.current
+        @maintenance.finished_by = @current_user
+        @maintenance.end_comments = params[:maintenance_end_comments]
+
+        @room.save
+        @maintenance.save
+      end
+    end
+
+    render 'shared/modal_popup_success'
+  end
 end

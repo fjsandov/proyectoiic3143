@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h1>Cambio estado de la sala <%= @room.name %></h1>
+</div>
+<%= form_for @room, :url => limpieza_change_room_status_path do |f| %>
+    <div class="modal-body rooms_status_container">
+      <%= label_tag :room_status, "Cambiar a estado:", :class => "span3" %>
+      <div class="radio_button_panel span11">
+          <div class="span12">
+            <%= radio_button_tag :room_status, 'free', 'free' == @room.status%>
+            <%= label_tag 'room_status_free', 'Libre', :class => "span4" %>
+          </div>
+          <div class="span12">
+            <%= radio_button_tag :room_status, 'occupied', 'occupied' == @room.status %>
+            <%= label_tag 'room_status_occupied', 'Ocupado', :class => "span4" %>
+          </div>
+          <div class="span12">
+            <%= radio_button_tag :room_status, 'maintenance' %>
+            <%= label_tag 'room_status_maintenance', 'Mantención', :class => "span4" %>
+          </div>
+          <div class="span12">
+            <%= radio_button_tag :room_status, 'pending' %>
+            <%= label_tag 'room_status_pending', 'Solicitud limpieza', :class => "span4" %>
+          </div>
+      </div>
+      <div class="span11">
+        <%= label_tag :maintenance_start_comments, "Comentarios:" %>
+        <%= text_area_tag :maintenance_start_comments, "", :rows => 5, :class => "span12", :disabled => true %>
+      </div>
+      <%= hidden_field_tag :req, @room.id %>
+    </div>
+    <div class="modal-footer">
+      <%= f.submit "Cambiar", :name => "change", :class => "btn btn-primary" %>
+      <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
+    </div>
+<% end %>

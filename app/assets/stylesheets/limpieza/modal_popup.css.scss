@@ -40,3 +40,38 @@
   font-style: italic;
   font-size: 0.9em;
 }
+
+//Popup cambio de salas
+.rooms_status_container
+{
+  .maintenance_comments_panel
+  {
+    margin-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+
+    .span12
+    {
+      margin-bottom: 10px;
+    }
+
+    .span3:first-child
+    {
+      margin-left: 17px;
+    }
+  }
+  .span3:first-child
+  {
+    margin-left: 17px;
+  }
+  .radio_button_panel
+  {
+    input
+    {
+      float: left;
+    }
+    .span12
+    {
+      margin-left: 0;
+    }
+  }
+}
