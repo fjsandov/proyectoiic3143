@@ -8,13 +8,13 @@ class TerminalCleanup < ActiveRecord::Base
 
 
   def self.get_today_instances
-    self.get_instances(Time.zone.today, Time.zone.today + 1.day)
+    today = Date.today.to_time_in_current_zone
+    self.get_instances(today, today + 1.day)
   end
 
   # Retorna un arreglo de diccionarios con info simple sobre cada aseo terminal agendado
   # para la fecha dada.
   def self.get_instances(start_date, end_date)
-    today = Date.today.to_time_in_current_zone
     events = []
 
     TerminalCleanup.find_each do |tc|
