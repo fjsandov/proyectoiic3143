@@ -2,7 +2,7 @@ require 'modules/utils_lib'
 
 class MaintenanceRecord < ActiveRecord::Base
   include Modules::UtilsLib
-  attr_accessible :comments, :finished_at
+  attr_accessible :room_id, :start_comments,:end_comments, :finished_at
 
   belongs_to :room
 

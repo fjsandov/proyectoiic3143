@@ -82,6 +82,7 @@ private
       if to_maintenance
         cleanup_request.room.status = 'maintenance'
         cleanup_request.room.save
+        MaintenanceRecord.create(:room_id => cleanup_request.room_id, :start_comments => cleanup_request.end_comments)
       end
       flash[:notice] = 'Se ha finalizado la Solicitud de Limpieza exitosamente'
       'shared/modal_popup_success'
