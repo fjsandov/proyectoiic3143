@@ -36,10 +36,10 @@ $(function() {
 
         // callbacks
         dayClick: function(date, allDay, jsEvent, view) {
-            alert('a day has been clicked! Current view: ' + view.name);
+            //alert('a day has been clicked! Current view: ' + view.name);
         },
         eventClick: function(calEvent, jsEvent, view) {
-            alert('a event has been clicked! Event: ' + calEvent.title);
+            //alert('a event has been clicked! Event: ' + calEvent.title);
         }
     });
 
@@ -75,7 +75,7 @@ $(function() {
 
     $('#calendar_for_agenda').datepicker({
         currentText: 'Hoy',
-        dateFormat: 'dd-MM-yyyy',
+        dateFormat: 'dd-mm-yy',
         dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
         dayNamesShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
         dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
@@ -86,6 +86,13 @@ $(function() {
         nextText: 'Siguiente',
         prevText: 'Anterior',
         showOtherMonths: true,
-        selectOtherMonths: true
+        selectOtherMonths: true,
+        onSelect: function(dateText, inst) {
+            //alert(dateText);
+            var day = dateText.split('-')[0];
+            var month = parseInt(dateText.split('-')[1]) - 1;
+            var year = dateText.split('-')[2];
+            $('#agenda').fullCalendar( 'gotoDate', year, month, day);
+        }
     });
 });
