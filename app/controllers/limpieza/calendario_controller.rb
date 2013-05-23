@@ -133,8 +133,12 @@ class Limpieza::CalendarioController < ApplicationController
     if @terminal_cleanup
       @terminal_cleanup_instance = TerminalCleanupInstance.new
       @terminal_cleanup_instance.terminal_cleanup = @terminal_cleanup
-      @terminal_cleanup_instance.original_date = Time.zone.parse("#{params[:tc_year]}-#{params[:tc_month]}-#{params[:tc_day]}")
-      @terminal_cleanup_instance.instance_date = Time.current
+      if params[:tc_year] && params[:tc_month] && params[:tc_day]
+        @terminal_cleanup_instance.original_date = Time.zone.parse("#{params[:tc_year]}-#{params[:tc_month]}-#{params[:tc_day]}")
+      else
+        @terminal_cleanup_instance.original_date = Time.zone.today
+      end
+        @terminal_cleanup_instance.instance_date = Time.current
 
       render 'limpieza/terminal_cleanup_popup/new_tc_instance'
     else

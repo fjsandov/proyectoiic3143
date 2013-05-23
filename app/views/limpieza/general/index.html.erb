@@ -6,21 +6,35 @@
           <h6>No hay aseos terminales programados para hoy</h6>
       <% else %>
           <table class="table table-striped table-bordered">
-            <tr>
-              <th>Hora</th>
-              <th>Aseo</th>
-            </tr>
-            <% @next_terminal_cleanups.each do |tc_instance| %>
+            <thead>
+                <tr>
+                  <th>Hora</th>
+                  <th>Lugar</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @next_terminal_cleanups.each do |tc| %>
                 <tr>
                   <td>
-                    <%= tc_instance[:eventType] == 'instance' ?
-                            tc_instance[:start].strftime('%I:%M %p') :
+                    <%= tc[:eventType] == 'instance' ?
+                            tc[:start].strftime('%I:%M %p') :
                             'Hoy' # Las 'reglas' de aseo terminal no tienen hora por default
                     %>
                   </td>
-                  <td><%= tc_instance[:title] %></td>
+                  <td><%= tc[:title] %></td>
+                  <td>
+                    <% if tc[:eventType] == 'instance' %>
+                        <%= link_to 'Ver', limpieza_edit_tc_instance_path + "?id=#{tc[:id]}",
+                                  :class => 'btn btn-primary', 'data-modal'=>"true" %>
+                    <% elsif tc[:eventType] == 'rule' %>
+                        <%= link_to 'Ver', limpieza_new_tc_instance_path + "?tc_id=#{tc[:id]}",
+                                    :class => 'btn btn-primary', 'data-modal'=>"true" %>
+                    <% end %>
+                    </td>
                 </tr>
             <% end %>
+            </tbody>
           </table>
       <% end %>
     </div>
