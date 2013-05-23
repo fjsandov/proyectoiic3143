@@ -12,19 +12,15 @@
             </tr>
             <% @next_terminal_cleanups.each do |tc_instance| %>
                 <tr>
-                  <td><%= tc_instance.get_datetime_str %></td>
-                  <td><%= tc_instance.get_description %></td>
+                  <td>
+                    <%= tc_instance[:eventType] == 'instance' ?
+                            tc_instance[:start].strftime('%I:%M %p') :
+                            'Hoy' # Las 'reglas' de aseo terminal no tienen hora por default
+                    %>
+                  </td>
+                  <td><%= tc_instance[:title] %></td>
                 </tr>
             <% end %>
-
-            <tr>
-              <td>12:00</td>
-              <td>EJ:Limpieza en pabellones</td>
-            </tr>
-            <tr>
-              <td>16:30</td>
-              <td>EJ:Limpieza en maternidad</td>
-            </tr>
           </table>
       <% end %>
     </div>
