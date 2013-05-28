@@ -8,8 +8,9 @@ class Room < ActiveRecord::Base
 
   #Salas sobre las que se puede realizar una solicitud de limpieza
   def self.get_cleanup_requestable_rooms
-    posible_status = ['free','maintenance','occupied']
-    Room.where('status in (?)',posible_status)
+    #posible_status = ['free','maintenance','occupied']
+    #Room.where('status in (?)',posible_status)
+    Room.all #TODO: Revisar si basta con que sean todos (y si es necesario)
   end
 
   def self.exist_requestable_rooms?

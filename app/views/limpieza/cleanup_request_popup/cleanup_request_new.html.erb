@@ -22,7 +22,15 @@
             </div>
         </div>
 
-          <div class="control-group form-horizontal">
+        <div class="control-group form-horizontal">
+          <%= f.label 'cleanup_request[request_type]', 'Urgencia', :class=>"control-label" %>
+          <div class="controls">
+            <%= select_tag 'cleanup_request[request_type]', options_for_select(CleanupRequest.request_type_options),
+                           {:selected => @cleanup_request.request_type} %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
             <%= f.label :requested_at, 'Fecha y Hora', :class=>"control-label" %>
             <div class="controls">
               <div class="datetimepicker input-append date">

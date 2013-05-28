@@ -25,7 +25,7 @@ module Modules
         seconds = time_difference.to_i
 
         delta_hash = [:days => days,:hours => hours,:mins => mins,:seconds => seconds]
-        delta_hash = delta_hash[0]
+        delta_hash[0]
       end
 
 

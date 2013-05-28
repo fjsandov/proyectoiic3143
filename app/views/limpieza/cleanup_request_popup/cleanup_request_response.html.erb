@@ -12,6 +12,7 @@
                 <tr>
                  <th>Sala</th>
                  <th>Hora de Solicitud</th>
+                 <th>Tipo</th>
                  <th>Prioridad</th>
                  <th>Solicitante</th>
                  <th>Comentario</th>
@@ -19,6 +20,7 @@
                 <tr class='info'>
                   <td><%=@cleanup_request.room.name%></td>
                   <td><%=@cleanup_request.get_requested_at_smart_str%></td>
+                  <td> <%=@cleanup_request.get_request_type_str%></td>
                   <td> <%=@cleanup_request.get_priority_str%></td>
                   <td><%=@cleanup_request.get_who_requested.complete_name%></td>
                   <td><%=@cleanup_request.start_comments%></td>

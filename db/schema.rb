@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522232827) do
+ActiveRecord::Schema.define(:version => 20130528060012) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20130522232827) do
     t.text     "response_comments"
     t.integer  "deleted_by"
     t.datetime "deleted_at"
+    t.string   "request_type"
   end
 
   add_index "cleanup_requests", ["deleted_by"], :name => "index_cleanup_requests_on_deleted_by"

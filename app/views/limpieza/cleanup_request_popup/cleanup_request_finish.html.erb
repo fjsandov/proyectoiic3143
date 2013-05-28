@@ -11,10 +11,12 @@
           <table class="table table-striped table-bordered table-condensed center">
             <tr>
               <th>Sala</th>
+              <th>Tipo</th>
               <th>Urgencia</th>
             </tr>
             <tr>
               <td><%=@cleanup_request.room.name%></td>
+              <td><%=@cleanup_request.get_request_type_str%></td>
               <td><%=@cleanup_request.get_priority_str%></td>
             </tr>
           </table>
@@ -57,11 +59,29 @@
         </div>
       </div>
       <div class='fluid-row'>
+        <div class='span12'>
+          <table class="table table-striped table-bordered table-condensed center">
+            <tr>
+              <th>Comentario de inicio</th>
+              <th>Comentario de respuesta</th>
+            </tr>
+            <tr>
+              <td><%=@cleanup_request.start_comments %></td>
+              <td> <%=@cleanup_request.response_comments%></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class='fluid-row'>
           <div class="control-group span11">
             <%= label_tag :employees_assigned, 'Empleados asignados' %>
             <p>
-              <% @cleanup_request.employees.each do |e| %>
-                <span class="label"><%= e.complete_name %></span>
+              <% if @cleanup_request.blank? %>
+                   <span class="label"> No se asignaron empleados</span>
+              <%else%>
+                <% @cleanup_request.employees.each do |e| %>
+                    <span class="label"><%= e.complete_name %></span>
+                <% end %>
               <% end %>
             </p>
           </div>

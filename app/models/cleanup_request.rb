@@ -3,7 +3,7 @@ require 'modules/utils_lib'
 class CleanupRequest < ActiveRecord::Base
   include Modules::UtilsLib
   #Nota: end_comments tiene los comentarios de finish o de delete dependiendo del caso.
-  attr_accessible :priority, :status, :room_id, :end_comments,
+  attr_accessible :priority, :status, :room_id, :request_type, :end_comments,
                   :requested_at, :requested_by, :start_comments,
                   :started_at, :started_by, :response_comments,
                   :finished_at, :finished_by,
@@ -84,6 +84,11 @@ class CleanupRequest < ActiveRecord::Base
       [['Baja',3],['Media',2], ['Alta',1]]
   end
 
+  #TODO: ver que este forma de abordar tipos es correcta. Otra idea seria usar prioridad como tipos (reemplazo)
+  def self.request_type_options
+    [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
+  end
+
   def get_status_str
     case self.status
       when 'pending'
@@ -126,11 +131,22 @@ class CleanupRequest < ActiveRecord::Base
   #Lapso entre que se comenzo a atender y que se termino la solicitud:
   #NOTA: si no se ha terminado, se toma la hora actual como al de termino
   def get_cleaning_time_str
-    end_datetime = Time.now
+    end_datetime = Time.current
     unless self.finished_at.blank?
       end_datetime = self.finished_at
     end
     get_time_diff_string(self.started_at, end_datetime)
+  end
+
+  def get_request_type_str
+    case self.request_type
+      when 'rutine'
+        'Rutina'
+      when 'normal'
+        'Normal'
+      else #when terminal
+        'Terminal'
+    end
   end
 
   def get_priority_str
@@ -154,6 +170,7 @@ class CleanupRequest < ActiveRecord::Base
     self.requested_by = user.id
 
     if self.requested_at.between?(Time.current-60,Time.current+60)
+      self.requested_at = Time.current
       active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
                                             "pending", "being-attended" ).first
       if active_request.blank?

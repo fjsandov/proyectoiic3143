@@ -54,6 +54,7 @@
             <tr>
               <th>Sala</th>
               <th>Hora Solicitud</th>
+              <th>Tipo</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
@@ -62,6 +63,7 @@
                  <tr class='priority-<%=unfinished_cr.priority %>'>
                   <td><%= unfinished_cr.room.name %></td>
                   <td><%= unfinished_cr.get_requested_at_smart_str %></td>
+                  <td><%= unfinished_cr.get_request_type_str %></td>
                   <td><%= unfinished_cr.get_status_str %></td>
                   <td><%= link_to 'Ver',limpieza_show_cleanup_request_path(:id => unfinished_cr.id),
                                   :class => 'btn btn-primary', 'data-modal'=>"true" %></td>
