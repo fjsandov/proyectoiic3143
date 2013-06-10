@@ -39,6 +39,11 @@ CUALimpieza::Application.routes.draw do
     put 'procesar_solicitud' => 'cleanup_popup#process_cleanup_request', :as => 'process_cleanup_request'
   end
 
+  namespace :api do
+    resources :rooms
+    get "rooms/sector/:id" => 'rooms#rooms_by_sector', :as => 'rooms_by_sector'
+  end
+
   namespace :personal do
     # Employees_Controller:
     get 'lista_empleados' => 'employees#list', :as => 'employees_list'

@@ -1,4 +1,4 @@
-<h1>Aseos terminales</h1>
+<h1>Aseos calendarizados</h1>
 
 <div id="calendar" style="margin-bottom: 40px"></div>
 
@@ -9,11 +9,11 @@
   <span class="fc-event cleanup-instance-finished">Instancia finalizada</span>
 </div>
 
-<h3>Reglas de aseo terminal</h3>
+<h3>Reglas de aseo</h3>
 
 <div style="margin-bottom: 20px">
   <a href='<%= limpieza_new_terminal_cleanup_path %>' class="btn btn-primary" data-modal="true">
-    <i class="icon-plus"> Crear regla de aseo terminal</i>
+    <i class="icon-plus"></i> Crear regla de aseo
   </a>
 </div>
 
@@ -30,12 +30,12 @@
   <tbody>
     <% @terminal_cleanups.each do |tc| %>
     <tr>
-      <td><%= tc.room.name %></td>
+      <td><%= tc.name %></td>
       <td><%= tc.start_date.strftime('%d-%m-%Y') %></td>
       <td><%= tc.interval %> días</td>
       <td><%= tc.comments %></td>
       <td><%= link_to limpieza_delete_terminal_cleanup_path + "?id=#{tc.id}", method: :delete,
-                      data: { confirm: '¿Eliminar esta regla de aseo terminal?' +
+                      data: { confirm: '¿Eliminar esta regla de aseo?' +
                               'Se conservarán los aseos en el pasado, pero no se agendarán nuevos aseos.' } do %>
             <i class="icon-trash"></i> Eliminar
           <% end %>
@@ -50,12 +50,14 @@
     color: white;
     font-weight: bold;
     border-radius: 3px;
+    cursor: hand;
 }
 
 .cleanup-instance-finished {
     color: white;
     background-color: gray;
     border-radius: 3px;
+    cursor: hand;
 }
 
 .cleanup-rule {
@@ -63,6 +65,7 @@
     font-weight: bold;
     font-style: italic;
     border-radius: 3px;
+    cursor: hand;
 }
 </style>
 

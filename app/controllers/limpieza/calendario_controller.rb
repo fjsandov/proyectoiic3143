@@ -40,7 +40,7 @@ class Limpieza::CalendarioController < ApplicationController
                   :id => "instance-#{tci.id}",
                   :eventType => 'instance',
                   :start => tci.instance_date,
-                  :title => tci.terminal_cleanup.room.name,
+                  :title => tci.terminal_cleanup.name,
                   :className => ' cleanup-instance-finished'
               }
             else
@@ -53,7 +53,7 @@ class Limpieza::CalendarioController < ApplicationController
                 :eventType => 'rule',
                 :start => rule_date,
                 :allDay => true,
-                :title => tc.room.name,
+                :title => tc.name,
                 :className => 'cleanup-rule'
             }
           end
@@ -76,7 +76,8 @@ class Limpieza::CalendarioController < ApplicationController
   def new
     @terminal_cleanup = TerminalCleanup.new
     @terminal_cleanup.start_date = Time.current
-    @requestable_rooms = Room.all
+    @sectors = Sector.all
+    #@requestable_rooms = @sectors.first.rooms
     render 'limpieza/terminal_cleanup_popup/new'
   end
 
@@ -87,7 +88,8 @@ class Limpieza::CalendarioController < ApplicationController
       render 'shared/modal_popup_success'
     else
       flash.now[:error] = 'No se ha podido crear el aseo terminal'
-      @requestable_rooms = Room.all
+      @sectors = Sector.all
+      #@requestable_rooms = @sectors.first.rooms
       render 'limpieza/terminal_cleanup_popup/new'
     end
   end
