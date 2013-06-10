@@ -27,9 +27,9 @@ class Personal::EmployeesController < ApplicationController
   end
 
   def update
-    if(params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id])))
-      flash.now[:error] = 'ERROR: No se debe cambiar el formulario'
-      render 'list'
+    if params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+      flash[:error] = 'ERROR: No se debe cambiar el formulario'
+      redirect_to :controller=>'personal/employees', :action => 'list'
     else
       @employee = Employee.find(params[:id])
 
