@@ -1,7 +1,7 @@
 class Employee < ActiveRecord::Base
   attr_accessible :birth_date, :children, :education_level, :equipment_date, :gender, :joined_at,
                   :last_name1, :last_name2, :marital_status, :name, :religion, :spouse_name, :spouse_occupation,
-                  :training, :uniform_date
+                  :training, :uniform_date, :occupation
 
   belongs_to :occupation
   has_and_belongs_to_many :terminal_cleanups
@@ -29,5 +29,15 @@ class Employee < ActiveRecord::Base
       end
     end
     cn
+  end
+
+  def get_occupation
+    aux = self.occupation
+    aux.blank? ? 'Ninguna' : aux.name
+  end
+
+  def get_status
+    #TODO: que diga si el empleado esta de vacaciones, permiso, en turno o atendiendo limpieza
+    'SIN IMPLEMENTAR'
   end
 end

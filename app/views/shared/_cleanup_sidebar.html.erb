@@ -1,27 +1,26 @@
 <div class="sidebar-nav well">
-  <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
   <ul class="nav nav-pills nav-stacked">
     <li class="nav-header">Módulo Limpieza</li>
     <li class="<%= "active" if @current_controller == "general" %>">
-      <%= link_to :controller => 'limpieza/general' do %>
+      <%= link_to limpieza_general_path do %>
           <i class="icon-home icon-<% if @current_controller == "general" %>white<% else %>black<% end %>"></i>
           General
       <% end %>
     </li>
     <li class="<%= "active" if @current_controller == "agenda" %>">
-      <%= link_to :controller => 'limpieza/agenda' do %>
+      <%= link_to limpieza_agenda_path do %>
           <i class="icon-book icon-<% if @current_controller == "agenda" %>white<% else %>black<% end %>"></i>
           Agenda diaria
       <% end %>
     </li>
     <li class="<%= "active" if @current_controller == "calendario" %>">
-      <%= link_to :controller => 'limpieza/calendario' do %>
+      <%= link_to limpieza_calendario_path do %>
           <i class="icon-calendar icon-<% if @current_controller == "calendario" %>white<% else %>black<% end %>"></i>
           Calendario
       <% end %>
     </li>
     <li class="<%= "active" if @current_controller == "rooms_view" %>">
-      <%= link_to :controller => 'limpieza/roomsView' do %>
+      <%= link_to limpieza_vista_salas_path do %>
           <i class="icon-th-large icon-<% if @current_controller == "rooms_view" %>white<% else %>black<% end %>"></i>
           Vista de Salas
       <% end %>

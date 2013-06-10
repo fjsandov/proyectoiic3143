@@ -1,46 +1,58 @@
 CUALimpieza::Application.routes.draw do
 
   namespace :limpieza do
-    get "general/index", :as => 'general'
+    get 'general/index', :as => 'general'
 
-    get "agenda" => "agenda#index"
-    get "agenda/index" => "agenda#index"
-    get "agenda/load_zone" => "agenda#load_zone"
+    get 'agenda' => 'agenda#index', :as =>'agenda'
+    get 'agenda/index' => 'agenda#index'
+    get 'agenda/load_zone' => 'agenda#load_zone'
 
-    get "calendario/index"
-    get "calendario/get_events"
+    get 'calendario/index', :as =>'calendario'
+    get 'calendario/get_events'
     # terminal cleanup
-    get "calendario/new", :as => 'new_terminal_cleanup'
-    post "calendario/create", :as => 'create_terminal_cleanup'
-    get "calendario/edit", :as => 'edit_terminal_cleanup'
-    put "calendario/update", :as => 'update_terminal_cleanup'
-    delete "calendario/destroy", :as => 'delete_terminal_cleanup'
+    get 'calendario/new', :as => 'new_terminal_cleanup'
+    post 'calendario/create', :as => 'create_terminal_cleanup'
+    get 'calendario/edit', :as => 'edit_terminal_cleanup'
+    put 'calendario/update', :as => 'update_terminal_cleanup'
+    delete 'calendario/destroy', :as => 'delete_terminal_cleanup'
     # terminal cleanup instance
-    get "calendario/new_tc_instance", :as => 'new_tc_instance'
-    post "calendario/create_tc_instance", :as => 'create_tc_instance'
-    get "calendario/edit_tc_instance", :as => 'edit_tc_instance'
-    put "calendario/update_tc_instance", :as => 'update_tc_instance'
+    get 'calendario/new_tc_instance', :as => 'new_tc_instance'
+    post 'calendario/create_tc_instance', :as => 'create_tc_instance'
+    get 'calendario/edit_tc_instance', :as => 'edit_tc_instance'
+    put 'calendario/update_tc_instance', :as => 'update_tc_instance'
 
-    get "vista_salas" => "roomsView#index"
-    get "vista_salas/index" => "roomsView#index"
-    get "vista_salas/load_zone" => "roomsView#load_zone"
-    get "vista_salas/load_sector" => "roomsView#load_sector"
+    get 'vista_salas' => 'roomsView#index', :as =>'vista_salas'
+    get 'vista_salas/index' => 'roomsView#index'
+    get 'vista_salas/load_zone' => 'roomsView#load_zone'
+    get 'vista_salas/load_sector' => 'roomsView#load_sector'
 
-    get "vista_salas/edit_room_status" => "roomsView#edit_room_status" , :as => "edit_room_status"
-    put "vista_salas/change_room_status" => "roomsView#change_room_status" , :as => "change_room_status"
-    get "vista_salas/edit_maintenance_room" => "roomsView#edit_maintenance_room", :as => "edit_maintenance_room"
-    put "vista_salas/finish_maintenance" => "roomsView#finish_maintenance", :as => "finish_maintenance"
+    get 'vista_salas/edit_room_status' => 'roomsView#edit_room_status' , :as => 'edit_room_status'
+    put 'vista_salas/change_room_status' => 'roomsView#change_room_status' , :as => 'change_room_status'
+    get 'vista_salas/edit_maintenance_room' => 'roomsView#edit_maintenance_room', :as => 'edit_maintenance_room'
+    put 'vista_salas/finish_maintenance' => 'roomsView#finish_maintenance', :as => 'finish_maintenance'
 
-    get "popup_nueva_solicitud" => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
-    post "crear_solicitud" => 'cleanup_popup#create', :as =>'create_cleanup_request'
+    get 'popup_nueva_solicitud' => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
+    post 'crear_solicitud' => 'cleanup_popup#create', :as =>'create_cleanup_request'
 
-    get "popup_solicitud/:id" => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
-    post "eliminar_solicitud" => 'cleanup_popup#delete', :as => 'delete_cleanup_request'
-    put "procesar_solicitud" => 'cleanup_popup#process_cleanup_request', :as => 'process_cleanup_request'
+    get 'popup_solicitud/:id' => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
+    post 'eliminar_solicitud' => 'cleanup_popup#delete', :as => 'delete_cleanup_request'
+    put 'procesar_solicitud' => 'cleanup_popup#process_cleanup_request', :as => 'process_cleanup_request'
   end
 
-  post "home/login"  => 'home#login', :as => 'login'
-  get "home/logout"  => 'home#logout', :as => 'logout'
+  namespace :personal do
+    # Employees_Controller:
+    get 'lista_empleados' => 'employees#list', :as => 'employees_list'
+    get 'nuevo_empleado' => 'employees#new', :as => 'new'
+    post 'crear_empleado' => 'employees#create', :as => 'create'
+    get 'editar_empleado/:id' => 'employees#edit', :as => 'edit'
+    put 'actualizar_empleado/:id' => 'employees#update', :as => 'update'
+
+    #------
+
+  end
+
+  post 'home/login'  => 'home#login', :as => 'login'
+  get 'home/logout'  => 'home#logout', :as => 'logout'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -89,11 +101,11 @@ CUALimpieza::Application.routes.draw do
   #     resources :products
   #   end
 
-  # You can have the root of your site routed with "root"
+  # You can have the root of your site routed with 'root'
   # just remember to delete public/index.html.
   root :to => 'home#index'
 
-  # See how all your routes lay out with "rake routes"
+  # See how all your routes lay out with 'rake routes'
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.

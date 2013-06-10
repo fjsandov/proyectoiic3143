@@ -18,8 +18,11 @@
           <a class="brand" href="#">CUALimpieza</a>
             <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
             <ul class="nav">
-              <li class="active"><%= link_to 'Limpieza', :controller => 'limpieza/general'  %></li>
-              <li><%= link_to 'Personal', '#'  %></li>
+              <% class_type = (@current_module == 'limpieza') ? 'active' : 'inactive' %>
+              <li class="<%= class_type %>"><%= link_to 'Limpieza', limpieza_general_path  %></li>
+              <% class_type = (@current_module == 'personal') ? 'active' : 'inactive' %>
+              <li class="<%= class_type %>"><%= link_to 'Personal', personal_employees_list_path  %></li>
+              <% class_type = (@current_module == 'inventario') ? 'active' : 'inactive' %>
               <li><%= link_to 'Inventario', '#'  %></li>
             </ul>
 
@@ -31,7 +34,7 @@
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to 'Mi cuenta', '#' %></li>
+                  <!--<li><%= link_to 'Mi cuenta', '#' %></li>-->
                   <li class="divider"></li>
                   <li><%= link_to 'Cerrar sesión', '/home/logout' %></li>
                 </ul>
@@ -44,7 +47,11 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
-          <%= render "shared/cleanup_sidebar" %>
+          <% if @current_module == 'limpieza' %>
+            <%= render 'shared/cleanup_sidebar' %>
+          <% elsif @current_module == 'personal' %>
+            <%= render 'shared/personal_sidebar'%>
+          <% end %>
         </div><!--/span-->
         <div class="span9">
           <%= bootstrap_flash %>

@@ -1,12 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :current_user, :set_controller_and_action, :session_control, :check_if_ajax_request
+  before_filter :current_user, :set_controller_action_and_module, :session_control, :check_if_ajax_request
   layout :check_if_display_layout
   force_ssl
 
-  def set_controller_and_action
+  def set_controller_action_and_module
     @current_action = action_name
     @current_controller = controller_name
+    @current_module = 'home'
+    unless params[:controller].index('/').blank?
+      @current_module = params[:controller][0,params[:controller].index('/')]
+    end
   end
 
 #---------------------------------------- Session Methods ----------------------------------------

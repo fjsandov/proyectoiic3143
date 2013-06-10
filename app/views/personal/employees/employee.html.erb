@@ -1,0 +1,89 @@
+<div class='fluid-row'>
+  <div class='span12'>
+    <h2><%= @is_new ? 'Nuevo Empleado' : 'Editando a '+@employee.complete_name%></h2>
+  </div>
+  <div class='span12'>
+    <% url_form = @is_new ? personal_create_path : personal_update_path(@employee) %>
+    <%= form_for @employee, :url => url_form do |f|%>
+        <% unless @is_new %>
+            <%= hidden_field_tag :sec, @sec %>
+        <%end%>
+
+        <div class="accordion" id="accordion_employee">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_employee" href="#collapseOne">
+                Datos Personales
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <div class="control-group form-horizontal">
+                  <%= f.label :name, 'Nombre', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :name %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :last_name1, 'Apellido Paterno', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :last_name1 %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :last_name2, 'Apellido Materno', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :last_name2 %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= label_tag :gender, 'Género', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.radio_button(:gender, 'male', :checked => (:gender == 'male')) %>Masculino
+                    <%= f.radio_button(:gender, 'female', :checked => (:gender == 'female')) %>Femenino
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :religion, 'Religión', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :religion %>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_employee" href="#collapseTwo">
+                Datos Familiares
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                FORMULARIO DE DATOS FAMILIARES
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_employee" href="#collapseThree">
+                Datos Laborales
+              </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+              <div class="accordion-inner">
+                FORMULARIO DE DATOS LABORALES
+              </div>
+            </div>
+          </div>
+        </div>
+        <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
+        <%= f.submit submit_str, :class => 'btn btn-primary pull-right' %>
+    <% end %>
+  </div>
+</div>
