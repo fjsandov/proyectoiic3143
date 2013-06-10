@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130609232309) do
+ActiveRecord::Schema.define(:version => 20130610035824) do
+
+  create_table "assistances", :force => true do |t|
+    t.datetime "date"
+    t.time     "start_time"
+    t.time     "entry_time"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -124,6 +132,28 @@ ActiveRecord::Schema.define(:version => 20130609232309) do
     t.string   "zone",       :null => false
   end
 
+  create_table "shifts", :force => true do |t|
+    t.string   "name"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.datetime "expiration_date"
+    t.boolean  "monday"
+    t.boolean  "tuesday"
+    t.boolean  "wednesday"
+    t.boolean  "thursday"
+    t.boolean  "friday"
+    t.boolean  "saturday"
+    t.boolean  "sunday"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "terminal_cleanup_instances", :force => true do |t|
     t.integer  "terminal_cleanup_id"
     t.datetime "instance_date"
@@ -145,9 +175,11 @@ ActiveRecord::Schema.define(:version => 20130609232309) do
     t.datetime "updated_at", :null => false
     t.datetime "start_date"
     t.datetime "end_date"
+    t.integer  "sector_id"
   end
 
   add_index "terminal_cleanups", ["room_id"], :name => "index_terminal_cleanups_on_room_id"
+  add_index "terminal_cleanups", ["sector_id"], :name => "index_terminal_cleanups_on_sector_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"
@@ -160,6 +192,14 @@ ActiveRecord::Schema.define(:version => 20130609232309) do
     t.string   "last_name1"
     t.string   "last_name2"
     t.string   "gender"
+  end
+
+  create_table "vacations", :force => true do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_vacation"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end
