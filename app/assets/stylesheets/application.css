@@ -36,6 +36,10 @@ span.legend-square
     text-align: center!important;
 }
 
+a .icon-black{
+ color: black!important;
+}
+
 @media (min-width:768px)
 {
     .row-fluid .sidebar-nav
@@ -46,7 +50,7 @@ span.legend-square
 
 .status-maintenance
 {
-    background-color: chocolate; //cafe
+    background-color: #FFAD33; //cafe
 }
 .status-free
 {
@@ -54,11 +58,11 @@ span.legend-square
 }
 .status-occupied
 {
-    background-color: #4A97BD;  //azul
+    background-color: rgb(10, 202, 195);  //azul
 }
 .status-cleaning
 {
-    background-color: #E9F300; //amarillo
+    background-color: #FFFF33; //amarillo
 }
 .status-pending
 {

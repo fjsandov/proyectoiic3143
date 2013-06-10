@@ -35,19 +35,24 @@ class CleanupRequest < ActiveRecord::Base
         inactive_cr.status = 'deleted'
         inactive_cr.deleted_at = Time.current
         inactive_cr.deleted_by = 1 #EL USUARIO QUE LO BORRA ES EL ADMIN.
+        comments = 'Solicitud eliminada por el sistema.'
         if inactive_cr.room.status == 'maintenance'
-          comments = 'Solicitud eliminada por el sistema.'
-          comments += 'Sala estaba en mantencion al momento de activar de esta solicitud'
+          log_comment = 'Sala estaba en mantencion al momento de intentar activar esta solicitud'
         else
-          comments = 'Solicitud eliminada por el sistema.'
-          comments += 'Sala tenia solicitudes activas al momento de activar de esta solicitud'
+          log_comment= 'Sala tenia solicitudes activas al momento de intentar activar esta solicitud'
         end
-        inactive_cr.end_comments = comments
+        comments += log_comment
+        inactive_cr.end_comments = comments,
+        message =  "El sistema ha eliminado una Solicitud de Limpieza de la sala " +
+                inactive_cr.room.name+". Esto ocurrio porque la "+log_comment
       else
         #Se puede activar sin preocupaciones
         inactive_cr.status = 'pending'
+        message = "El sistema ha activado una Solicitud de Limpieza de la sala " +
+                inactive_cr.room.name+" pedida por "+ inactive_cr.get_who_requested().complete_name
+
       end
-      inactive_cr.save
+      inactive_cr.save_with_log(User.find(1), message)
     end
   end
 
@@ -164,6 +169,18 @@ class CleanupRequest < ActiveRecord::Base
     User.find(self.requested_by)
   end
 
+  def get_who_finished
+    User.find(self.finished_by)
+  end
+
+  def get_who_deleted
+    User.find(self.deleted_by)
+  end
+
+  def get_who_started
+    User.find(self.started_by)
+  end
+
   def create_request(user)
     self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
     self.status = 'pending'
@@ -174,14 +191,16 @@ class CleanupRequest < ActiveRecord::Base
       active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
                                             "pending", "being-attended" ).first
       if active_request.blank?
-        self.save
+        message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
+        self.save_with_log(user, message)
       else
         self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala")
         false
       end
     else
       self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
-      self.save
+      message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
+      self.save_with_log(user, message)
     end
   end
 
@@ -189,7 +208,8 @@ class CleanupRequest < ActiveRecord::Base
     self.deleted_at = Time.current
     self.deleted_by = user.id
     self.status = 'deleted'
-    self.save
+    message = user.complete_name+" ha eliminado una Solicitud de Limpieza de la sala " + self.room.name
+    self.save_with_log(user, message)
   end
 
   def response_request(user,employees_assigned)
@@ -197,14 +217,16 @@ class CleanupRequest < ActiveRecord::Base
     self.started_by = user.id
     self.status = 'being-attended'
     self.employees = Employee.where('id in (?)',employees_assigned)
-    self.save
+    message = user.complete_name+" ha respondido una Solicitud de Limpieza de la sala " + self.room.name
+    self.save_with_log(user,message)
   end
 
   def finish_request(user)
     self.finished_at = Time.current
     self.finished_by = user.id
     self.status = 'finished'
-    self.save
+    message = user.complete_name + " ha finalizado una Solicitud de Limpieza de la sala " + self.room.name
+    self.save_with_log(user,message)
   end
 
   def change_room_status
@@ -221,6 +243,15 @@ class CleanupRequest < ActiveRecord::Base
         #NO HAGO NADA
     end
     self.room.save
+  end
+
+  def save_with_log(user,message)
+    if self.save
+      LogRecord.create(:user => user,:message => message)
+      true
+    else
+      false
+    end
   end
 
 end

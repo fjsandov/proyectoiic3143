@@ -23,7 +23,7 @@
         </div>
 
         <div class="control-group form-horizontal">
-          <%= f.label 'cleanup_request[request_type]', 'Urgencia', :class=>"control-label" %>
+          <%= f.label 'cleanup_request[request_type]', 'Tipo', :class=>"control-label" %>
           <div class="controls">
             <%= select_tag 'cleanup_request[request_type]', options_for_select(CleanupRequest.request_type_options),
                            {:selected => @cleanup_request.request_type} %>

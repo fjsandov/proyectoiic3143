@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528060012) do
+ActiveRecord::Schema.define(:version => 20130609232309) do
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
@@ -73,6 +73,15 @@ ActiveRecord::Schema.define(:version => 20130528060012) do
     t.integer "employee_id"
     t.integer "terminal_cleanup_id"
   end
+
+  create_table "log_records", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "message"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "log_records", ["user_id"], :name => "index_log_records_on_user_id"
 
   create_table "maintenance_records", :force => true do |t|
     t.integer  "room_id"
