@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1>Modificar Aseo Terminal</h1>
+  <h1>Modificar Aseo Agendado</h1>
 </div>
 <%= form_for @terminal_cleanup_instance, :url => limpieza_update_tc_instance_path, :html => {:class => 'form-horizontal'} do |f| %>
     <div class="modal-body">
@@ -9,10 +9,10 @@
       <%= f.hidden_field :id %>
 
       <div class="control-group">
-        <%= label_tag :room_id, 'Sala', :class => 'control-label' %>
+        <%= label_tag nil, 'Lugar', :class => 'control-label' %>
         <div class="controls">
           <span class="uneditable-input">
-            <%= @terminal_cleanup_instance.terminal_cleanup.room.name %>
+            <%= @terminal_cleanup_instance.terminal_cleanup.name %>
           </span>
         </div>
       </div>

@@ -19,6 +19,9 @@
 //= require select2
 //= require_tree .
 
+var check_interval = 15;
+var last_checked = 0;
+
 function init_yield_container(){
     var yield_container = $('#yield-container');
     var datepickers = $(".datepicker",yield_container);
@@ -69,5 +72,38 @@ $(
             formatLoadMore: function (pageNumber) { return "Cargando más resultados..."; },
             formatSearching: function () { return "Buscando..."; }
         });
+
+        // buscar notificaciones cada 15 segundos
+        last_checked = (new Date()).getTime() / 1000 | 0;
+        window.setTimeout(updateNotifications, check_interval * 1000);
     }
 )
+
+function updateNotifications() {
+    console.info('Buscando notificaciones...');
+    $.getJSON('/api/logs/show.json?start=' + last_checked, function(data) {
+        console.info('Encontrado ' + data.length + ' notificaciones.');
+        var $notif_template = $('#realtime-notification-template').clone();
+        $notif_template.attr('id', '');
+        $notif_template.removeClass('hide');
+
+        var $container = $('#realtime-notification-container');
+        $container.slideUp('slow', function() {
+            $container.empty();
+            // actualizar
+            for (var i = 0; i < data.length; i++) {
+                var $notif = $notif_template.clone();
+                $notif.append(data[i]['message']);
+                $container.append($notif);
+            }
+
+            $container.slideDown('slow');
+        }); // slideUp
+    }) // getJSON
+        .always(function() {
+            // volver a revisar en 15 segundos
+            window.setTimeout(updateNotifications, check_interval * 1000);
+        });
+
+    last_checked = (new Date()).getTime() / 1000 | 0;
+}

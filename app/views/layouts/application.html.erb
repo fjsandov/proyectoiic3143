@@ -55,6 +55,12 @@
         </div><!--/span-->
         <div class="span9">
           <%= bootstrap_flash %>
+
+          <div id="realtime-notification-container"></div>
+          <div id="realtime-notification-template" class="alert alert-info realtime-notification hide">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+          </div>
+
           <div id='yield-container'>
             <%= yield %>
           </div>

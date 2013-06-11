@@ -1,5 +1,7 @@
 CUALimpieza::Application.routes.draw do
 
+  get "logs/show_since"
+
   namespace :limpieza do
     get 'general/index', :as => 'general'
 
@@ -37,6 +39,13 @@ CUALimpieza::Application.routes.draw do
     get 'popup_solicitud/:id' => 'cleanup_popup#popup_cleanup_request_show', :as => 'show_cleanup_request'
     post 'eliminar_solicitud' => 'cleanup_popup#delete', :as => 'delete_cleanup_request'
     put 'procesar_solicitud' => 'cleanup_popup#process_cleanup_request', :as => 'process_cleanup_request'
+  end
+
+  namespace :api do
+    resources :rooms
+    get 'rooms/sector/:id' => 'rooms#rooms_by_sector', :as => 'rooms_by_sector'
+
+    get 'logs/show' => 'logs#show'
   end
 
   namespace :personal do

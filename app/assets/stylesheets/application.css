@@ -68,3 +68,8 @@ a .icon-black{
 {
     background-color: #E63030; //rojo
 }
+
+.realtime-notification {
+    position: fixed;
+    z-index: 9999;
+}

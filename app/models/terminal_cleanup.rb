@@ -1,11 +1,22 @@
 class TerminalCleanup < ActiveRecord::Base
-  attr_accessible :comments, :interval, :start_date, :end_date, :room_id
+  attr_accessible :comments, :interval, :start_date, :end_date, :room_id, :sector_id
 
+  belongs_to :sector
   belongs_to :room
   has_many :terminal_cleanup_instances
 
-  validates_presence_of :interval, :start_date, :room_id
+  validates_presence_of :interval, :start_date
+  validate :room_or_sector_is_present
 
+  def room_or_sector_is_present
+    if room_id.blank? && sector_id.blank?
+      errors[:base] << 'Se debe seleccionar un sector o una sala.'
+    end
+  end
+
+  def name
+    room ? room.name : sector.name
+  end
 
   def self.get_today_instances
     today = Date.today.to_time_in_current_zone
@@ -45,7 +56,7 @@ class TerminalCleanup < ActiveRecord::Base
                 :eventType => 'instance',
                 :id => tci.id,
                 :start => tci.instance_date,
-                :title => tci.terminal_cleanup.room.name,
+                :title => tci.terminal_cleanup.name,
             }
           else
             # es una excepcion de aseo
@@ -56,7 +67,7 @@ class TerminalCleanup < ActiveRecord::Base
               :eventType => 'rule',
               :id => tc.id,
               :start => rule_date,
-              :title => tc.room.name,
+              :title => tc.name,
           }
         end
 
@@ -71,7 +82,7 @@ class TerminalCleanup < ActiveRecord::Base
               :eventType => 'instance',
               :id => tci.id,
               :start => tci.instance_date,
-              :title => tci.terminal_cleanup.room.name,
+              :title => tci.terminal_cleanup.name,
           }
         end
       end

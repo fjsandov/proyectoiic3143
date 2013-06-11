@@ -1,10 +1,10 @@
 function show_modal(link_href){
+    var modal_popup = $('#modal-popup');
+    reset_modal_content(modal_popup);
     $.get(link_href, function(data) {
-        var modal_popup = $('#modal-popup');
-        reset_modal_content(modal_popup);
         $('#modal-content').html(data);
-        modal_popup.modal('show');
     });
+    modal_popup.modal('show');
 }
 
 function init_links_to_modal(){
