@@ -42,8 +42,40 @@
                 <div class="control-group form-horizontal">
                   <%= label_tag :gender, 'Género', :class=>'control-label' %>
                   <div class="controls">
-                    <%= f.radio_button(:gender, 'male', :checked => (:gender == 'male')) %>Masculino
-                    <%= f.radio_button(:gender, 'female', :checked => (:gender == 'female')) %>Femenino
+                    <%= f.radio_button(:gender, 'male', :checked => (@employee.gender == 'male')) %>Masculino
+                    <%= f.radio_button(:gender, 'female', :checked => (@employee.gender == 'female')) %>Femenino
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :marital_status, 'Estado Civil', :class=>"control-label" %>
+                  <div class="controls">
+                    <%= f.select :marital_status,
+                                 options_for_select(Employee.marital_status_options, @employee.marital_status),
+                                 {:prompt => 'Seleccione un estado'}
+                    %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :education_level, 'Formación Académica', :class=>"control-label" %>
+                  <div class="controls">
+                    <%= f.select :education_level,
+                                 options_for_select(Employee.education_level_options, @employee.education_level),
+                                 {:prompt => 'Seleccione un nivel'}
+                    %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :birth_date, 'Fecha de nacimiento', :class=>"control-label" %>
+                  <div class="controls">
+                    <div class="datepicker input-append date">
+                      <%= f.text_field :birth_date%>
+                      <span class="add-on">
+                         <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -65,7 +97,28 @@
             </div>
             <div id="collapseTwo" class="accordion-body collapse">
               <div class="accordion-inner">
-                FORMULARIO DE DATOS FAMILIARES
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :spouse_name, 'Nombre Cónyuge', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :spouse_name %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :spouse_occupation, 'Ocupación Cónyuge', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.text_field :spouse_occupation %>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :children, 'Número de Hijos', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.number_field :children, :min => 0 %>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -77,7 +130,59 @@
             </div>
             <div id="collapseThree" class="accordion-body collapse">
               <div class="accordion-inner">
-                FORMULARIO DE DATOS LABORALES
+
+                <div class="control-group form-horizontal">
+                  <%= label_tag 'employee[occupation_id]', 'Ocupación', :class=>"control-label" %>
+                  <div class="controls">
+                    <%= select_tag 'employee[occupation_id]',
+                                 options_for_select(Employee.occupation_options, @employee.occupation_id),
+                                 {:prompt => 'Seleccione una ocupación'}%>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :joined_at, 'Ingreso', :class=>"control-label" %>
+                  <div class="controls">
+                    <div class="datepicker input-append date">
+                      <%= f.text_field :joined_at%>
+                      <span class="add-on">
+                         <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :uniform_date, 'Entrega de Uniforme', :class=>"control-label" %>
+                  <div class="controls">
+                    <div class="datepicker input-append date">
+                      <%= f.text_field :uniform_date%>
+                      <span class="add-on">
+                         <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :equipment_date, 'Entrega de Equipo', :class=>"control-label" %>
+                  <div class="controls">
+                    <div class="datepicker input-append date">
+                      <%= f.text_field :equipment_date%>
+                      <span class="add-on">
+                         <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group form-horizontal">
+                  <%= f.label :training, 'Asistió a capacitación?', :class=>'control-label' %>
+                  <div class="controls">
+                    <%= f.check_box :training %>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>

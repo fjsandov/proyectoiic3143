@@ -1,7 +1,7 @@
 class Employee < ActiveRecord::Base
   attr_accessible :birth_date, :children, :education_level, :equipment_date, :gender, :joined_at,
                   :last_name1, :last_name2, :marital_status, :name, :religion, :spouse_name, :spouse_occupation,
-                  :training, :uniform_date, :occupation
+                  :training, :uniform_date, :occupation, :occupation_id
 
   belongs_to :occupation
   has_and_belongs_to_many :terminal_cleanups
@@ -20,6 +20,21 @@ class Employee < ActiveRecord::Base
     end
   end
 
+  def self.occupation_options
+    Occupation.all.collect do |occupation|
+      [occupation.name, occupation.id]
+    end
+  end
+
+  def self.marital_status_options
+    [['Soltero/a','single'],['Casado/a','married'], ['Divorciado/a','divorced'], ['Viudo/a','widower']]
+  end
+
+  def self.education_level_options
+    [['Basica','basica'],['Media','media'],['Tecnica','tecnica'],['Universitaria','universitaria'],['Otro','otro']]
+  end
+
+#----------------------metodos de instancia----------------------
   def complete_name
     cn = self.name
     unless self.last_name1.blank?
