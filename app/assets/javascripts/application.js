@@ -19,8 +19,10 @@
 //= require select2
 //= require_tree .
 
+// parametros realtime notifications
 var check_interval = 15;
 var last_checked = 0;
+var stop_checks = false;
 
 function init_yield_container(){
     var yield_container = $('#yield-container');
@@ -74,12 +76,16 @@ $(
         });
 
         // buscar notificaciones cada 15 segundos
-        last_checked = ((new Date()).getTime() / 1000 | 0) + check_interval;
-        window.setTimeout(updateNotifications, check_interval * 1000);
+        last_checked = (new Date()).getTime() / 1000 | 0;
+        updateNotifications();
     }
 )
 
+// esta funcion se llama a si misma (async) cada 15 segs.
 function updateNotifications() {
+    if (stop_checks)
+        return; // esto mata todos los updates futuros tambien
+
     console.info('Buscando notificaciones...');
     $.getJSON('/api/logs/show.json?start=' + last_checked, function(data) {
         console.info('Encontrado ' + data.length + ' notificaciones.');

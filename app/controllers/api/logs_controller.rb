@@ -5,6 +5,8 @@ class Api::LogsController < ApplicationController
     if !params[:start].nil?
       # Importante usar Time para respetar huso horario
       start_date = Time.at(params[:start].to_i)
+
+      # TODO: Crear param. para omitir logs del usuario actual
       @log_records = LogRecord.where('created_at >= ?', start_date).order('created_at DESC')
 
       respond_to do |format|
