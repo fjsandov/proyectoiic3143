@@ -74,7 +74,7 @@ $(
         });
 
         // buscar notificaciones cada 15 segundos
-        last_checked = (new Date()).getTime() / 1000 | 0;
+        last_checked = ((new Date()).getTime() / 1000 | 0) + check_interval;
         window.setTimeout(updateNotifications, check_interval * 1000);
     }
 )
