@@ -1,5 +1,7 @@
 CUALimpieza::Application.routes.draw do
 
+  get "logs/show_since"
+
   namespace :limpieza do
     get 'general/index', :as => 'general'
 
@@ -41,7 +43,9 @@ CUALimpieza::Application.routes.draw do
 
   namespace :api do
     resources :rooms
-    get "rooms/sector/:id" => 'rooms#rooms_by_sector', :as => 'rooms_by_sector'
+    get 'rooms/sector/:id' => 'rooms#rooms_by_sector', :as => 'rooms_by_sector'
+
+    get 'logs/show' => 'logs#show'
   end
 
   namespace :personal do
