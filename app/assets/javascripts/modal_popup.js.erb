@@ -2,7 +2,7 @@ function show_modal(link_href){
     var modal_popup = $('#modal-popup');
     reset_modal_content(modal_popup);
     $.get(link_href, function(data) {
-        $('#modal-content').html(data);
+        modal_replace_content(data, modal_popup);
     });
     modal_popup.modal('show');
 }
@@ -22,17 +22,15 @@ function init_links_to_modal(){
 
 function reset_modal_content(modal_popup){
     var default_modal_content = '<%= image_tag "cargando.gif", :class=>"loading-img"%>';
-    $('#modal-content').html(default_modal_content);
+    modal_popup.html(default_modal_content);
 }
 
 function modal_replace_content(data,modal_popup){
-    $('#modal-content').html(data);
-    init_modal_popup();
+    modal_popup.html(data);
+    init_modal_popup(modal_popup);
 }
 
-function init_modal_popup(){
-    var modal_popup = $('#modal-popup');
-
+function init_modal_popup(modal_popup){
     var datepickers = $(".datepicker",modal_popup);
     datepickers.datetimepicker({
         format: 'dd-MM-yyyy',
@@ -67,12 +65,9 @@ $(
         init_links_to_modal();
 
         var modal_popup = $('#modal-popup');
-        modal_popup.on('show', function () {
-            init_modal_popup();
-        });
 
         modal_popup.on('hidden',function(){
-            reset_modal_content($(this));
+            reset_modal_content(modal_popup);
             $('#yield-container').html('<%= image_tag "cargando.gif", :class=>"loading-img"%>');
             $.get(window.location.href, function(data) {
                 $('#yield-container').html(data);
