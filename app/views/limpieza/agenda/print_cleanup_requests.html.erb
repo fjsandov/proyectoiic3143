@@ -2,15 +2,15 @@
   <h1>Imprimir tareas del supervisor</h1>
 </div>
 
-<%= form_tag(limpieza_print_cleanup_requests_page_path, :method => :get) do %>
+<%= form_tag(limpieza_print_cleanup_requests_post_path, :method => :get) do %>
     <div class="modal-body">
       <%= bootstrap_flash %>
 
       <div class="control-group">
-        <%= label_tag :start_date, 'Fecha', :class => "control-label" %>
+        <%= label_tag :date, 'Fecha', :class => "control-label" %>
         <div class="controls">
           <div class="datepicker input-append date">
-            <%= text_field_tag :start_date, DateTime.current.strftime("%d-%m-%Y") %>
+            <%= text_field_tag :date, DateTime.current.strftime("%d-%m-%Y") %>
             <span class="add-on">
               <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
             </span>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="control-group">
-        <%= label_tag 'sector_id[]', 'Sectores a incluir', :class => 'control-label' %>
+        <%= label_tag 'sector_id[]', 'Sectores', :class => 'control-label' %>
         <div class="controls">
           <%= collection_select 'sector_id', nil, @sectors, :id, :name, {},
                                 {:multiple => true, :class => 'input-xxlarge select2' }  %>

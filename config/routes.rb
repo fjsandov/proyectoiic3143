@@ -9,6 +9,7 @@ CUALimpieza::Application.routes.draw do
     get 'agenda/index' => 'agenda#index'
     get 'agenda/load_zone' => 'agenda#load_zone'
     get 'agenda/print_cleanup_requests', :as => 'print_cleanup_requests'
+    get 'agenda/print_cleanup_requests_post', :as => 'print_cleanup_requests_post'
     get 'agenda/print_cleanup_requests_page', :as => 'print_cleanup_requests_page'
 
     post 'agenda/importar_excel' => 'agenda#import_excel', :as =>'import_excel'

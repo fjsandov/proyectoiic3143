@@ -110,6 +110,9 @@ $(
                         // a la pagina de fondo una vez se haya recargado su contenido
                         modal_popup.modal('hide');
                     }
+                    else if (data.lastIndexOf('REDIRECT:', 0) === 0) {
+                        window.location.href = data.substring(9); // 9 == 'REDIRECT:'.length
+                    }
                     else{
                         //Si no es OK, es porque es el contenido de un modal que debe cargarse en el mismo modal
                         modal_replace_content(data,modal_popup);

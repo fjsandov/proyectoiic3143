@@ -89,22 +89,21 @@ function updateNotifications() {
     console.info('Buscando notificaciones...');
     $.getJSON('/api/logs/show.json?start=' + last_checked, function(data) {
         console.info('Encontrado ' + data.length + ' notificaciones.');
-        var $notif_template = $('#realtime-notification-template').clone();
-        $notif_template.attr('id', '');
-        $notif_template.removeClass('hide');
+        if (data.length > 0) {
+            var $notif_template = $('<li><a><i class="icon-info-sign"></i> </a></li>');
+            var $container = $('#realtime-notification-container');
 
-        var $container = $('#realtime-notification-container');
-        $container.slideUp('slow', function() {
-            $container.empty();
+            // sacar mensaje de que no hay notificaciones
+            $('#dummy-notification').remove();
+
             // actualizar
             for (var i = 0; i < data.length; i++) {
                 var $notif = $notif_template.clone();
-                $notif.append(data[i]['message']);
-                $container.append($notif);
+                $notif.find('a').append(data[i]['message']);
+                $container.prepend($notif);
             }
-
-            $container.slideDown('slow');
-        }); // slideUp
+            $('#realtime-notification-counter').html($container.children().length);
+        }
     }) // getJSON
         .always(function() {
             // volver a revisar en 15 segundos

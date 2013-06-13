@@ -18,12 +18,32 @@ class Limpieza::AgendaController < ApplicationController
     @sectors = Sector.all
   end
 
+  # POST
+  def print_cleanup_requests_post
+    # El primer elem de sector_id[] es vacio (magia rails >_>)
+    if params[:sector_id] && params[:sector_id].count >= 2
+      params[:sector_id].delete_at(0)
+
+      params2 = { :sector_id => params[:sector_id], :date => params[:date] }
+      @redirect = url_for(:action => :print_cleanup_requests_page) + '?' + params2.to_param
+      render 'shared/modal_popup_redirect'
+    else
+      flash.now[:error] = 'Tiene que seleccionar al menos un sector.'
+      @sectors = Sector.all
+      render 'limpieza/agenda/print_cleanup_requests'
+    end
+  end
+
   def print_cleanup_requests_page
-    @sectors = Sector.where(:sector_id => params[:sector_id])
+    ids = params[:sector_id].map { |x| x.to_i }
+    @date = Time.zone.parse(params[:date]).to_date
+    @sectors = Sector.where(:id => ids)
     @cleanup_requests = []
     @sectors.each do |s|
-      @cleanup_requests << CleanupRequest.get_requests_from_sector(s, params[:date])
+      @cleanup_requests[s.id] = CleanupRequest.get_requests_from_sector(s, @date)
     end
+
+    render :layout => false
   end
 
   def import_excel
