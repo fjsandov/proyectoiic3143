@@ -6,6 +6,8 @@ class Room < ActiveRecord::Base
   has_many :cleanup_requests
   has_many :maintenance_records
 
+  validates_uniqueness_of :name
+
   #Salas sobre las que se puede realizar una solicitud de limpieza
   def self.get_cleanup_requestable_rooms
     #posible_status = ['free','maintenance','occupied']

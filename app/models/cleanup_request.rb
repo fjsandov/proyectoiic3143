@@ -1,4 +1,5 @@
 require 'modules/utils_lib'
+require 'roo'
 
 class CleanupRequest < ActiveRecord::Base
   include Modules::UtilsLib
@@ -100,6 +101,44 @@ class CleanupRequest < ActiveRecord::Base
   def self.request_type_options
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
   end
+
+  #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
+  def self.import_excel(user,file)
+    if spreadsheet = open_spreadsheet(file)
+      (2..spreadsheet.last_row).each do |i|
+        cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
+        cleanup_request.create_request(user)
+      end
+      true
+    else
+      false
+    end
+  end
+
+  def self.new_cleanup_request_from_row(row)
+    cleanup_request = CleanupRequest.new
+    cleanup_request.room = Room.find_by_name(row[0])
+    aux_time = row[1].to_s+' '+row[2].to_s
+    cleanup_request.requested_at = Time.parse(aux_time)
+    cleanup_request.priority = row[3]
+    case row[4]
+      when 1 then cleanup_request.request_type = 'rutine'
+      when 3 then cleanup_request.request_type = 'terminal'
+      else cleanup_request.request_type = 'normal'
+    end
+    cleanup_request
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+      when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+      when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+      else false
+    end
+  end
+
+  #------------------METODOS DE INSTANCIA-----------------
+
 
   def get_status_str
     case self.status

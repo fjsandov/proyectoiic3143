@@ -11,6 +11,8 @@ CUALimpieza::Application.routes.draw do
     get 'agenda/print_cleanup_requests', :as => 'print_cleanup_requests'
     get 'agenda/print_cleanup_requests_page', :as => 'print_cleanup_requests_page'
 
+    post 'agenda/importar_excel' => 'agenda#import_excel', :as =>'import_excel'
+
     get 'calendario/index', :as =>'calendario'
     get 'calendario/get_events'
     # terminal cleanup

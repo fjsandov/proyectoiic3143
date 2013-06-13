@@ -25,4 +25,14 @@ class Limpieza::AgendaController < ApplicationController
       @cleanup_requests << CleanupRequest.get_requests_from_sector(s, params[:date])
     end
   end
+
+  def import_excel
+    if CleanupRequest.import_excel(@current_user, params[:excel])
+      flash[:notice] = 'Se han creado las solicitudes de limpieza exitosamente desde el excel'
+    else
+      flash[:error] = 'Error al importar excel. Favor revisar formato de
+                          archivo y exitencia de las salas en el sistema'
+    end
+    redirect_to :controller => 'limpieza/agenda', :action => :index
+  end
 end

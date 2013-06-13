@@ -189,6 +189,7 @@
         </div>
         <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
         <%= f.submit submit_str, :class => 'btn btn-primary pull-right' %>
+        <%= link_to 'Volver a lista', personal_employees_list_path, :class => 'btn btn-primary' %>
     <% end %>
   </div>
 </div>

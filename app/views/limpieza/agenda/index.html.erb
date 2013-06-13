@@ -19,15 +19,44 @@
   </div>
   <div class="span4">
     <div id="calendar_for_agenda" class="datepicker span12"></div>
-    <% if Room.exist_requestable_rooms? %>
-        <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true' class='btn span12'>
-          <i class="icon-plus"></i> Agregar solicitud de limpieza
+    <div>
+        <% if Room.exist_requestable_rooms? %>
+            <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true' class='btn span12'>
+              <i class="icon-plus"></i> Agregar solicitud de limpieza
+            </a>
+        <%end%>
+
+        <a href='<%= limpieza_print_cleanup_requests_path %>' data-modal='true' class='btn span12'>
+          <i class="icon-print"></i> Imprimir tareas supervisor
         </a>
-    <%end%>
-    <button class="btn span12"><i class="icon-folder-open"></i> Importar Excel de altas</button>
-    <a href='<%= limpieza_print_cleanup_requests_path %>' data-modal='true' class='btn span12'>
-      <i class="icon-print"></i> Imprimir tareas supervisor
-    </a>
+    </div>
+
+    <div class="accordion" id="accordionExcel">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionExcel" href="#collapseOne">
+            <i class="icon-print"></i> Importar Excel de altas
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <%= form_tag limpieza_import_excel_path, :multipart => true do %>
+                <div class="control-group">
+                  <%= label_tag :excel, 'Archivo excel', :class => "control-label" %>
+                  <div class="controls">
+                    <%= file_field_tag :excel, :required => true,
+                                       :accept => 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' %>
+                  </div>
+                </div>
+                <%= submit_tag 'Importar', :class => 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 </div>
 <% if @is_ajax_request %>

@@ -19,6 +19,9 @@ gem 'whenever', :require => false
 
 gem 'mysql2'
 
+# Importacion de Excel
+gem 'roo'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -48,10 +51,10 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use debugger
 # gem 'debugger'
 
-group :test do
-  if RUBY_PLATFORM =~ /(win32|w32)/
-    gem "win32console", '1.3.0'
-  end
-  gem "minitest"
-  gem "minitest-reporters", '>= 0.5.0'
-end
+#group :test do
+#  if RUBY_PLATFORM =~ /(win32|w32)/
+#    gem "win32console", '1.3.0'
+#  end
+#  gem "minitest"
+#  gem "minitest-reporters", '>= 0.5.0'
+#end

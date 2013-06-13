@@ -175,9 +175,11 @@ ActiveRecord::Schema.define(:version => 20130610035824) do
     t.datetime "updated_at", :null => false
     t.datetime "start_date"
     t.datetime "end_date"
+    t.integer  "sector_id"
   end
 
   add_index "terminal_cleanups", ["room_id"], :name => "index_terminal_cleanups_on_room_id"
+  add_index "terminal_cleanups", ["sector_id"], :name => "index_terminal_cleanups_on_sector_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"
