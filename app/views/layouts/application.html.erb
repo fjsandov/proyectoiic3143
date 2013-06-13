@@ -18,6 +18,17 @@
           <a class="brand" href="#">CUALimpieza</a>
             <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
             <ul class="nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-asterisk"></i>
+                  <span id="realtime-notification-counter" class="badge badge-success"></span>
+                  <b class="caret"></b>
+                </a>
+                <ul id="realtime-notification-container" class="dropdown-menu">
+                  <li id="dummy-notification" class="disabled"><a><i class="icon-ok-sign"></i> No hay actividad reciente.</a></li>
+                </ul>
+              </li>
+              <li class="divider-vertical"></li>
               <% class_type = (@current_module == 'limpieza') ? 'active' : 'inactive' %>
               <li class="<%= class_type %>"><%= link_to 'Limpieza', limpieza_general_path  %></li>
               <% class_type = (@current_module == 'personal') ? 'active' : 'inactive' %>
@@ -55,12 +66,6 @@
         </div><!--/span-->
         <div class="span9">
           <%= bootstrap_flash %>
-
-          <div id="realtime-notification-container"></div>
-          <div id="realtime-notification-template" class="alert alert-info hide">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-          </div>
-
           <div id='yield-container'>
             <%= yield %>
           </div>

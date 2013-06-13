@@ -69,17 +69,6 @@ a .icon-black{
     background-color: #E63030; /* rojo */
 }
 
-#realtime-notification-container {
-    position: fixed;
-    background: rgba(96, 96, 96, 0.67);
-    border-radius: 4px;
-    z-index: 9999;
-}
-
-#realtime-notification-container .alert {
-    margin: 10px;
-}
-
 /* Usado cuando hay que mostrar un error 500 de Rails en un popup */
 .modal-popup-error-wrapper {
     padding: 10px;
