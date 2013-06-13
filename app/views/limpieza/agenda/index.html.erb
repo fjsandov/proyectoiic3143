@@ -25,7 +25,9 @@
         </a>
     <%end%>
     <button class="btn span12"><i class="icon-folder-open"></i> Importar Excel de altas</button>
-    <button class="btn span12"><i class="icon-print"></i> Imprimir tareas supervisor</button>
+    <a href='<%= limpieza_print_cleanup_requests_path %>' data-modal='true' class='btn span12'>
+      <i class="icon-print"></i> Imprimir tareas supervisor
+    </a>
   </div>
 </div>
 <% if @is_ajax_request %>

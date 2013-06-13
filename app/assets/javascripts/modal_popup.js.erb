@@ -3,6 +3,11 @@ function show_modal(link_href){
     reset_modal_content(modal_popup);
     $.get(link_href, function(data) {
         modal_replace_content(data, modal_popup);
+    })
+        .error(function (jqXHR, textStatus, errorThrown) {
+                console.error("OCURRIO EL SIGUIENTE ERROR: ", errorThrown);
+                modal_replace_content('<div class="modal-popup-error-wrapper">' +
+                        jqXHR.responseText + '</div>', modal_popup);
     });
     modal_popup.modal('show');
 }
@@ -111,7 +116,7 @@ $(
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown){
-                    console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
+                    console.error("OCURRIO EL SIGUIENTE ERROR: ", errorThrown);
                 }
             });
         });

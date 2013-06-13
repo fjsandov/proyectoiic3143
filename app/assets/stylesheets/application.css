@@ -79,3 +79,10 @@ a .icon-black{
 #realtime-notification-container .alert {
     margin: 10px;
 }
+
+/* Usado cuando hay que mostrar un error 500 de Rails en un popup */
+.modal-popup-error-wrapper {
+    padding: 10px;
+    height: 500px;
+    overflow: scroll;
+}

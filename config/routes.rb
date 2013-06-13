@@ -8,6 +8,8 @@ CUALimpieza::Application.routes.draw do
     get 'agenda' => 'agenda#index', :as =>'agenda'
     get 'agenda/index' => 'agenda#index'
     get 'agenda/load_zone' => 'agenda#load_zone'
+    get 'agenda/print_cleanup_requests', :as => 'print_cleanup_requests'
+    get 'agenda/print_cleanup_requests_page', :as => 'print_cleanup_requests_page'
 
     get 'calendario/index', :as =>'calendario'
     get 'calendario/get_events'

@@ -81,8 +81,15 @@ class CleanupRequest < ActiveRecord::Base
         where('Date(started_at) = ?', Time.zone.today)
   end
 
-  def self.get_today_request_from_sector(sector)
-    CleanupRequest.joins(:room).get_today_request().where('rooms.sector_id' => sector.id)
+  # Solicitudes no finalizadas para la fecha indicada
+  def self.get_requests_for_date(date)
+    CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
+        where('Date(started_at) = ?', date)
+  end
+
+  # Solicitudes no finalizadas para el sector y fecha indicadas
+  def self.get_requests_from_sector(sector, date)
+    CleanupRequest.joins(:room).get_requests_for_date(date).where('rooms.sector_id' => sector.id)
   end
 
   def self.priority_options
