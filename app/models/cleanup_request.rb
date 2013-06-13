@@ -1,8 +1,11 @@
 require 'modules/utils_lib'
+require 'modules/logger'
 require 'roo'
 
 class CleanupRequest < ActiveRecord::Base
   include Modules::UtilsLib
+  include Modules::Logger
+
   #Nota: end_comments tiene los comentarios de finish o de delete dependiendo del caso.
   attr_accessible :priority, :status, :room_id, :request_type, :end_comments,
                   :requested_at, :requested_by, :start_comments,
@@ -19,8 +22,11 @@ class CleanupRequest < ActiveRecord::Base
 
   after_save :change_room_status
 
-  ##---------------------VALIDACIONES-------------------##
+  ##--------------------------------------------VALIDACIONES--------------------------------------------##
   validates_presence_of :room_id, :priority, :status
+
+
+  ##--------------------------------------------METODOS DE CLASE--------------------------------------------##
 
   # Método estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
   # y no hay ninguna activa
@@ -103,6 +109,7 @@ class CleanupRequest < ActiveRecord::Base
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
   end
 
+  ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
   #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
   def self.import_excel(user,file)
     if spreadsheet = open_spreadsheet(file)
@@ -138,8 +145,7 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
-  #------------------METODOS DE INSTANCIA-----------------
-
+  ##--------------------------------------------METODOS DE INSTANCIA--------------------------------------------##
 
   def get_status_str
     case self.status
@@ -290,15 +296,6 @@ class CleanupRequest < ActiveRecord::Base
         #NO HAGO NADA
     end
     self.room.save
-  end
-
-  def save_with_log(user,message)
-    if self.save
-      LogRecord.create(:user => user,:message => message)
-      true
-    else
-      false
-    end
   end
 
 end

@@ -32,7 +32,7 @@
         <%= f.label :instance_date, 'Fecha realización', :class => "control-label" %>
         <div class="controls">
           <div class="datetimepicker input-append date">
-            <%= f.text_field :instance_date, :value => @terminal_cleanup_instance.instance_date ? @terminal_cleanup_instance.instance_date.strftime("%d-%m-%Y %I:%M %p") : '' %>
+            <%= f.text_field :instance_date, :value => @terminal_cleanup_instance.formatted_instance_date %>
             <span class="add-on">
               <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
             </span>
