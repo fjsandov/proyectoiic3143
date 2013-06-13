@@ -83,8 +83,9 @@ class CleanupRequest < ActiveRecord::Base
 
   # Solicitudes no finalizadas para la fecha indicada
   def self.get_requests_for_date(date)
-    CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
-        where('Date(started_at) = ?', date)
+    CleanupRequest.where("cleanup_requests.status IN (?)", ["pending", "being-attended", "inactive"])
+      .where('Date(started_at) = ?', date)
+      .order('started_at ASC')
   end
 
   # Solicitudes no finalizadas para el sector y fecha indicadas
