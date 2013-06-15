@@ -113,9 +113,12 @@ class CleanupRequest < ActiveRecord::Base
   #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
   def self.import_excel(user,file)
     if spreadsheet = open_spreadsheet(file)
-      (2..spreadsheet.last_row).each do |i|
-        cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
-        cleanup_request.create_request(user)
+      #Transaccion. O se cargan todas o ninguna.
+      ActiveRecord::Base.transaction do
+        (2..spreadsheet.last_row).each do |i|
+          cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
+          cleanup_request.create_request(user)
+        end
       end
       true
     else
@@ -126,13 +129,14 @@ class CleanupRequest < ActiveRecord::Base
   def self.new_cleanup_request_from_row(row)
     cleanup_request = CleanupRequest.new
     cleanup_request.room = Room.find_by_name(row[0])
-    aux_time = row[1].to_s+' '+row[2].to_s
+    aux_time = row[1].to_s+' '+Time.at(row[2]).utc.strftime("%I:%M%p").to_s
     cleanup_request.requested_at = Time.parse(aux_time)
     cleanup_request.priority = row[3]
     case row[4]
       when 1 then cleanup_request.request_type = 'rutine'
+      when 2 then cleanup_request.request_type = 'normal'
       when 3 then cleanup_request.request_type = 'terminal'
-      else cleanup_request.request_type = 'normal'
+      else raise 'Invalid request_type on a CleanupRequest'
     end
     cleanup_request
   end

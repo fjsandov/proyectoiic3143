@@ -47,12 +47,18 @@ class Limpieza::AgendaController < ApplicationController
   end
 
   def import_excel
-    if CleanupRequest.import_excel(@current_user, params[:excel])
-      flash[:notice] = 'Se han creado las solicitudes de limpieza exitosamente desde el excel'
-    else
+    begin
+      if CleanupRequest.import_excel(@current_user, params[:excel])
+        flash[:notice] = 'Se han creado las solicitudes de limpieza exitosamente desde el excel'
+      else
+        flash[:error] = 'Error al importar excel. Favor revisar formato de
+                          archivo y exitencia de las salas en el sistema'
+      end
+    rescue Exception
       flash[:error] = 'Error al importar excel. Favor revisar formato de
                           archivo y exitencia de las salas en el sistema'
     end
+
     redirect_to :controller => 'limpieza/agenda', :action => :index
   end
 end

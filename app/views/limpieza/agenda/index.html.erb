@@ -40,9 +40,10 @@
         </div>
         <div id="collapseOne" class="accordion-body collapse">
           <div class="accordion-inner">
+            <%= link_to 'Descargar Excel Base', '/Solicitudes_de_Limpieza.xlsx', :class=>'btn' %>
             <%= form_tag limpieza_import_excel_path, :multipart => true do %>
                 <div class="control-group">
-                  <%= label_tag :excel, 'Archivo excel', :class => "control-label" %>
+                  <%= label_tag :excel, 'Excel a importar', :class => "control-label" %>
                   <div class="controls">
                     <%= file_field_tag :excel, :required => true,
                                        :accept => 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' %>
