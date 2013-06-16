@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Employee < ActiveRecord::Base
   attr_accessible :birth_date, :children, :education_level, :equipment_date, :gender, :joined_at,
                   :last_name1, :last_name2, :marital_status, :name, :religion, :spouse_name, :spouse_occupation,
@@ -54,5 +55,15 @@ class Employee < ActiveRecord::Base
   def get_status
     #TODO: que diga si el empleado esta de vacaciones, permiso, en turno o atendiendo limpieza
     'SIN IMPLEMENTAR'
+  end
+
+  def get_work_history
+    self.assistances.order('date DESC')
+  end
+
+  def get_cleaning_history
+    aux = CleanupRequest.joins(:employees).where('employees.id = ? and
+                              cleanup_requests.status = ?',self.id,'finished')
+    aux.order('requested_at DESC')
   end
 end

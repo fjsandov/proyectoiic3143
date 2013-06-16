@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddSectorIdToTerminalCleanups < ActiveRecord::Migration
   def change
     add_column :terminal_cleanups, :sector_id, :integer

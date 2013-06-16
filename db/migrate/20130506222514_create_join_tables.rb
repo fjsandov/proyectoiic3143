@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateJoinTables < ActiveRecord::Migration
   def change
     create_table :cleanup_requests_employees, :id => false do |t|

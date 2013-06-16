@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'modules/utils_lib'
 
 class LogRecord < ActiveRecord::Base

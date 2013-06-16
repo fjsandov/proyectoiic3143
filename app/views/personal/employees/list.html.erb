@@ -7,6 +7,8 @@
           <% end %>
         </h2>
 
+        <br>
+
         <% if @employees.blank? %>
             <h6>No se han creado empleados</h6>
         <% else %>
@@ -26,7 +28,17 @@
                     <td><%= employee.last_name2 %></td>
                     <td><%= employee.get_occupation %></td>
                     <td><%= employee.get_status %></td>
-                    <td><%= link_to 'Editar', personal_edit_path(employee)%></td>
+                    <td>
+                      <%= link_to personal_edit_path(employee) do%>
+                          <i class="icon-pencil icon-black"></i>
+                      <% end %>
+                      <%= link_to personal_work_history_path(employee) do%>
+                          <i class="icon-briefcase icon-black"></i>
+                      <% end %>
+                      <%= link_to personal_cleaning_history_path(employee) do%>
+                          <i class="icon-list-alt icon-black"></i>
+                      <% end %>
+                    </td>
                   </tr>
               <% end %>
 

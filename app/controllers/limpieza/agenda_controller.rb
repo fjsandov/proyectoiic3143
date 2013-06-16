@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Limpieza::AgendaController < ApplicationController
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }

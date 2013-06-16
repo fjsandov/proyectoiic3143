@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddDeleteFieldsToCleanupRequest < ActiveRecord::Migration
   def change
     add_column :cleanup_requests, :deleted_by, :integer, references: :users

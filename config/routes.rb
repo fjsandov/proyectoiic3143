@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 CUALimpieza::Application.routes.draw do
 
   get "logs/show_since"
@@ -60,6 +61,9 @@ CUALimpieza::Application.routes.draw do
     post 'crear_empleado' => 'employees#create', :as => 'create'
     get 'editar_empleado/:id' => 'employees#edit', :as => 'edit'
     put 'actualizar_empleado/:id' => 'employees#update', :as => 'update'
+
+    get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
+    get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
 
     #------
 

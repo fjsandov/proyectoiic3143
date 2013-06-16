@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :current_user, :set_controller_action_and_module, :session_control, :check_if_ajax_request

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateTerminalCleanupInstances < ActiveRecord::Migration
   def change
     create_table :terminal_cleanup_instances do |t|

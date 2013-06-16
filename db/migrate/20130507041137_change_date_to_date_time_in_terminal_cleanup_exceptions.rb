@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ChangeDateToDateTimeInTerminalCleanupExceptions < ActiveRecord::Migration
   def change
     remove_column :terminal_cleanup_exceptions, :exception_date

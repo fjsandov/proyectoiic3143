@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Assistance < ActiveRecord::Base
   attr_accessible :date, :entry_time, :start_time
 

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Personal::EmployeesController < ApplicationController
   def list
     @employees = Employee.all
@@ -43,4 +44,15 @@ class Personal::EmployeesController < ApplicationController
       render 'employee'
     end
   end
+
+  def work_history
+    @employee = Employee.find(params[:id])
+    @employee_work_history = @employee.get_work_history.paginate(:page => params[:page], :per_page => 15)
+  end
+
+  def cleaning_history
+    @employee = Employee.find(params[:id])
+    @employee_cleaning_history = @employee.get_cleaning_history.paginate(:page => params[:page], :per_page => 15)
+  end
+
 end

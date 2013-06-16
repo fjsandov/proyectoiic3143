@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateMaintenanceRecords < ActiveRecord::Migration
   def change
     create_table :maintenance_records do |t|

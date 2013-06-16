@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Limpieza::CleanupPopupController < ApplicationController
   def popup_cleanup_request_new
     @cleanup_request = CleanupRequest.new

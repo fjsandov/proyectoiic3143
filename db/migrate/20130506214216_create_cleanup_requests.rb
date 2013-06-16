@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateCleanupRequests < ActiveRecord::Migration
   def change
     create_table :cleanup_requests do |t|

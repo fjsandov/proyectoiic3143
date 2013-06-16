@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'modules/logger'
 
 class TerminalCleanupInstance < ActiveRecord::Base

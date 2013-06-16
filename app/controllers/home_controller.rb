@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class HomeController < ApplicationController
   def index
   end
@@ -8,11 +9,11 @@ class HomeController < ApplicationController
         session_restart(user)
         success = true
       else
-        flash[:error] = "Cuenta deshabilitada. Para reactivar contactar a Jefe de Servicio de Aseo y Limpieza"
+        flash[:error] = 'Cuenta deshabilitada. Para reactivar contactar a Jefe de Servicio de Aseo y Limpieza'
         success = false
       end
     else
-      flash[:error] = "Revise que su nombre de usuario y contrasena esten escritos correctamente "
+      flash[:error] = 'Revise que su nombre de usuario y contrasena esten escritos correctamente'
       success = false
     end
 
@@ -21,7 +22,7 @@ class HomeController < ApplicationController
 
   def logout
     session_end
-    flash[:notice] = "Sesion terminada."
+    flash[:notice] = 'Sesión terminada'
     render 'index'
   end
 

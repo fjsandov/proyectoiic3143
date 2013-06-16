@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::LogsController < ApplicationController
 
   # GET /api/logs/show.json?start=123456790

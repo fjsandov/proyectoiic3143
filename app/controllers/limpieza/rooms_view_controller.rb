@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Limpieza::RoomsViewController < ApplicationController
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }

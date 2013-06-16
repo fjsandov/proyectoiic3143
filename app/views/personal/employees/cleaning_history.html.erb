@@ -1,0 +1,37 @@
+<div class="row-fluid">
+  <div class="span12">
+    <ul class="breadcrumb">
+      <li><a href=<%= personal_employees_list_path %>>Lista de Empleados</a> <span class="divider">/</span></li>
+      <li class="active">Historial de Limpieza</li>
+    </ul>
+    <h3>
+      Historial de Limpieza de <%= link_to @employee.complete_name, personal_edit_path(@employee)%>
+    </h3>
+
+    <% if @employee_cleaning_history.blank? %>
+        <h6>Empleado no ha realizado limpiezas</h6>
+    <% else %>
+        <table class='table table-striped table-bordered'>
+          <tr>
+            <th>Día</th>
+            <th>Sector</th>
+            <th>Sala</th>
+            <th>Hora inicio</th>
+            <th>Hora fin</th>
+            <th>Demora</th>
+          </tr>
+          <% @employee_cleaning_history.each do |cleaning_record| %>
+              <tr>
+                <td><%= cleaning_record.get_started_at_day %></td>
+                <td><%= cleaning_record.room.sector.name %></td>
+                <td><%= cleaning_record.room.name %></td>
+                <td><%= cleaning_record.get_started_at_hour %></td>
+                <td><%= cleaning_record.get_closed_at_hour %></td>
+                <td><%= cleaning_record.get_cleaning_time_str %></td>
+              </tr>
+          <% end %>
+        </table>
+        <%= will_paginate @employee_cleaning_history %>
+    <% end %>
+  </div>
+</div>

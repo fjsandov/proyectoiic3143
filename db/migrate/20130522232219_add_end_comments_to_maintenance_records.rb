@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddEndCommentsToMaintenanceRecords < ActiveRecord::Migration
   def change
     add_column :maintenance_records, :end_comments, :string

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateAssistances < ActiveRecord::Migration
   def change
     create_table :assistances do |t|

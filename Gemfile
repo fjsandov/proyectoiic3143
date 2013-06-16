@@ -39,6 +39,12 @@ gem 'jquery-rails'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
+# Paginacion
+gem 'will_paginate', '~> 3.0.0'
+
+#UTF-8 Encoding
+gem 'magic_encoding'
+
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 

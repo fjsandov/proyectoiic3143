@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Api::RoomsController < ApplicationController
 
   # GET /api/rooms/1.json

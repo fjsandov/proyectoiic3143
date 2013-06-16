@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateTerminalCleanupExceptions < ActiveRecord::Migration
   def change
     create_table :terminal_cleanup_exceptions do |t|

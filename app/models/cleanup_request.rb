@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'modules/utils_lib'
 require 'modules/logger'
 require 'roo'
@@ -183,6 +184,19 @@ class CleanupRequest < ActiveRecord::Base
     else
       self.get_formatted_datetime(self.started_at)
     end
+  end
+
+  def get_started_at_day
+    started_at.strftime("%d-%m-%Y")
+  end
+
+  def get_started_at_hour
+    started_at.strftime("%H:%M")
+  end
+
+  def get_closed_at_hour
+    close_hour = (self.status == 'finished') ? self.finished_at : self.deleted_at
+    close_hour.strftime("%H:%M")
   end
 
   #Lapso entre que se solicito y se respondio la solicitud:

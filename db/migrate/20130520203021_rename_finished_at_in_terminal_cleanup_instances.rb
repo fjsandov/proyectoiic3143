@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class RenameFinishedAtInTerminalCleanupInstances < ActiveRecord::Migration
   def change
     rename_column :terminal_cleanup_instances, :finished_at, :instance_date

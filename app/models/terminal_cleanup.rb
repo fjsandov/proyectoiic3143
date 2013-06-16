@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class TerminalCleanup < ActiveRecord::Base
   attr_accessible :comments, :interval, :start_date, :end_date, :room_id, :sector_id
 

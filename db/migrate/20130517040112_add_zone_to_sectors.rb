@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddZoneToSectors < ActiveRecord::Migration
   def change
     add_column :sectors, :zone, :string, :null => false
