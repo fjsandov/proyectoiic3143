@@ -171,7 +171,7 @@ class CleanupRequest < ActiveRecord::Base
   # y timestamp con dia y hora en caso de no ser del mismo dia de la consulta.
   def get_requested_at_smart_str
     if Time.current.to_date == self.requested_at.to_date
-      requested_at.strftime("%H:%M")
+      get_formatted_time(self.requested_at)
     else
       get_formatted_datetime(self.requested_at)
     end
@@ -180,23 +180,23 @@ class CleanupRequest < ActiveRecord::Base
   # Idem al de request pero con started
   def get_started_at_smart_str
     if Time.current.to_date == self.started_at.to_date
-      started_at.strftime("%H:%M")
+      get_formatted_time(self.started_at)
     else
-      self.get_formatted_datetime(self.started_at)
+      get_formatted_datetime(self.started_at)
     end
   end
 
   def get_started_at_day
-    started_at.strftime("%d-%m-%Y")
+    get_formatted_day(started_at)
   end
 
   def get_started_at_hour
-    started_at.strftime("%H:%M")
+    get_formatted_time(started_at)
   end
 
   def get_closed_at_hour
     close_hour = (self.status == 'finished') ? self.finished_at : self.deleted_at
-    close_hour.strftime("%H:%M")
+    get_formatted_time(close_hour)
   end
 
   #Lapso entre que se solicito y se respondio la solicitud:

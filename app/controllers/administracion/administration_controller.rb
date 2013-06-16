@@ -1,0 +1,71 @@
+# -*- encoding : utf-8 -*-
+class Administracion::AdministrationController < ApplicationController
+  def list
+    @users = User.all
+    render 'index'
+  end
+
+  def new
+    @user = User.new
+    @is_new = true
+    render 'user'
+  end
+
+  def create
+    @user = User.new(params[:user])
+    if @user.save
+      flash[:notice] = 'Usuario creado exitosamente'
+      redirect_to :controller => 'administracion/administracion', :action => 'index'
+    else
+      @is_new = true
+      render 'user'
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+    @is_new = false
+    @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+    render 'user'
+  end
+
+  def update
+    if params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+      flash[:error] = 'ERROR: No se debe cambiar el formulario'
+      redirect_to :controller=>'administracion/administracion', :action => 'index'
+    else
+      @user = User.find(params[:id])
+
+      if @user.update_attributes(params[:user])
+        flash.now[:notice] = 'Usuario actualizado exitosamente'
+      else
+        flash.now[:error] = 'No se ha podido actualizar al usuario'
+      end
+      @is_new = false
+      @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+      render 'user'
+    end
+  end
+
+  def password_change
+    @user = User.find(params[:id])
+    @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+  end
+
+  def password_update
+    if params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+      flash[:error] = 'ERROR: No se debe cambiar el formulario'
+      redirect_to :controller=>'administracion/administracion', :action => 'index'
+    else
+      @user = User.find(params[:id])
+
+      if @user.update_attributes(params[:user])
+        flash.now[:notice] = 'Contraseña de usuario actualizada exitosamente'
+      else
+        flash.now[:error] = 'No se ha podido actualizar la contraseña del usuario'
+      end
+      @sec = Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
+      render 'password_change'
+    end
+  end
+end

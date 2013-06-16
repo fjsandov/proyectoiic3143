@@ -16,6 +16,7 @@ class Personal::EmployeesController < ApplicationController
       flash[:notice] = 'Empleado creado exitosamente'
       redirect_to :controller => 'personal/employees', :action => 'list'
     else
+      @is_new = true
       render 'employee'
     end
   end
@@ -47,12 +48,12 @@ class Personal::EmployeesController < ApplicationController
 
   def work_history
     @employee = Employee.find(params[:id])
-    @employee_work_history = @employee.get_work_history.paginate(:page => params[:page], :per_page => 15)
+    @employee_work_history = @employee.get_work_history.paginate(:page => params[:page], :per_page => 10)
   end
 
   def cleaning_history
     @employee = Employee.find(params[:id])
-    @employee_cleaning_history = @employee.get_cleaning_history.paginate(:page => params[:page], :per_page => 15)
+    @employee_cleaning_history = @employee.get_cleaning_history.paginate(:page => params[:page], :per_page => 10)
   end
 
 end

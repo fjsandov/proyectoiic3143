@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616003315) do
+ActiveRecord::Schema.define(:version => 20130616033509) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20130616003315) do
     t.time     "entry_time"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.time     "end_time"
+    t.time     "exit_time"
   end
 
   create_table "assistances_employees", :force => true do |t|

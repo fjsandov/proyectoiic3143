@@ -14,17 +14,21 @@
         <table class='table table-striped table-bordered'>
           <tr>
             <th>Día</th>
+            <th>Hora inicio turno</th>
+            <th>Hora fin turno</th>
             <th>Hora Llegada</th>
             <th>Hora Salida</th>
           </tr>
           <% @employee_work_history.each do |work_record| %>
               <tr>
-                <td><%= 'DIA' %></td>
-                <td><%= 'H.LLEGADA' %></td>
-                <td><%= 'H.SALIDA' %></td>
+                <td><%= work_record.get_formatted_date %></td>
+                <td><%= work_record.get_formatted_entry_time %></td>
+                <td><%= work_record.get_formatted_exit_time %></td>
+                <td><%= work_record.get_formatted_start_time %></td>
+                <td><%= work_record.get_formatted_end_time %></td>
               </tr>
           <% end %>
-          <%= will_paginate @employee_work_history %>
+          <%= will_paginate @employee_work_history, renderer: BootstrapPagination::Rails %>
         </table>
     <% end %>
   </div>

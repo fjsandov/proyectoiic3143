@@ -31,7 +31,7 @@
               </tr>
           <% end %>
         </table>
-        <%= will_paginate @employee_cleaning_history %>
+        <%= will_paginate @employee_cleaning_history, renderer: BootstrapPagination::Rails %>
     <% end %>
   </div>
 </div>

@@ -5,10 +5,10 @@ u1 = User.create(username: 'admin', password: 'admin', password_confirmation: 'a
 u2 = User.create(username: 'cord1', password: 'cord1', password_confirmation: 'cord1', gender: 'F', active: true,
                  name: 'Coordinador de Test', user_type: 'coordinator')
 
-s1 = Sector.create(name: 'Maternidad',zone: 'Critica')
-s2 = Sector.create(name: 'Pabellon',zone: 'Critica')
-s3 = Sector.create(name: 'Pediatria',zone: 'Critica')
-s4 = Sector.create(name: 'Recepcion',zone: 'Normal')
+s1 = Sector.create(name: 'Maternidad', zone: 'Crítica')
+s2 = Sector.create(name: 'Pabellón', zone: 'Crítica')
+s3 = Sector.create(name: 'Pediatría', zone: 'Crítica')
+s4 = Sector.create(name: 'Recepción', zone: 'Normal')
 
 r1 = Room.create(name: 'M01', floor: 2, status: 'free', sector_id: s1.id)
 r2 = Room.create(name: 'M02', floor: 2, status: 'free', sector_id: s1.id)
@@ -22,12 +22,13 @@ r9 = Room.create(name: 'R02', floor: 1, status: 'free', sector_id: s4.id)
 r10 = Room.create(name: 'R03', floor: 1, status: 'free', sector_id: s4.id)
 r11 = Room.create(name: 'R04', floor: 1, status: 'free', sector_id: s4.id)
 
-oc1 = Occupation.create(:name => 'Auxiliar', :admin_leave_days => 3, :vacation_days => 5)
-oc2 = Occupation.create(:name => 'Supervisor', :admin_leave_days => 5, :vacation_days => 10)
+oc1 = Occupation.create(name: 'Auxiliar', admin_leave_days: 3, vacation_days: 5)
+oc2 = Occupation.create(name: 'Supervisor', admin_leave_days: 5, vacation_days: 10)
 
-e1 = Employee.create(name: 'Francisco Javier', last_name1: 'Sandoval', last_name2: 'Aburto', gender: 'male', :occupation => oc1)
-e2 = Employee.create(name: 'Pablo', last_name1: 'Cruz', gender: 'male', :occupation => oc1)
-e3 = Employee.create(name: 'Giovanni', last_name1: 'De Lucca', gender: 'male', :occupation => oc1)
-e4 = Employee.create(name: 'Larry', last_name1: 'Capizza', gender: 'male', :occupation => oc2)
+e1 = Employee.create(name: 'Francisco Javier', last_name1: 'Sandoval',
+                     last_name2: 'Aburto', gender: 'M', occupation: oc1)
+e2 = Employee.create(name: 'Pablo', last_name1: 'Cruz', gender: 'M', occupation: oc1)
+e3 = Employee.create(name: 'Giovanni', last_name1: 'De Lucca', gender: 'M', occupation: oc1)
+e4 = Employee.create(name: 'Larry', last_name1: 'Capizza', gender: 'M', occupation: oc2)
 
 

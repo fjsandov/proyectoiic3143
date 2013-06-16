@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :current_user, :set_controller_action_and_module, :session_control, :check_if_ajax_request
+  before_filter :current_user, :set_controller_action_and_module, :session_control,
+                :check_if_ajax_request, :check_admin_module
   layout :check_if_display_layout
   force_ssl
 
@@ -51,6 +52,19 @@ class ApplicationController < ActionController::Base
   def session_end
     @current_user = nil
     reset_session
+  end
+
+#-------------------------------------- Authorization methods --------------------------------------
+  def check_admin_module
+    if @current_module == 'administracion'
+      check_admin
+    end
+  end
+
+  def check_admin
+     unless @current_user.admin?
+       redirect_to :root and return
+     end
   end
 #-------------------------------------- AJAX (se envian sin layout) --------------------------------------
   def check_if_ajax_request
