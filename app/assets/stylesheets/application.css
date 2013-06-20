@@ -40,6 +40,10 @@ a .icon-black{
  color: black!important;
 }
 
+a .no-underline:hover{
+   text-decoration: none;
+}
+
 @media (min-width:768px)
 {
     .row-fluid .sidebar-nav

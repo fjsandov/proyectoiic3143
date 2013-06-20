@@ -110,6 +110,10 @@ class CleanupRequest < ActiveRecord::Base
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
   end
 
+  def self.DELTA_CURRENT
+    120 #segs
+  end
+
   ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
   #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
   def self.import_excel(user,file)
@@ -257,7 +261,7 @@ class CleanupRequest < ActiveRecord::Base
     self.status = 'pending'
     self.requested_by = user.id
 
-    if self.requested_at.between?(Time.current-60,Time.current+60)
+    if self.requested_at.between?(Time.current-CleanupRequest.DELTA_CURRENT,Time.current+CleanupRequest.DELTA_CURRENT)
       self.requested_at = Time.current
       active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
                                             "pending", "being-attended" ).first

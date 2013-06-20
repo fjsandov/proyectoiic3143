@@ -1,6 +1,14 @@
 # -*- encoding : utf-8 -*-
 CUALimpieza::Application.routes.draw do
 
+  get "assistances/index"
+
+  get "shifts/index"
+
+  get "shifts/create"
+
+  get "shifts/update"
+
   get "logs/show_since"
 
   namespace :limpieza do
@@ -65,7 +73,13 @@ CUALimpieza::Application.routes.draw do
     get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
     get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
 
-    #------
+    #Shifs_Controller:
+    get 'turnos' => 'shifts#index', :as => 'shifts'
+
+    #Assitances_Controller:
+    get 'asistencias' => 'assistances#index', :as => 'assistances'
+
+
   end
 
   namespace :administracion do

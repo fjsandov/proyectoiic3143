@@ -1,11 +1,11 @@
 <div class="row-fluid">
   <div class="span12">
-    <h2>
+    <h3>
       Lista de Usuarios
       <%= link_to administracion_new_path do%>
-          <i class="icon-plus-sign"></i>
+          <i class="icon-plus-sign no-underline"></i>
       <% end %>
-    </h2>
+    </h3>
 
     <br>
 
@@ -45,6 +45,7 @@
               </tr>
           <% end %>
         </table>
+        <%= render 'legend_user_list' %>
         <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
     <% end %>
   </div>

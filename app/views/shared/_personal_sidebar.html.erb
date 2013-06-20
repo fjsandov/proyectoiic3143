@@ -7,15 +7,15 @@
           Empleados
       <% end %>
     </li>
-    <li class="<%= "active" if @current_controller == "CONTROLADOR_TURNOS" %>">
-      <%= link_to '#' do %>
-          <i class="icon-briefcase icon-<% if @current_controller == "CONTROLADOR_TURNOS" %>white<% else %>black<% end %>"></i>
+    <li class="<%= "active" if @current_controller == "shifts" %>">
+      <%= link_to personal_shifts_path do %>
+          <i class="icon-briefcase icon-<% if @current_controller == "shifts" %>white<% else %>black<% end %>"></i>
           Turnos
       <% end %>
     </li>
-    <li class="<%= "active" if @current_controller == "CONTROLADOR_ASISTENCIA" %>">
-      <%= link_to '#' do %>
-          <i class="icon-list-alt icon-<% if @current_controller == "CONTROLADOR_ASISTENCIA" %>white<% else %>black<% end %>"></i>
+    <li class="<%= "active" if @current_controller == "assistances" %>">
+      <%= link_to personal_assistances_path do %>
+          <i class="icon-list-alt icon-<% if @current_controller == "assistances" %>white<% else %>black<% end %>"></i>
           Asistencia
       <% end %>
     </li>
