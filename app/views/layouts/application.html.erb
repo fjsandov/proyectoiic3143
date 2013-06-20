@@ -12,70 +12,39 @@
     <%= javascript_include_tag 'application' %>
   </head>
   <body>
-    <div class="navbar navbar-fluid-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="brand" href="#">CUALimpieza</a>
-            <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
-            <ul class="nav">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-asterisk"></i>
-                  <span id="realtime-notification-counter" class="badge badge-success"></span>
-                  <b class="caret"></b>
-                </a>
-                <ul id="realtime-notification-container" class="dropdown-menu">
-                  <li id="dummy-notification" class="disabled"><a><i class="icon-ok-sign"></i> No hay actividad reciente.</a></li>
-                </ul>
-              </li>
-              <li class="divider-vertical"></li>
-              <% class_type = (@current_module == 'limpieza') ? 'active' : 'inactive' %>
-              <li class="<%= class_type %>"><%= link_to 'Limpieza', limpieza_general_path  %></li>
-              <% class_type = (@current_module == 'personal') ? 'active' : 'inactive' %>
-              <li class="<%= class_type %>"><%= link_to 'Personal', personal_employees_list_path  %></li>
-              <% if @current_user.admin? %>
-                <% class_type = (@current_module == 'administracion') ? 'active' : 'inactive' %>
-                <li class="<%= class_type %>"><%= link_to 'Administración', administracion_users_list_path %></li>
-              <% end %>
-            </ul>
 
-            <ul class="nav pull-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="icon-user"></i>
-                  <strong><%=@current_user.complete_name%></strong>
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to 'Mi cuenta', '#' %></li>
-                  <li class="divider"></li>
-                  <li><%= link_to 'Cerrar sesión', '/home/logout' %></li>
-                </ul>
-              </li>
-            </ul>
-        </div>
-      </div>
-    </div>
+    <% unless @current_user.blank? %>
+        <%= render 'shared/session_nav_bar' %>
+    <% end %>
 
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <% if @current_module == 'limpieza' %>
-            <%= render 'shared/cleanup_sidebar' %>
-          <% elsif @current_module == 'personal' %>
-            <%= render 'shared/personal_sidebar'%>
-          <% elsif @current_module == 'administracion'%>
-            <%= render 'shared/administration_sidebar' %>
-          <% end %>
-        </div><!--/span-->
-        <div class="span9">
-          <%= bootstrap_flash %>
-          <div id='yield-container'>
-            <%= yield %>
-          </div>
-        </div>
-        <%= render 'shared/modal_popup'%>
-      </div><!--/row-->
+        <% if @current_module == 'home' %>
+            <div class="row-fluid" style="margin-top: 50px">
+                <div id='yield-container'>
+                    <%= yield %>
+                </div>
+            </div>
+        <% else %>
+            <div class="row-fluid">
+                <div class="span3">
+                  <% if @current_module == 'limpieza' %>
+                    <%= render 'shared/cleanup_sidebar' %>
+                  <% elsif @current_module == 'personal' %>
+                    <%= render 'shared/personal_sidebar'%>
+                  <% elsif @current_module == 'administracion'%>
+                    <%= render 'shared/administration_sidebar' %>
+                  <% end %>
+                </div><!--/span-->
+                <div class="span9">
+                  <%= bootstrap_flash %>
+                  <div id='yield-container'>
+                    <%= yield %>
+                  </div>
+                </div>
+                <%= render 'shared/modal_popup'%>
+            </div>
+        <%end%>
+      <!--/row-->
 
       <footer>
         <!--<p>&copy; IIC3143 2013</p>-->

@@ -27,6 +27,7 @@ class Employee < ActiveRecord::Base
     end
   end
 
+  #TODO: Mejorar los arreglos (idioma y opciones)
   def self.marital_status_options
     [['Soltero/a','single'],['Casado/a','married'], ['Divorciado/a','divorced'], ['Viudo/a','widower']]
   end

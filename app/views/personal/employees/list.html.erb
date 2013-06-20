@@ -41,8 +41,8 @@
                     </td>
                   </tr>
               <% end %>
-
             </table>
+            <%= will_paginate @employees, renderer: BootstrapPagination::Rails %>
         <% end %>
     </div>
 </div>

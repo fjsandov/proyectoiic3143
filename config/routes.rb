@@ -78,6 +78,9 @@ CUALimpieza::Application.routes.draw do
     put 'actualizar_contrasena/:id' => 'administration#password_update', :as =>'password_update'
   end
 
+  get 'cambiar_contrasena' => 'home#my_password_change', :as =>'my_password_change'
+  put 'actualizar_mi_contrasena' => 'home#my_password_update', :as =>'my_password_update'
+
   post 'home/login'  => 'home#login', :as => 'login'
   get 'home/logout'  => 'home#logout', :as => 'logout'
 
