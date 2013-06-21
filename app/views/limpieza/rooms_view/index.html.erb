@@ -29,3 +29,7 @@
       </div>
   <% end %>
 </div>
+
+<% if @is_ajax_request %>
+    <%= javascript_include_tag 'limpieza/rooms_view' %>
+<% end %>

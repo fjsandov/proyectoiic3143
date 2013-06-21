@@ -27,24 +27,7 @@ $(function() {
                         $('#sectors_collection').append(opt);
                     }
 
-                    $('#rooms_container').html('');
-                    for(i = 0; i < data['rooms'].length; i+= 3)
-                    {
-                        var row = $('<div></div>');
-                        row.addClass('row-fluid');
-                        for(pos = 0; i + pos < data['rooms'].length && pos < 3; pos++)
-                        {
-                            var span = $('<div></div>');
-                            span.addClass('span4');
-
-                            var room = $('<div></div>');
-                            room.addClass('rooms_button status-' + data['rooms'][i+pos]['status'] + ' span12');
-                            room.text(data['rooms'][i+pos]['name']);
-                            span.append(room);
-                            row.append(span);
-                        }
-                        $('#rooms_container').append(row);
-                    }
+                    fillRoomButtons(data['rooms']);
                 }
                 ,
                 error: function (jqXHR, textStatus, errorThrown){
@@ -62,24 +45,7 @@ $(function() {
             url: "/limpieza/vista_salas/load_sector",
             data: { 'sector': $('#sectors_collection').val() },
             success: function(data) {
-                $('#rooms_container').html('');
-                for(i = 0; i < data.length; i+= 3)
-                {
-                    var row = $('<div></div>');
-                    row.addClass('row-fluid');
-                    for(pos = 0; i + pos < data.length && pos < 3; pos++)
-                    {
-                        var span = $('<div></div>');
-                        span.addClass('span4');
-
-                        var room = $('<div></div>');
-                        room.addClass('rooms_button status-' + data[i+pos]['status'] + ' span12');
-                        room.text(data[i+pos]['name']);
-                        span.append(room);
-                        row.append(span);
-                    }
-                    $('#rooms_container').append(row);
-                }
+                fillRoomButtons(data);
             }
             ,
             error: function (jqXHR, textStatus, errorThrown){
@@ -88,3 +54,28 @@ $(function() {
         });
     });
 });
+
+function fillRoomButtons(data)
+{
+    $('#rooms_container').html('');
+    for(i = 0; i < data.length; i+= 3)
+    {
+        var row = $('<div></div>');
+        row.addClass('row-fluid');
+        for(pos = 0; i + pos < data.length && pos < 3; pos++)
+        {
+            var span = $('<div></div>');
+            span.addClass('span4');
+
+            var room = $('<a></a>');
+            room.addClass('rooms_button status-' + data[i+pos]['status'] + ' span12');
+            room.attr('data-modal', 'true');
+            room.attr('href', data[i+pos]['url']);
+            room.text(data[i+pos]['name']);
+            span.append(room);
+            row.append(span);
+        }
+        $('#rooms_container').append(row);
+    }
+    init_links_to_modal();
+}

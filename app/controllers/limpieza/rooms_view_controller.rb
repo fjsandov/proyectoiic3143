@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Limpieza::RoomsViewController < ApplicationController
   #TODO: Refactoring .. mucha logica en los controladores (usar mas modelo)
+  include ApplicationHelper
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
     @sectors = Sector.where(:zone => @zones[0]).order(:name)
@@ -18,13 +19,20 @@ class Limpieza::RoomsViewController < ApplicationController
   def load_zone
     @sectors = Sector.where(:zone => params['zone']).order(:name)
     @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
+    @rooms.each do |room|
+      room['url'] = url_room_by_status(room)
+    end
     render :json => { "sectors" => @sectors.as_json(:only => [:id, :name]),
-                      "rooms" => @rooms.as_json(:only => [:id, :name, :status])}
+                      "rooms" => @rooms.as_json(:only => [:id, :name, :status, :url])}
   end
 
   def load_sector
     @rooms = Room.where(:sector_id => params['sector']).order(:name)
-    render :json => @rooms.to_json(:only => [:id, :name, :status])
+    @rooms.each do |room|
+      room['url'] = url_room_by_status(room)
+    end
+
+    render :json => @rooms.to_json(:only => [:id, :name, :status, :url])
   end
 
   def edit_room_status
@@ -71,8 +79,8 @@ class Limpieza::RoomsViewController < ApplicationController
     @room = Room.find(params[:req])
     @maintenance = MaintenanceRecord.get_unfinished_by_room(@room.id)
     status = params[:room_status]
-    if @room.status == 'maintenance'
-      if status == 'free' || status == 'occupied'
+    if(@room.status == 'maintenance')
+      if(status == 'free' || status == 'occupied')
         @room.status = status
         @maintenance.finished_at = Time.current
         @maintenance.finished_by = @current_user
