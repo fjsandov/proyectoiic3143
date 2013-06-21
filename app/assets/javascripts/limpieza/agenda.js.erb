@@ -20,8 +20,8 @@ $(function() {
         firstDay: 1,
         header:
         {
-            left: 'basicDay, basicWeek',
-            center: 'title',
+            left: 'title',
+            center: '',
             right: 'today, prev, next'
         },
         defaultView: 'basicDay',
@@ -32,11 +32,35 @@ $(function() {
             'Oct', 'Nov', 'Dic'],
         dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
         dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+        titleFormat:{   day: 'MMMM d, yyyy' },
+        columnFormat:{  day: 'dddd' },
         // sources
-
+        events: {
+            url: 'agenda/get_cleanup_requests',
+            type: 'GET',
+            data: {
+                'sector':   $('#sectors_collection').val()
+            },
+            error: function() {
+                alert('there was an error while fetching events!');
+            }
+        },
         // callbacks
         dayClick: function(date, allDay, jsEvent, view) {
-            //alert('a day has been clicked! Current view: ' + view.name);
+
+            if (allDay) {
+                alert('Clicked on the entire day: ' + date);
+            }else{
+                alert('Clicked on the slot: ' + date);
+            }
+
+            alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+            alert('Current view: ' + view.name);
+
+            // change the day's background color just for fun
+            $(this).css('background-color', 'red');
+
         },
         eventClick: function(calEvent, jsEvent, view) {
             //alert('a event has been clicked! Event: ' + calEvent.title);
@@ -62,6 +86,8 @@ $(function() {
                         opt.text(data['sectors'][i]['name']);
                         $('#sectors_collection').append(opt);
                     }
+
+                    updateAgendaFullCalendar();
                 }
                 ,
                 error: function (jqXHR, textStatus, errorThrown){
@@ -71,6 +97,14 @@ $(function() {
         }
         else
             $('#sectors_collection').html('<option value="">-----</option>');
+    });
+
+    $('#sectors_collection').change(function() {
+        //incrusta html devuelto dentro del <option> sectors
+        if($('#sectors_collection').val())
+        {
+            updateAgendaFullCalendar();
+        }
     });
 
     $('#calendar_for_agenda').datepicker({
@@ -96,3 +130,22 @@ $(function() {
         }
     });
 });
+
+function updateAgendaFullCalendar()
+{
+    $('#agenda').fullCalendar('removeEventSource', 'agenda/get_cleanup_requests');
+    $('#agenda').fullCalendar('removeEvents');
+
+    $('#agenda').fullCalendar('addEventSource', {
+        url: 'agenda/get_cleanup_requests',
+        type: 'GET',
+        data: {
+            'sector':   $('#sectors_collection').val()
+        },
+        error: function() {
+            alert('there was an error while fetching events!');
+        }
+    });
+
+    $('#agenda').fullCalendar('refetchEvents');
+}

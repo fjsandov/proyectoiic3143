@@ -9,6 +9,8 @@ CUALimpieza::Application.routes.draw do
     get 'agenda' => 'agenda#index', :as =>'agenda'
     get 'agenda/index' => 'agenda#index'
     get 'agenda/load_zone' => 'agenda#load_zone'
+    #get_cleanup_request está hardcodeada en agenda.js.erb
+    get 'agenda/get_cleanup_requests' => 'agenda#get_cleanup_request', :as => 'agenda_cleanup_request'
     get 'agenda/print_cleanup_requests', :as => 'print_cleanup_requests'
     get 'agenda/print_cleanup_requests_post', :as => 'print_cleanup_requests_post'
     get 'agenda/print_cleanup_requests_page', :as => 'print_cleanup_requests_page'
