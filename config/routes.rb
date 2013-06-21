@@ -34,8 +34,6 @@ CUALimpieza::Application.routes.draw do
     # Rooms view
     get 'vista_salas' => 'roomsView#index', :as =>'vista_salas'
     get 'vista_salas/index' => 'roomsView#index'
-    get 'vista_salas/load_zone' => 'roomsView#load_zone'
-    get 'vista_salas/load_sector' => 'roomsView#load_sector'
 
     get 'vista_salas/edit_room_status' => 'roomsView#edit_room_status' , :as => 'edit_room_status'
     put 'vista_salas/change_room_status' => 'roomsView#change_room_status' , :as => 'change_room_status'
@@ -55,9 +53,10 @@ CUALimpieza::Application.routes.draw do
   end
 
   namespace :api do
-    resources :rooms
     get 'rooms/sector/:id' => 'rooms#rooms_by_sector', :as => 'rooms_by_sector'
-
+    get 'rooms/load_zone' => 'rooms#load_zone'
+    get 'rooms/load_sector' => 'rooms#load_sector'
+    resources :rooms
     get 'logs/show' => 'logs#show'
   end
 

@@ -15,7 +15,7 @@ $(function() {
             $('#sectors_collection').html('<option value="">Cargando...</option>');
             $.ajax({
                 type: "GET",
-                url: "/limpieza/vista_salas/load_zone",
+                url: "/api/rooms/load_zone",
                 data: { 'zone': $('#zones_collection').val() },
                 success: function(data) {
                     $('#sectors_collection').html('');
@@ -42,7 +42,7 @@ $(function() {
     $('#sectors_collection').change(function() {
         $.ajax({
             type: "GET",
-            url: "/limpieza/vista_salas/load_sector",
+            url: "/api/rooms/load_sector",
             data: { 'sector': $('#sectors_collection').val() },
             success: function(data) {
                 fillRoomButtons(data);

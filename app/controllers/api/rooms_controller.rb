@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Api::RoomsController < ApplicationController
+  include ApplicationHelper
 
   # GET /api/rooms/1.json
   def show
@@ -53,6 +54,34 @@ class Api::RoomsController < ApplicationController
     respond_to do |format|
       format.json { head :no_content }
     end
+  end
+
+  #TODO: Borrar esto cuando este testeado
+  #ESTE ERA DE AGENDA
+  #def load_zone
+  #  @sectors = Sector.where(:zone => params['zone']).order(:name)
+  #  @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
+  #  render :json => { "sectors" => @sectors.as_json(:only => [:id, :name]),
+  #                    "rooms" => @rooms.as_json(:only => [:id, :name, :status])}
+  #end
+
+  def load_zone
+    @sectors = Sector.where(:zone => params['zone']).order(:name)
+    @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
+    @rooms.each do |room|
+      room['url'] = url_room_by_status(room)
+    end
+    render :json => { "sectors" => @sectors.as_json(:only => [:id, :name]),
+                      "rooms" => @rooms.as_json(:only => [:id, :name, :status, :url])}
+  end
+
+  def load_sector
+    @rooms = Room.where(:sector_id => params['sector']).order(:name)
+    @rooms.each do |room|
+      room['url'] = url_room_by_status(room)
+    end
+
+    render :json => @rooms.to_json(:only => [:id, :name, :status, :url])
   end
   
 end

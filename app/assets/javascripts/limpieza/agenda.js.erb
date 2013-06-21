@@ -95,7 +95,7 @@ $(function()
             $('#sectors_collection').html('<option value="">Cargando...</option>');
             $.ajax({
                 type: "GET",
-                url: "/limpieza/agenda/load_zone",
+                url: "/api/rooms/load_zone",
                 data: { 'zone': $('#zones_collection').val() },
                 success: function(data)
                 {
@@ -155,10 +155,11 @@ $(function()
 
 function updateAgendaFullCalendar()
 {
-    $('#agenda').fullCalendar('removeEventSource', 'agenda/get_cleanup_requests');
-    $('#agenda').fullCalendar('removeEvents');
+    var agenda = $('#agenda');
+    agenda.fullCalendar('removeEventSource', 'agenda/get_cleanup_requests');
+    agenda.fullCalendar('removeEvents');
 
-    $('#agenda').fullCalendar('addEventSource', {
+    agenda.fullCalendar('addEventSource', {
         url: 'agenda/get_cleanup_requests',
         type: 'GET',
         data: {
@@ -169,11 +170,11 @@ function updateAgendaFullCalendar()
         }
     });
 
-    $('#agenda').fullCalendar('refetchEvents');
+    agenda.fullCalendar('refetchEvents');
 }
 
 function updateCalendarForAgendaDate()
 {
-    currentDate = $('#agenda').fullCalendar('getDate');
+    var currentDate = $('#agenda').fullCalendar('getDate');
     $('#calendar_for_agenda').datepicker('setDate', currentDate);
 }

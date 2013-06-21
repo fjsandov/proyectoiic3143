@@ -64,11 +64,12 @@ class ApplicationController < ActionController::Base
 
   def read_only_sites
     is_read_only_site = @current_controller=='home' && @current_action == 'logout'
-    is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_change')
-    is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_update')
-    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'show')
-    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'load_zone')
-    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'load_sector')
+    is_read_only_site = is_read_only_site || (@current_controller =='home' && @current_action == 'my_password_change')
+    is_read_only_site = is_read_only_site || (@current_controller =='home' && @current_action == 'my_password_update')
+    is_read_only_site = is_read_only_site || (@current_controller =='rooms_view' && @current_action == 'show')
+    is_read_only_site = is_read_only_site || (@current_controller =='rooms' && @current_action == 'load_zone')
+    is_read_only_site = is_read_only_site || (@current_controller =='rooms' && @current_action == 'load_sector')
+    is_read_only_site = is_read_only_site || (@current_controller =='logs')
     is_read_only_site
   end
 
