@@ -1,8 +1,12 @@
 # -*- encoding : utf-8 -*-
 require 'modules/utils_lib'
+require 'modules/logger'
+require 'roo'
 
 class CleanupRequest < ActiveRecord::Base
   include Modules::UtilsLib
+  include Modules::Logger
+
   #Nota: end_comments tiene los comentarios de finish o de delete dependiendo del caso.
   attr_accessible :priority, :status, :room_id, :request_type, :end_comments,
                   :requested_at, :requested_by, :start_comments,
@@ -19,8 +23,11 @@ class CleanupRequest < ActiveRecord::Base
 
   after_save :change_room_status
 
-  ##---------------------VALIDACIONES-------------------##
+  ##--------------------------------------------VALIDACIONES--------------------------------------------##
   validates_presence_of :room_id, :priority, :status
+
+
+  ##--------------------------------------------METODOS DE CLASE--------------------------------------------##
 
   # Método estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
   # y no hay ninguna activa
@@ -104,6 +111,52 @@ class CleanupRequest < ActiveRecord::Base
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
   end
 
+  def self.DELTA_CURRENT
+    120 #segs
+  end
+
+  ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
+  #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
+  def self.import_excel(user,file)
+    if spreadsheet = open_spreadsheet(file)
+      #Transaccion. O se cargan todas o ninguna.
+      ActiveRecord::Base.transaction do
+        (2..spreadsheet.last_row).each do |i|
+          cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
+          cleanup_request.create_request(user)
+        end
+      end
+      true
+    else
+      false
+    end
+  end
+
+  def self.new_cleanup_request_from_row(row)
+    cleanup_request = CleanupRequest.new
+    cleanup_request.room = Room.find_by_name(row[0])
+    aux_time = row[1].to_s+' '+Time.at(row[2]).utc.strftime("%I:%M%p").to_s
+    cleanup_request.requested_at = Time.parse(aux_time)
+    cleanup_request.priority = row[3]
+    case row[4]
+      when 1 then cleanup_request.request_type = 'rutine'
+      when 2 then cleanup_request.request_type = 'normal'
+      when 3 then cleanup_request.request_type = 'terminal'
+      else raise 'Invalid request_type on a CleanupRequest'
+    end
+    cleanup_request
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+      when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+      when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+      else false
+    end
+  end
+
+  ##--------------------------------------------METODOS DE INSTANCIA--------------------------------------------##
+
   def get_status_str
     case self.status
       when 'pending'
@@ -123,7 +176,7 @@ class CleanupRequest < ActiveRecord::Base
   # y timestamp con dia y hora en caso de no ser del mismo dia de la consulta.
   def get_requested_at_smart_str
     if Time.current.to_date == self.requested_at.to_date
-      requested_at.strftime("%H:%M")
+      get_formatted_time(self.requested_at)
     else
       get_formatted_datetime(self.requested_at)
     end
@@ -132,23 +185,23 @@ class CleanupRequest < ActiveRecord::Base
   # Idem al de request pero con started
   def get_started_at_smart_str
     if Time.current.to_date == self.started_at.to_date
-      started_at.strftime("%H:%M")
+      get_formatted_time(self.started_at)
     else
-      self.get_formatted_datetime(self.started_at)
+      get_formatted_datetime(self.started_at)
     end
   end
 
   def get_started_at_day
-    started_at.strftime("%d-%m-%Y")
+    get_formatted_day(started_at)
   end
 
   def get_started_at_hour
-    started_at.strftime("%H:%M")
+    get_formatted_time(started_at)
   end
 
   def get_closed_at_hour
     close_hour = (self.status == 'finished') ? self.finished_at : self.deleted_at
-    close_hour.strftime("%H:%M")
+    get_formatted_time(close_hour)
   end
 
   #Lapso entre que se solicito y se respondio la solicitud:
@@ -209,7 +262,7 @@ class CleanupRequest < ActiveRecord::Base
     self.status = 'pending'
     self.requested_by = user.id
 
-    if self.requested_at.between?(Time.current-60,Time.current+60)
+    if self.requested_at.between?(Time.current-CleanupRequest.DELTA_CURRENT,Time.current+CleanupRequest.DELTA_CURRENT)
       self.requested_at = Time.current
       active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
                                             "pending", "being-attended" ).first
@@ -266,15 +319,6 @@ class CleanupRequest < ActiveRecord::Base
         #NO HAGO NADA
     end
     self.room.save
-  end
-
-  def save_with_log(user,message)
-    if self.save
-      LogRecord.create(:user => user,:message => message)
-      true
-    else
-      false
-    end
   end
 
 end

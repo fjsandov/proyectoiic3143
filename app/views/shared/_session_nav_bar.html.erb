@@ -1,0 +1,44 @@
+<div class="navbar navbar-fluid-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <%= link_to 'CUALimpieza', root_path ,:class=>'brand' %>
+      <!-- TODO: Hacer el menu no estatico (https://github.com/seyhunak/twitter-bootstrap-rails) -->
+      <ul class="nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-asterisk"></i>
+            <span id="realtime-notification-counter" class="badge badge-success"></span>
+            <b class="caret"></b>
+          </a>
+          <ul id="realtime-notification-container" class="dropdown-menu">
+            <li id="dummy-notification" class="disabled"><a><i class="icon-ok-sign"></i> No hay actividad reciente.</a></li>
+          </ul>
+        </li>
+        <li class="divider-vertical"></li>
+        <% class_type = (@current_module == 'limpieza') ? 'active' : 'inactive' %>
+        <li class="<%= class_type %>"><%= link_to 'Limpieza', limpieza_general_path  %></li>
+        <% class_type = (@current_module == 'personal') ? 'active' : 'inactive' %>
+        <li class="<%= class_type %>"><%= link_to 'Personal', personal_employees_list_path  %></li>
+        <% if @current_user.admin? %>
+            <% class_type = (@current_module == 'administracion') ? 'active' : 'inactive' %>
+            <li class="<%= class_type %>"><%= link_to 'Administración', administracion_users_list_path %></li>
+        <% end %>
+      </ul>
+
+      <ul class="nav pull-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-user"></i>
+            <strong><%=@current_user.complete_name%></strong>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Cambiar contraseña', my_password_change_path %></li>
+            <li class="divider"></li>
+            <li><%= link_to 'Cerrar sesión', logout_path %></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

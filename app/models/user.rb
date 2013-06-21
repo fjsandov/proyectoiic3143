@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class User < ActiveRecord::Base
-  attr_accessible :username, :password, :password_confirmation, :active, :user_type, :name, :last_name1, :last_name2,
-                  :gender
+  attr_accessible :username, :password, :password_confirmation, :active, :user_type,
+                  :name, :last_name1, :last_name2, :gender
   has_secure_password
 
 #----------------Validations---------------
@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
 
   validates_presence_of :password, :on => :create
 #--------------END Validations-------------
+
+  def self.user_type_options
+    [['Administrador/a','admin'],['Coordinador/a','coordinator']]
+  end
 
   def complete_name
     if self.name.blank?
@@ -26,4 +30,15 @@ class User < ActiveRecord::Base
     cn
   end
 
+  def admin?
+    self.user_type == 'admin'
+  end
+
+  def get_user_type_str
+     case self.user_type
+       when 'admin' then 'Administrador/a'
+       when 'coordinator' then 'Coordinador/a'
+       else 'ERROR'
+     end
+  end
 end

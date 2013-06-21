@@ -1,6 +1,14 @@
 # -*- encoding : utf-8 -*-
 CUALimpieza::Application.routes.draw do
 
+  get "assistances/index"
+
+  get "shifts/index"
+
+  get "shifts/create"
+
+  get "shifts/update"
+
   get "logs/show_since"
 
   namespace :limpieza do
@@ -58,7 +66,7 @@ CUALimpieza::Application.routes.draw do
 
   namespace :personal do
     # Employees_Controller:
-    get 'lista_empleados' => 'employees#list', :as => 'employees_list'
+    get 'index' => 'employees#list', :as => 'employees_list'
     get 'nuevo_empleado' => 'employees#new', :as => 'new'
     post 'crear_empleado' => 'employees#create', :as => 'create'
     get 'editar_empleado/:id' => 'employees#edit', :as => 'edit'
@@ -67,9 +75,27 @@ CUALimpieza::Application.routes.draw do
     get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
     get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
 
-    #------
+    #Shifs_Controller:
+    get 'turnos' => 'shifts#index', :as => 'shifts'
+
+    #Assitances_Controller:
+    get 'asistencias' => 'assistances#index', :as => 'assistances'
+
 
   end
+
+  namespace :administracion do
+    get 'index' => 'administration#list', :as => 'users_list'
+    get 'nuevo_usuario' => 'administration#new', :as => 'new'
+    post 'crear_usuario' => 'administration#create', :as => 'create'
+    get 'editar_usuario/:id' => 'administration#edit', :as => 'edit'
+    put 'actualizar_usuario/:id' => 'administration#update', :as => 'update'
+    get 'cambio_contrasena/:id' => 'administration#password_change', :as =>'password_change'
+    put 'actualizar_contrasena/:id' => 'administration#password_update', :as =>'password_update'
+  end
+
+  get 'cambiar_contrasena' => 'home#my_password_change', :as =>'my_password_change'
+  put 'actualizar_mi_contrasena' => 'home#my_password_update', :as =>'my_password_update'
 
   post 'home/login'  => 'home#login', :as => 'login'
   get 'home/logout'  => 'home#logout', :as => 'logout'

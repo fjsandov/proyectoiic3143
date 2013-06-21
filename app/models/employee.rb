@@ -27,6 +27,7 @@ class Employee < ActiveRecord::Base
     end
   end
 
+  #TODO: Mejorar los arreglos (idioma y opciones)
   def self.marital_status_options
     [['Soltero/a','single'],['Casado/a','married'], ['Divorciado/a','divorced'], ['Viudo/a','widower']]
   end
@@ -35,7 +36,7 @@ class Employee < ActiveRecord::Base
     [['Basica','basica'],['Media','media'],['Tecnica','tecnica'],['Universitaria','universitaria'],['Otro','otro']]
   end
 
-#----------------------metodos de instancia----------------------
+#----------------------métodos de instancia----------------------
   def complete_name
     cn = self.name
     unless self.last_name1.blank?

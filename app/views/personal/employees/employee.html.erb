@@ -9,6 +9,8 @@
             <%= hidden_field_tag :sec, @sec %>
         <%end%>
 
+        <%= render :partial => 'shared/model_errors',:object => @employee, :as => 'token' %>
+
         <div class="accordion" id="accordion_employee">
           <div class="accordion-group">
             <div class="accordion-heading">
@@ -42,8 +44,8 @@
                 <div class="control-group form-horizontal">
                   <%= label_tag :gender, 'Género', :class=>'control-label' %>
                   <div class="controls">
-                    <%= f.radio_button(:gender, 'male', :checked => (@employee.gender == 'male')) %>Masculino
-                    <%= f.radio_button(:gender, 'female', :checked => (@employee.gender == 'female')) %>Femenino
+                    <%= f.radio_button(:gender, 'M', :checked => (@employee.gender == 'M')) %> Masculino
+                    <%= f.radio_button(:gender, 'F', :checked => (@employee.gender == 'F')) %> Femenino
                   </div>
                 </div>
 

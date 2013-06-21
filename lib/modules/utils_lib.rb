@@ -6,6 +6,14 @@ module Modules
         datetime.strftime("%d-%m-%Y %H:%M")
       end
 
+      def get_formatted_day(date)
+        date.strftime("%d-%m-%Y")
+      end
+
+      def get_formatted_time(original_time)
+        original_time.strftime("%H:%M")
+      end
+
       def get_time_diff_string(initial_time, final_time)
            time_diff_str(time_diff_array(final_time-initial_time))
       end

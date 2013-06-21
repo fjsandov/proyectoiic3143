@@ -1,0 +1,90 @@
+<div class='fluid-row'>
+  <div class='span12'>
+    <h2><%= @is_new ? 'Nuevo Usuario' : 'Editando a '+@user.complete_name%></h2>
+  </div>
+  <div class='span12'>
+    <% url_form = @is_new ? administracion_create_path : administracion_update_path(@user) %>
+    <%= form_for @user, :url => url_form do |f|%>
+
+        <%= render :partial => 'shared/model_errors',:object => @user, :as => 'token' %>
+
+        <% unless @is_new %>
+            <%= hidden_field_tag :sec, @sec %>
+        <%end%>
+        <div class="control-group form-horizontal">
+          <%= f.label :name, 'Nombre', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= f.label :last_name1, 'Apellido Paterno', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :last_name1 %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= f.label :last_name2, 'Apellido Materno', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :last_name2 %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= label_tag :gender, 'Género', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.radio_button(:gender, 'M', :checked => (@user.gender == 'M')) %> Masculino
+            <%= f.radio_button(:gender, 'F', :checked => (@user.gender == 'F')) %> Femenino
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= f.label :active, 'Activo?', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.check_box :active %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= f.label :user_type, 'Tipo de Usuario', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.select :user_type,
+                         options_for_select(User.user_type_options, @user.user_type),
+                         {:prompt => 'Seleccione un tipo'}
+            %>
+          </div>
+        </div>
+
+        <% if @is_new %>
+            <div class="control-group form-horizontal">
+              <%= f.label :username, 'Nombre de Usuario', :class=>'control-label' %>
+              <div class="controls">
+                <%= f.text_field :username %>
+              </div>
+            </div>
+
+            <div class="control-group form-horizontal">
+              <%= f.label :password, 'Contraseña', :class=>'control-label' %>
+              <div class="controls">
+                <%= f.password_field :password %>
+              </div>
+            </div>
+
+            <div class="control-group form-horizontal">
+              <%= f.label :password_confirmation, 'Confirmación de Contraseña', :class=>'control-label' %>
+              <div class="controls">
+                <%= f.password_field :password_confirmation %>
+              </div>
+            </div>
+        <% end %>
+
+        <div>
+            <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
+            <%= f.submit submit_str, :class => 'btn btn-primary' %>
+            <%= link_to 'Volver a lista', administracion_users_list_path, :class => 'btn btn-primary' %>
+        </div>
+    <% end %>
+  </div>
+</div>

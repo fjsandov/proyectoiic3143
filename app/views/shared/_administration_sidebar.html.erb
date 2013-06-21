@@ -1,0 +1,11 @@
+<div class='sidebar-nav well'>
+  <ul class='nav nav-pills nav-stacked'>
+    <li class='nav-header'>Módulo Administración</li>
+    <li class='<%= 'active' if @current_controller == 'administration' %>'>
+      <%= link_to administracion_users_list_path do %>
+          <i class='icon-home icon-<% if @current_controller == 'administration' %>white<% else %>black<% end %>'></i>
+          Lista de Usuarios
+      <% end %>
+    </li>
+  </ul>
+</div><!--/.well -->

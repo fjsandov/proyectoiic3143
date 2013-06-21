@@ -1,11 +1,11 @@
 <div class="row-fluid">
     <div class="span12">
-        <h2>
+        <h3>
           Lista de Empleados
           <%= link_to personal_new_path do%>
-              <i class="icon-plus-sign"></i>
+              <i class="icon-plus-sign no-underline"></i>
           <% end %>
-        </h2>
+        </h3>
 
         <br>
 
@@ -15,8 +15,8 @@
             <table class='table table-striped table-bordered'>
                 <tr>
                     <th>Nombre</th>
-                    <th>Apellido Paterno</th>
-                    <th>Apellido Materno</th>
+                    <th>Ap. Paterno</th>
+                    <th>Ap. Materno</th>
                     <th>Cargo</th>
                     <th>Estado</th>
                     <th>Acciones</th>
@@ -31,18 +31,19 @@
                     <td>
                       <%= link_to personal_edit_path(employee) do%>
                           <i class="icon-pencil icon-black"></i>
-                      <% end %>
+                      <% end %> |
                       <%= link_to personal_work_history_path(employee) do%>
                           <i class="icon-briefcase icon-black"></i>
-                      <% end %>
+                      <% end %> |
                       <%= link_to personal_cleaning_history_path(employee) do%>
                           <i class="icon-list-alt icon-black"></i>
                       <% end %>
                     </td>
                   </tr>
               <% end %>
-
             </table>
+            <%= render 'legend_list' %>
+            <%= will_paginate @employees, renderer: BootstrapPagination::Rails %>
         <% end %>
     </div>
 </div>
