@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616033509) do
+ActiveRecord::Schema.define(:version => 20130621215248) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
@@ -89,6 +89,16 @@ ActiveRecord::Schema.define(:version => 20130616033509) do
 
   add_index "employees", ["occupation_id"], :name => "index_employees_on_occupation_id"
 
+  create_table "employees_shifts", :force => true do |t|
+    t.integer  "shift_id"
+    t.integer  "employee_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "employees_shifts", ["employee_id"], :name => "index_employees_shifts_on_employee_id"
+  add_index "employees_shifts", ["shift_id"], :name => "index_employees_shifts_on_shift_id"
+
   create_table "employees_terminal_cleanups", :id => false, :force => true do |t|
     t.integer "employee_id"
     t.integer "terminal_cleanup_id"
@@ -159,6 +169,16 @@ ActiveRecord::Schema.define(:version => 20130616033509) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "shifts_tasks", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "shift_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "shifts_tasks", ["shift_id"], :name => "index_shifts_tasks_on_shift_id"
+  add_index "shifts_tasks", ["task_id"], :name => "index_shifts_tasks_on_task_id"
 
   create_table "tasks", :force => true do |t|
     t.string   "name"
