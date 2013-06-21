@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :current_user, :set_controller_action_and_module, :session_control,
-                :check_if_ajax_request, :check_admin_module
+                :check_if_ajax_request, :check_read_only_user, :check_admin_module
   layout :check_if_display_layout
 
   def set_controller_action_and_module
@@ -55,8 +55,10 @@ class ApplicationController < ActionController::Base
 
 #-------------------------------------- Authorization methods --------------------------------------
   def check_read_only_user
-    if @current_user.read_only? && !read_only_sites
-      redirect_to :limpieza_show_rooms_readonly and return
+    if signed_in?
+      if @current_user.read_only? && !read_only_sites
+        redirect_to :limpieza_show_rooms_readonly and return
+      end
     end
   end
 
@@ -65,6 +67,8 @@ class ApplicationController < ActionController::Base
     is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_change')
     is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_update')
     is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'show')
+    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'load_zone')
+    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'load_sector')
     is_read_only_site
   end
 

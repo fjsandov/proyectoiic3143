@@ -25,24 +25,33 @@
                 </div>
             </div>
         <% else %>
-            <div class="row-fluid">
-                <div class="span3">
-                  <% if @current_module == 'limpieza' %>
-                    <%= render 'shared/cleanup_sidebar' %>
-                  <% elsif @current_module == 'personal' %>
-                    <%= render 'shared/personal_sidebar'%>
-                  <% elsif @current_module == 'administracion'%>
-                    <%= render 'shared/administration_sidebar' %>
-                  <% end %>
-                </div><!--/span-->
-                <div class="span9">
-                  <%= bootstrap_flash %>
-                  <div id='yield-container'>
-                    <%= yield %>
-                  </div>
+          <div class="row-fluid">
+            <% if @current_controller == 'rooms_view' && @current_action == 'show' %>
+                <div class="span9 offset3">
+                    <%= bootstrap_flash %>
+                    <div id='yield-container'>
+                      <%= yield %>
+                    </div>
                 </div>
-                <%= render 'shared/modal_popup'%>
-            </div>
+            <% else %>
+                    <div class="span3">
+                      <% if @current_module == 'limpieza' %>
+                        <%= render 'shared/cleanup_sidebar' %>
+                      <% elsif @current_module == 'personal' %>
+                        <%= render 'shared/personal_sidebar'%>
+                      <% elsif @current_module == 'administracion'%>
+                        <%= render 'shared/administration_sidebar' %>
+                      <% end %>
+                    </div><!--/span-->
+                    <div class="span9">
+                      <%= bootstrap_flash %>
+                      <div id='yield-container'>
+                        <%= yield %>
+                      </div>
+                    </div>
+                    <%= render 'shared/modal_popup'%>
+            <% end %>
+          </div>
         <%end%>
       <!--/row-->
 
