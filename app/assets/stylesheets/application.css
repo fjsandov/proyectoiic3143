@@ -54,23 +54,41 @@ a .no-underline:hover{
 
 .status-maintenance
 {
-    background-color: #FFAD33; /* cafe */
+    background-color: #FFAD33 !important; /* cafe */
+    border-color: #FFAD33 !important;
+    color: black !important;
 }
 .status-free
 {
-    background-color: #00BE00; /* verde */
+    background-color: #00BE00 !important; /* verde */
+    border-color: #00BE00 !important;
+    color: black !important;
 }
 .status-occupied
 {
-    background-color: rgb(10, 202, 195);  /* azul */
+    background-color: #0ACAC3 !important;  /* azul */
+    border-color: #0ACAC3 !important;
+    color: black !important;
 }
-.status-cleaning
+.status-cleaning,
+.status-being-attended
 {
-    background-color: #FFFF33; /* amarillo */
+    background-color: #FFFF33 !important; /* amarillo */
+    border-color: #FFFF33 !important;
+    color: black !important;
 }
 .status-pending
 {
-    background-color: #E63030; /* rojo */
+    background-color: #E63030 !important; /* rojo */
+    border-color: #E63030 !important;
+    color: black !important;
+}
+
+.status-inactive
+{
+    background-color: #468966 !important; /* verde especial */
+    border-color: #468966 !important;
+    color: black !important;
 }
 
 /* Usado cuando hay que mostrar un error 500 de Rails en un popup */

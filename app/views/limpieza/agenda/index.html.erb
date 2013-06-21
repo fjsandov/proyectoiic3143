@@ -18,23 +18,26 @@
        <div id="agenda"></div>
   </div>
   <div class="span4">
-    <div id="calendar_for_agenda" class="datepicker span12"></div>
-    <div>
-        <% if Room.exist_requestable_rooms? %>
-            <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true' class='btn span12'>
-              <i class="icon-plus"></i> Agregar solicitud de limpieza
-            </a>
-        <%end%>
-
+    <div class="row-fluid">
+        <div id="calendar_for_agenda" class="datepicker span12"></div>
+    </div>
+    <div class="row-fluid">
+      <% if Room.exist_requestable_rooms? %>
+          <a href='<%=limpieza_new_cleanup_request_path%>' data-modal='true' class='btn span12'>
+            <i class="icon-plus"></i> Agregar solicitud de limpieza
+          </a>
+      <%end%>
+    </div>
+    <div class="row-fluid">
         <a href='<%= limpieza_print_cleanup_requests_path %>' data-modal='true' class='btn span12'>
           <i class="icon-print"></i> Imprimir tareas supervisor
         </a>
     </div>
 
-    <div class="accordion" id="accordionExcel">
+    <div class="accordion row-fluid" id="accordionExcel">
       <div class="accordion-group">
         <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionExcel" href="#collapseOne">
+          <a class="accordion-toggle btn" data-toggle="collapse" data-parent="#accordionExcel" href="#collapseOne">
             <i class="icon-print"></i> Importar Excel de altas
           </a>
         </div>
@@ -55,8 +58,6 @@
         </div>
       </div>
     </div>
-
-
 
   </div>
 </div>

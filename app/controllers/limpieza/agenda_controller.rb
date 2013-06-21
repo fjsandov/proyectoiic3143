@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Limpieza::AgendaController < ApplicationController
+  include ApplicationHelper
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
     @sectors = Sector.where(:zone => @zones[0]).order(:name)
@@ -21,10 +22,13 @@ class Limpieza::AgendaController < ApplicationController
     @events = []
     cleanup_requests.each do |cleanup|
       @events << {
-          :id => "cleanup-#{cleanup.id}",
-          :start => cleanup.requested_at,
-          :allDay => false,
-          :title => cleanup.room.name + ' - ' + cleanup.request_type + ' : ' + cleanup.start_comments[0..20],
+          id: "cleanup-#{cleanup.id}",
+          start: cleanup.requested_at,
+          allDay: false,
+          title: cleanup.room.name + ' - ' + cleanup.request_type + ' : ' + cleanup.start_comments[0..20],
+          className: "status-" + cleanup.status,
+          popupUrl: limpieza_show_cleanup_request_path(id: cleanup.id),
+          cleanupStatus: cleanup.status
       }
     end
 

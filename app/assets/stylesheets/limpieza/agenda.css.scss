@@ -39,6 +39,16 @@
     {
       min-height: 344px;
     }
+
+    .fc-event
+    {
+      cursor: pointer;
+    }
+
+    .status-inactive
+    {
+      cursor: default;
+    }
   }
 
   .ui-datepicker
@@ -49,5 +59,15 @@
   .btn
   {
     margin-top: 20px;
+  }
+
+  #accordionExcel
+  {
+    margin-top: 20px;
+
+    .btn
+    {
+      margin-top: 0px;
+    }
   }
 }
