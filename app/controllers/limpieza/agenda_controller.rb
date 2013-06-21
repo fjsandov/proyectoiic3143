@@ -4,8 +4,6 @@ class Limpieza::AgendaController < ApplicationController
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
     @sectors = Sector.where(:zone => @zones[0]).order(:name)
     @date = Time.current  # TODO: deberia ser un parametro (giovanni)
-
-    @cleanup_requests = CleanupRequest.get_requests_from_sector(@sectors[0], @date)
   end
 
   def load_zone
@@ -13,6 +11,24 @@ class Limpieza::AgendaController < ApplicationController
     @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
     render :json => { "sectors" => @sectors.as_json(:only => [:id, :name]),
                       "rooms" => @rooms.as_json(:only => [:id, :name, :status])}
+  end
+
+  def get_cleanup_request
+    sector = Sector.find(params[:sector])
+    start_date = Time.zone.at(params[:start].to_i)
+    end_date =  Time.zone.at(params[:end].to_i)
+    cleanup_requests = CleanupRequest.get_requests_from_sector(sector, start_date, end_date)
+    @events = []
+    cleanup_requests.each do |cleanup|
+      @events << {
+          :id => "cleanup-#{cleanup.id}",
+          :start => cleanup.requested_at,
+          :allDay => false,
+          :title => cleanup.room.name + ' - ' + cleanup.request_type + ' : ' + cleanup.start_comments[0..20],
+      }
+    end
+
+    render :json => @events
   end
 
   def print_cleanup_requests

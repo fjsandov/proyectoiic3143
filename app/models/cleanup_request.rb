@@ -1,12 +1,8 @@
 # -*- encoding : utf-8 -*-
 require 'modules/utils_lib'
-require 'modules/logger'
-require 'roo'
 
 class CleanupRequest < ActiveRecord::Base
   include Modules::UtilsLib
-  include Modules::Logger
-
   #Nota: end_comments tiene los comentarios de finish o de delete dependiendo del caso.
   attr_accessible :priority, :status, :room_id, :request_type, :end_comments,
                   :requested_at, :requested_by, :start_comments,
@@ -23,11 +19,8 @@ class CleanupRequest < ActiveRecord::Base
 
   after_save :change_room_status
 
-  ##--------------------------------------------VALIDACIONES--------------------------------------------##
+  ##---------------------VALIDACIONES-------------------##
   validates_presence_of :room_id, :priority, :status
-
-
-  ##--------------------------------------------METODOS DE CLASE--------------------------------------------##
 
   # Método estatico que sera llamado cada 1 minuto. Se encarga de activar solicitudes cuando entra en vigencia
   # y no hay ninguna activa
@@ -86,19 +79,20 @@ class CleanupRequest < ActiveRecord::Base
 
   def self.get_today_request
     CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
-        where('Date(started_at) = ?', Time.zone.today)
+        where('Date(requested_at) = ?', Time.zone.today)
   end
 
   # Solicitudes no finalizadas para la fecha indicada
-  def self.get_requests_for_date(date)
-    CleanupRequest.where("cleanup_requests.status IN (?)", ["pending", "being-attended", "inactive"])
-      .where('Date(started_at) = ?', date)
-      .order('started_at ASC')
+  def self.get_requests_for_date(start_date, end_date)
+   a= CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ? or cleanup_requests.status = ?",
+                         "pending", "being-attended", "inactive").where('requested_at between ? and ?', start_date, end_date).order(
+                          'started_at ASC')
+  a
   end
 
   # Solicitudes no finalizadas para el sector y fecha indicadas
-  def self.get_requests_from_sector(sector, date)
-    CleanupRequest.joins(:room).get_requests_for_date(date).where('rooms.sector_id' => sector.id)
+  def self.get_requests_from_sector(sector, start_date, end_date)
+    CleanupRequest.joins(:room).get_requests_for_date(start_date, end_date).where('rooms.sector_id' => sector.id)
   end
 
   def self.priority_options
@@ -109,48 +103,6 @@ class CleanupRequest < ActiveRecord::Base
   def self.request_type_options
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
   end
-
-  ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
-  #SUPUESTO: excel viene de la forma 'Nombre sala', ' Fecha', 'Hora', Prioridad, Tipo  [nota: tipo es 1:rutina, 2:normal o 3:terminal ]
-  def self.import_excel(user,file)
-    if spreadsheet = open_spreadsheet(file)
-      #Transaccion. O se cargan todas o ninguna.
-      ActiveRecord::Base.transaction do
-        (2..spreadsheet.last_row).each do |i|
-          cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
-          cleanup_request.create_request(user)
-        end
-      end
-      true
-    else
-      false
-    end
-  end
-
-  def self.new_cleanup_request_from_row(row)
-    cleanup_request = CleanupRequest.new
-    cleanup_request.room = Room.find_by_name(row[0])
-    aux_time = row[1].to_s+' '+Time.at(row[2]).utc.strftime("%I:%M%p").to_s
-    cleanup_request.requested_at = Time.parse(aux_time)
-    cleanup_request.priority = row[3]
-    case row[4]
-      when 1 then cleanup_request.request_type = 'rutine'
-      when 2 then cleanup_request.request_type = 'normal'
-      when 3 then cleanup_request.request_type = 'terminal'
-      else raise 'Invalid request_type on a CleanupRequest'
-    end
-    cleanup_request
-  end
-
-  def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-      when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-      when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
-      else false
-    end
-  end
-
-  ##--------------------------------------------METODOS DE INSTANCIA--------------------------------------------##
 
   def get_status_str
     case self.status
@@ -314,6 +266,15 @@ class CleanupRequest < ActiveRecord::Base
         #NO HAGO NADA
     end
     self.room.save
+  end
+
+  def save_with_log(user,message)
+    if self.save
+      LogRecord.create(:user => user,:message => message)
+      true
+    else
+      false
+    end
   end
 
 end
