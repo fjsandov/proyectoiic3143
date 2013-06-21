@@ -5,9 +5,22 @@
  * Time: 03:01 AM
  * To change this template use File | Settings | File Templates.
  */
+
+function pretty_excel_input(){
+    var excel_input = $('#excel');
+    excel_input.hide();
+    $('#pretty-excel-btn').click(function(){
+        excel_input.click();
+    });
+    excel_input.change(function(){
+        $('#pretty-excel').val($(this).val());
+    });
+}
 //2. Crear listbox AJAX
 $(function()
 {
+    pretty_excel_input();
+
     $('#agenda').fullCalendar({
         // options
         theme: false,
