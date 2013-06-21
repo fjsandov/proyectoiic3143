@@ -1,10 +1,19 @@
 # -*- encoding : utf-8 -*-
 class Limpieza::RoomsViewController < ApplicationController
+  #TODO: Refactoring .. mucha logica en los controladores (usar mas modelo)
   def index
     @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
     @sectors = Sector.where(:zone => @zones[0]).order(:name)
     @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
   end
+
+  #--------------------------------PARA USUARIO SOLO LECTURA--------------------------------
+  def show
+    @zones = Sector.select(:zone).group(:zone).order(:name).map { |a| a.zone }
+    @sectors = Sector.where(:zone => @zones[0]).order(:name)
+    @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
+  end
+  #-----------------------------------------------------------------------------------------
 
   def load_zone
     @sectors = Sector.where(:zone => params['zone']).order(:name)
@@ -28,9 +37,9 @@ class Limpieza::RoomsViewController < ApplicationController
     render_view = 'shared/modal_popup_success'
     room = Room.find(params[:req])
     status = params[:room_status]
-    if(room.status != status )
-      if(room.status == 'free' || room.status == 'occupied')
-        if(status == 'pending')
+    if room.status != status
+      if room.status == 'free' || room.status == 'occupied'
+        if status == 'pending'
           @cleanup_request = CleanupRequest.new(:room_id => room.id)
           @requestable_rooms = Room.get_cleanup_requestable_rooms
           @room_disable = true
@@ -38,7 +47,7 @@ class Limpieza::RoomsViewController < ApplicationController
         else
           room.status = status
           room.save
-          if(status == 'maintenance')
+          if status == 'maintenance'
             maintenance = MaintenanceRecord.new
             maintenance.room_id = room.id
             maintenance.start_comments = params[:maintenance_start_comments]
@@ -62,8 +71,8 @@ class Limpieza::RoomsViewController < ApplicationController
     @room = Room.find(params[:req])
     @maintenance = MaintenanceRecord.get_unfinished_by_room(@room.id)
     status = params[:room_status]
-    if(@room.status == 'maintenance')
-      if(status == 'free' || status == 'occupied')
+    if @room.status == 'maintenance'
+      if status == 'free' || status == 'occupied'
         @room.status = status
         @maintenance.finished_at = Time.current
         @maintenance.finished_by = @current_user

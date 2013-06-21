@@ -43,7 +43,7 @@ CUALimpieza::Application.routes.draw do
     put 'vista_salas/finish_maintenance' => 'roomsView#finish_maintenance', :as => 'finish_maintenance'
 
     # Read-Only Rooms view
-    get 'vista_salas/ver' => 'roomsView#visitor_show', :as => 'show_rooms_readonly'
+    get 'vista_salas/ver' => 'roomsView#show', :as => 'show_rooms_readonly'
 
     #Popups Cleanup Requests
     get 'popup_nueva_solicitud' => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
@@ -72,7 +72,7 @@ CUALimpieza::Application.routes.draw do
     get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
     get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
 
-    #Shifs_Controller:
+    #Shifts_Controller:
     get 'turnos' => 'shifts#index', :as => 'shifts'
 
     #Assitances_Controller:
