@@ -5,14 +5,14 @@ class User < ActiveRecord::Base
   has_secure_password
 
 #----------------Validations---------------
-  validates_presence_of :username, :user_type
+  validates_presence_of :username, :user_type, :gender
   validates_uniqueness_of :username
 
   validates_presence_of :password, :on => :create
 #--------------END Validations-------------
 
   def self.user_type_options
-    [['Administrador/a','admin'],['Coordinador/a','coordinator']]
+    [['Administrador/a','admin'],['Coordinador/a','coordinator'], ['Solo Lectura', 'read-only']]
   end
 
   def complete_name
@@ -34,11 +34,22 @@ class User < ActiveRecord::Base
     self.user_type == 'admin'
   end
 
+  def read_only?
+    self.user_type == 'read-only'
+  end
+
   def get_user_type_str
-     case self.user_type
-       when 'admin' then 'Administrador/a'
-       when 'coordinator' then 'Coordinador/a'
-       else 'ERROR'
-     end
+    str = ''
+    case self.user_type
+       when 'admin' then str = 'Administrador'
+       when 'coordinator' then str = 'Coordinador'
+       when 'read-only' then str = 'Solo Lectura'
+       else return 'ERROR'
+    end
+
+    if self.gender == 'F' && (self.user_type =='admin' || self.user_type == 'coordinator')
+      str += 'a'
+    end
+    str
   end
 end

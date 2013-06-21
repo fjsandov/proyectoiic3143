@@ -4,6 +4,8 @@ es:
       user:
         username: "Nombre de Usuario"
         password: "Contraseña"
+        password_confirmation: "Confirmación de Contraseña"
+        password_digest: "Confirmación de Contraseña"
         active: "Activo"
         user_type: "Tipo de Usuario"
         name: "Nombre"
@@ -27,3 +29,9 @@ es:
         finished_by: "Finalizado el"
         deleted_by: "Borrado por"
         deleted_at: "Borrado el"
+
+      terminal_cleanup:
+        comments: "Comentarios"
+        interval: "Intervalo"
+        start_date: "Fecha de inicio"
+        end_date: "Fecha de finalización"

@@ -35,8 +35,7 @@ class ApplicationController < ActionController::Base
 
   def public_sites
     #Sitios en los que se puede estar sin estar autenticado
-    #En Home: (solo logout es reservado para autenticados)
-    @is_public_site = (@current_controller=='home' && (@current_action == 'login' || @current_action == 'index'))
+    is_public_site = (@current_controller=='home' && (@current_action == 'login' || @current_action == 'index'))
   end
 
   def session_restart(user)
@@ -55,6 +54,20 @@ class ApplicationController < ActionController::Base
   end
 
 #-------------------------------------- Authorization methods --------------------------------------
+  def check_read_only_user
+    if @current_user.read_only? && !read_only_sites
+      redirect_to :limpieza_show_rooms_readonly and return
+    end
+  end
+
+  def read_only_sites
+    is_read_only_site = @current_controller=='home' && @current_action == 'logout'
+    is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_change')
+    is_read_only_site = is_read_only_site || (@current_controller=='home' && @current_action == 'my_password_update')
+    is_read_only_site = is_read_only_site || (@current_controller=='rooms_view' && @current_action == 'show')
+    is_read_only_site
+  end
+
   def check_admin_module
     if @current_module == 'administracion'
       check_admin

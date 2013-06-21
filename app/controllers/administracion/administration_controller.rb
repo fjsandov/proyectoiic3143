@@ -15,7 +15,7 @@ class Administracion::AdministrationController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = 'Usuario creado exitosamente'
-      redirect_to :controller => 'administracion/administration', :action => 'index'
+      redirect_to :administracion_users_list
     else
       @is_new = true
       render 'user'
@@ -32,7 +32,7 @@ class Administracion::AdministrationController < ApplicationController
   def update
     if params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
       flash[:error] = 'ERROR: No se debe cambiar el formulario'
-      redirect_to :controller=>'administracion/administration', :action => 'index'
+      redirect_to :administracion_users_list
     else
       @user = User.find(params[:id])
 
@@ -55,7 +55,7 @@ class Administracion::AdministrationController < ApplicationController
   def password_update
     if params[:sec] != Digest::SHA1.hexdigest(Digest::SHA1.hexdigest(@current_user.id.to_s+'_'+params[:id]))
       flash[:error] = 'ERROR: No se debe cambiar el formulario'
-      redirect_to :controller=>'administracion/administration', :action => 'index'
+      redirect_to :administracion_users_list
     else
       @user = User.find(params[:id])
       pass = params[:user][:password]

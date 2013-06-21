@@ -11,6 +11,10 @@ module Modules
       end
     end
 
+    def log_message(user,message)
+      LogRecord.create(:user => user,:message => message)
+    end
+
   end
 end
 

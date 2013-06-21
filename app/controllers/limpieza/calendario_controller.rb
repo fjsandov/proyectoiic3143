@@ -170,7 +170,7 @@ class Limpieza::CalendarioController < ApplicationController
   #PUT
   def update_tc_instance
     @terminal_cleanup_instance = TerminalCleanupInstance.find(params[:terminal_cleanup_instance][:id])
-    if @terminal_cleanup_instance.update_attributes(params[:terminal_cleanup_instance])
+    if @terminal_cleanup_instance.update_with_log(@current_user, params[:terminal_cleanup_instance])
       render 'shared/modal_popup_success'
     else
       flash.now[:error] = 'No se ha podido crear el aseo terminal'

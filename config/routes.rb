@@ -1,14 +1,6 @@
 # -*- encoding : utf-8 -*-
 CUALimpieza::Application.routes.draw do
 
-  get "assistances/index"
-
-  get "shifts/index"
-
-  get "shifts/create"
-
-  get "shifts/update"
-
   get "logs/show_since"
 
   namespace :limpieza do
@@ -37,6 +29,7 @@ CUALimpieza::Application.routes.draw do
     get 'calendario/edit_tc_instance', :as => 'edit_tc_instance'
     put 'calendario/update_tc_instance', :as => 'update_tc_instance'
 
+    # Rooms view
     get 'vista_salas' => 'roomsView#index', :as =>'vista_salas'
     get 'vista_salas/index' => 'roomsView#index'
     get 'vista_salas/load_zone' => 'roomsView#load_zone'
@@ -47,6 +40,10 @@ CUALimpieza::Application.routes.draw do
     get 'vista_salas/edit_maintenance_room' => 'roomsView#edit_maintenance_room', :as => 'edit_maintenance_room'
     put 'vista_salas/finish_maintenance' => 'roomsView#finish_maintenance', :as => 'finish_maintenance'
 
+    # Read-Only Rooms view
+    get 'vista_salas/ver' => 'roomsView#visitor_show', :as => 'show_rooms_readonly'
+
+    #Popups Cleanup Requests
     get 'popup_nueva_solicitud' => 'cleanup_popup#popup_cleanup_request_new', :as => 'new_cleanup_request'
     post 'crear_solicitud' => 'cleanup_popup#create', :as =>'create_cleanup_request'
 
@@ -78,8 +75,6 @@ CUALimpieza::Application.routes.draw do
 
     #Assitances_Controller:
     get 'asistencias' => 'assistances#index', :as => 'assistances'
-
-
   end
 
   namespace :administracion do

@@ -22,4 +22,18 @@ class TerminalCleanupInstance < ActiveRecord::Base
     self.instance_date ? self.instance_date.strftime("%d-%m-%Y %I:%M %p") : ''
   end
 
+  #TODO: testear!!!!!!!!!!!
+  def update_with_log(user,params_attributes)
+    if self.update_attributes(params_attributes)
+      unless self.instance_date
+        message = "#{user.complete_name} ha eliminado el aseo calendarizado de"
+        message += "#{terminal_cleanup.name} con fecha #{formatted_instance_date}"
+        log_message(user,message)
+      end
+      true
+    else
+      false
+    end
+  end
+
 end
