@@ -56,15 +56,6 @@ class Api::RoomsController < ApplicationController
     end
   end
 
-  #TODO: Borrar esto cuando este testeado
-  #ESTE ERA DE AGENDA
-  #def load_zone
-  #  @sectors = Sector.where(:zone => params['zone']).order(:name)
-  #  @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)
-  #  render :json => { "sectors" => @sectors.as_json(:only => [:id, :name]),
-  #                    "rooms" => @rooms.as_json(:only => [:id, :name, :status])}
-  #end
-
   def load_zone
     @sectors = Sector.where(:zone => params['zone']).order(:name)
     @rooms = Room.where(:sector_id => @sectors[0].id).order(:name)

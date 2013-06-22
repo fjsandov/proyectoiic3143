@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
   def public_sites
     #Sitios en los que se puede estar sin estar autenticado
     is_public_site = (@current_controller=='home' && (@current_action == 'login' || @current_action == 'index'))
+    is_public_site
   end
 
   def session_restart(user)
@@ -70,6 +71,7 @@ class ApplicationController < ActionController::Base
     is_read_only_site = is_read_only_site || (@current_controller =='rooms' && @current_action == 'load_zone')
     is_read_only_site = is_read_only_site || (@current_controller =='rooms' && @current_action == 'load_sector')
     is_read_only_site = is_read_only_site || (@current_controller =='logs')
+    is_read_only_site = is_read_only_site || (@current_controller == 'errors')
     is_read_only_site
   end
 

@@ -3,10 +3,10 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 
 #Twitter Bootstrap
-gem "twitter-bootstrap-rails"
+gem 'twitter-bootstrap-rails'
 
 # Select2 for rails
-gem "select2-rails"
+gem 'select2-rails'
 
 #JQuery UI
 gem 'jquery-ui-rails'
@@ -32,6 +32,10 @@ group :assets do
   #gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :production do
+  gem 'passenger'
 end
 
 gem 'jquery-rails'

@@ -28,6 +28,9 @@ module CUALimpieza
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
+    #Dejamos a la aplicacion como la responsable de las paginas de excepciones:
+    config.exceptions_app = self.routes
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # NOTA: Leer DOs/DON'Ts en http://www.elabs.se/blog/36-working-with-time-zones-in-ruby-on-rails

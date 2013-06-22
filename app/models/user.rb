@@ -9,6 +9,13 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   validates_presence_of :password, :on => :create
+  validate :first_user_is_admin
+
+  def first_user_is_admin
+    if self.id == 1 && self.user_type != 'admin'
+      errors[:base] << 'Este usuario es el dueño del sistema por lo que es administrador por defecto y no puede perder ese privilegio.'
+    end
+  end
 #--------------END Validations-------------
 
   def self.user_type_options
