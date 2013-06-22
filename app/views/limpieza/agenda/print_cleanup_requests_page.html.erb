@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agenda tareas <%= @date %></title>
+  <title>Agenda tareas <%= @date.strftime('%d-%b-%Y') %></title>
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <style media="print">
     .noPrint {
@@ -13,10 +13,13 @@
 <div class="container">
   <div class="row-fluid">
     <div class="span8">
-        <h1>Resumen aseos para <%= @date %></h1>
+        <h1>Resumen aseos para <%= @date.strftime('%d-%b-%Y') %></h1>
         <p>
-          <em>Documento autogenerado el <%= Time.current.strftime('%d-%m-%Y %H:%M')  %>.</em>
-          <a href="#" class="btn noPrint" onclick="window.print()">Imprimir esta página</a>
+          <a href="#" class="btn btn-primary noPrint" onclick="window.print()">
+            <i class="icon-print"></i> Imprimir esta página
+          </a>
+          <br class="noPrint" />
+          <em>Documento autogenerado el <%= Time.current.strftime('%d-%b-%Y %H:%M')  %>.</em>
         </p>
         <% @sectors.each do |s| %>
             <h2><%= s.name %></h2>
@@ -37,7 +40,7 @@
                 <% end %>
                 <% @cleanup_requests[s.id].each do |c| %>
                   <tr>
-                    <td><%= c.started_at.strftime('%H:%M') %></td>
+                    <td><%= c.get_requested_at_smart_str %></td>
                     <td><%= c.get_request_type_str %></td>
                     <td><%= c.room.name %></td>
                     <td><%= c.start_comments %></td>

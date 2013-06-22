@@ -50,11 +50,11 @@ class Limpieza::AgendaController < ApplicationController
 
   def print_cleanup_requests_page
     ids = params[:sector_id].map { |x| x.to_i }
-    @date = Time.zone.parse(params[:date]).to_date
+    @date = Time.zone.parse(params[:date])
     @sectors = Sector.where(:id => ids)
     @cleanup_requests = []
     @sectors.each do |s|
-      @cleanup_requests[s.id] = CleanupRequest.get_requests_from_sector(s, @date)
+      @cleanup_requests[s.id] = CleanupRequest.get_requests_from_sector(s, @date, @date + 1.day)
     end
 
     render :layout => false

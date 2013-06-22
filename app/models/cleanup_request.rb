@@ -91,10 +91,12 @@ class CleanupRequest < ActiveRecord::Base
 
   # Solicitudes no finalizadas para la fecha indicada
   def self.get_requests_for_date(start_date, end_date)
-   a= CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ? or cleanup_requests.status = ?",
+    if start_date.is_a? Date or end_date.is_a? Date
+      logger.warn('WARNING: get_requests_for_date: start_date o end_date son "Date", puede ocasionar problemas de zona horaria!')
+    end
+    CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ? or cleanup_requests.status = ?",
                          "pending", "being-attended", "inactive").where('requested_at between ? and ?', start_date, end_date).order(
                           'started_at ASC')
-  a
   end
 
   # Solicitudes no finalizadas para el sector y fecha indicadas
@@ -184,6 +186,7 @@ class CleanupRequest < ActiveRecord::Base
 
   # Idem al de request pero con started
   def get_started_at_smart_str
+    return nil if self.started_at.nil?
     if Time.current.to_date == self.started_at.to_date
       get_formatted_time(self.started_at)
     else
