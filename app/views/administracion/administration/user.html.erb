@@ -57,14 +57,13 @@
           </div>
         </div>
 
+        <div class="control-group form-horizontal">
+          <%= f.label :username, 'Usuario', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :username %>
+          </div>
+        </div>
         <% if @is_new %>
-            <div class="control-group form-horizontal">
-              <%= f.label :username, 'Nombre de Usuario', :class=>'control-label' %>
-              <div class="controls">
-                <%= f.text_field :username %>
-              </div>
-            </div>
-
             <div class="control-group form-horizontal">
               <%= f.label :password, 'Contraseña', :class=>'control-label' %>
               <div class="controls">
