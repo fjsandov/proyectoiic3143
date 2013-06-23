@@ -37,6 +37,20 @@ class User < ActiveRecord::Base
     cn
   end
 
+  def short_name
+    if self.name.blank?
+      cn = self.username
+    else
+      cn = self.name
+      unless self.last_name1.blank?
+        if (cn.length + self.last_name1.length < 15)
+          cn = cn + ' ' +self.last_name1
+        end
+      end
+    end
+    cn[0..15]
+  end
+
   def admin?
     self.user_type == 'admin'
   end

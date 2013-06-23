@@ -34,7 +34,7 @@
           <%= label_tag 'date_required_at', 'Fecha de Solicitud', :class=>"control-label" %>
           <div class="controls">
             <%= label_tag 'now_check' do%>
-                <%= check_box_tag 'now_check', nil, true, :onchange=>"$('.date_to_handle').toggle();" %> Ahora
+                <%= check_box_tag 'now_check', nil, true, :onchange=>"now_check_clicked();" %> Ahora
             <%end%>
           </div>
         </div>
@@ -43,7 +43,7 @@
             <div class="controls">
               <div class="datetimepicker input-append date">
                 <%= f.text_field :requested_at,:value => @cleanup_request.requested_at_for_form,
-                                 :class=>'input-medium',:required=>true %>
+                                 :class=>'input-medium' %>
                 <span class="add-on">
                       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                 </span>
@@ -65,3 +65,16 @@
       <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
+
+<script>
+ function now_check_clicked(){
+    var date_to_handle = $('.date_to_handle');
+    date_to_handle.toggle();
+     if(date_to_handle.css('display')=='none'){
+         $('#cleanup_request_requested_at').attr('required',false);
+     }
+     else{
+         $('#cleanup_request_requested_at').attr('required',true);
+     }
+ }
+</script>
