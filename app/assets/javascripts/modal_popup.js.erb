@@ -65,6 +65,17 @@ function init_modal_popup(modal_popup){
     });
 }
 
+
+function refresh_view(){
+    $('#yield-container').html('<%= image_tag "cargando.gif", :class=>"loading-img"%>');
+    $.get(window.location.href, function(data) {
+        $('#yield-container').html(data);
+        init_links_to_modal();
+        init_yield_container();
+        //TODO: Limpiar datepickers y demases de la vista.
+    });
+}
+
 $(
     function(){
         init_links_to_modal();
@@ -73,13 +84,12 @@ $(
 
         modal_popup.on('hidden',function(){
             reset_modal_content(modal_popup);
-            $('#yield-container').html('<%= image_tag "cargando.gif", :class=>"loading-img"%>');
-            $.get(window.location.href, function(data) {
-                $('#yield-container').html(data);
-                init_links_to_modal();
-                init_yield_container();
-                //TODO: Limpiar datepickers y demases de la vista.
-            });
+            if(modal_hidden_callback == undefined ) {
+                refresh_view();
+            }
+            else {
+                modal_hidden_callback();
+            }
         });
 
         // form input submit
