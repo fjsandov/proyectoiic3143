@@ -11,6 +11,11 @@ class Limpieza::CleanupPopupController < ApplicationController
     @cleanup_request = CleanupRequest.new(params[:cleanup_request])
     @requestable_rooms = Room.get_cleanup_requestable_rooms
 
+    #Si se pide para ahora, se deja en nil el campo.
+    if params[:now_check] == 'on'
+      @cleanup_request.requested_at = nil
+    end
+
     if @cleanup_request.create_request(@current_user)
       flash.now[:notice] = 'Se ha creado la Solicitud de Limpieza exitosamente'
       if params[:submit_type]=='just_create'

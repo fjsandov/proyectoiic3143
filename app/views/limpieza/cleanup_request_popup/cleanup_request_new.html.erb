@@ -17,32 +17,39 @@
         <div class="control-group form-horizontal">
             <%= f.label 'cleanup_request[priority]', 'Urgencia', :class=>"control-label" %>
             <div class="controls">
-                <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options),
-                           {:selected => @cleanup_request.priority} %>
+                <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options,
+                                                                               @cleanup_request.priority) %>
             </div>
         </div>
 
         <div class="control-group form-horizontal">
           <%= f.label 'cleanup_request[request_type]', 'Tipo', :class=>"control-label" %>
           <div class="controls">
-            <%= select_tag 'cleanup_request[request_type]', options_for_select(CleanupRequest.request_type_options),
-                           {:selected => @cleanup_request.request_type} %>
+            <%= select_tag 'cleanup_request[request_type]', options_for_select(CleanupRequest.request_type_options,
+                                                                               @cleanup_request.request_type) %>
           </div>
         </div>
 
         <div class="control-group form-horizontal">
-            <%= f.label :requested_at, 'Fecha y Hora', :class=>"control-label" %>
+          <%= label_tag 'now_check', 'Pedir ahora', :class=>"control-label" %>
+          <div class="controls">
+            <%= check_box_tag 'now_check', nil, true, :onchange=>"$('.date_to_handle').toggle();" %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal date_to_handle" style="display:none;">
+            <%= f.label :requested_at, 'Agendar para', :class=>"control-label" %>
             <div class="controls">
               <div class="datetimepicker input-append date">
-                <%= f.text_field :requested_at, :value => Time.current.strftime("%d-%m-%Y %I:%M %p") %>
+                <%= f.text_field :requested_at,:value => @cleanup_request.requested_at_for_form %>
                 <span class="add-on">
                       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                 </span>
               </div>
             </div>
-           </div>
+        </div>
 
-          <div class="control-group span11">
+        <div class="control-group span11">
             <%= f.label :start_comments, 'Comentarios', :class=>"control-label" %>
               <%= f.text_area :start_comments %>
           </div>

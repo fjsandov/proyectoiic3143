@@ -90,7 +90,7 @@
           <table class="table table-striped table-bordered table-condensed">
             <% @recent_activity.each do |activity| %>
                 <tr>
-                  <td style="text-align: left!important;"><%= activity.get_formatted_time %></td>
+                  <td style="text-align: left!important;"><%= activity.get_formatted_created_at %></td>
                   <td style="text-align: left!important;"><%= activity.message %></td>
                 </tr>
             <% end %>

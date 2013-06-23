@@ -108,13 +108,9 @@ class CleanupRequest < ActiveRecord::Base
       [['Baja',3],['Media',2], ['Alta',1]]
   end
 
-  #TODO: ver que este forma de abordar tipos es correcta. Otra idea seria usar prioridad como tipos (reemplazo)
+  #TODO: ver que este forma de abordar tipos es correcta.
   def self.request_type_options
     [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
-  end
-
-  def self.DELTA_CURRENT
-    120 #segs
   end
 
   ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
@@ -182,6 +178,10 @@ class CleanupRequest < ActiveRecord::Base
     else
       get_formatted_datetime(self.requested_at)
     end
+  end
+
+  def requested_at_for_form
+    self.requested_at.blank? ? '' : self.requested_at.strftime("%d-%m-%Y %I:%M %p")
   end
 
   # Idem al de request pero con started
@@ -261,23 +261,23 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def create_request(user)
-    self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
-    self.status = 'pending'
     self.requested_by = user.id
-
-    if self.requested_at.between?(Time.current-CleanupRequest.DELTA_CURRENT,Time.current+CleanupRequest.DELTA_CURRENT)
+    if self.requested_at.blank?
+      self.status = 'pending'
       self.requested_at = Time.current
       active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
-                                            "pending", "being-attended" ).first
+                                                 "pending", "being-attended" ).first
       if active_request.blank?
         message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
         self.save_with_log(user, message)
       else
-        self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala")
+        self.requested_at = nil
+        self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala en este momento")
         false
       end
     else
       self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
+      self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
       message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
       self.save_with_log(user, message)
     end
