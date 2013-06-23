@@ -1,2 +1,33 @@
-<h1>Personal::Shifts#index</h1>
-<p>Find me in app/views/personal/shifts/index.html.erb</p>
+<h2>
+  Administración de turnos
+  <a id="add_new_shift_link">
+    <i class="icon-plus-sign no-underline"></i>
+  </a>
+</h2>
+
+<div class="shifts_panel row-fluid">
+  <div class="shifts_selector_panel span3">
+    <div class="row-fluid">
+      <%= label_tag "shifts_collection", "Turnos", class: "shift_label" %>
+      <%= select_tag :shifts_collection, options_from_collection_for_select(@shifts, :id, :name), {multiple: true, class: "span12"} %>
+    </div>
+  </div>
+  <div class="info_panel span9 tabbable">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#shift_form_panel" data-toggle="tab">Tareas</a>
+      </li>
+      <li>
+        <a href="#personal_shift_panel" data-toggle="tab">Personas asignadas actualmente</a>
+      </li>
+    </ul>
+    <div class="info_container row-fluid tab-content">
+      <div class="tab-pane active" id="shift_form_panel">
+        <h4>Agrege un nuevo turno o seleccione uno ya creado</h4>
+      </div>
+      <div class="tab-pane" id="personal_shift_panel">
+        <h4>Personal</h4>
+      </div>
+    </div>
+  </div>
+</div>
