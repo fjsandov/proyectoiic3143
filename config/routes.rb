@@ -77,6 +77,9 @@ CUALimpieza::Application.routes.draw do
 
     #Shifts_Controller:
     get 'turnos' => 'shifts#index', :as => 'shifts'
+    get 'turnos/nuevo_turno' => 'shifts#get_new_shift', :as => 'get_new_shift'
+    post 'turnos/crear_turno' => 'shifts#create', :as => 'create_shift'
+    get 'shifts/shift_form', :as => 'shift_form'
 
     #Assitances_Controller:
     get 'asistencias' => 'assistances#index', :as => 'assistances'

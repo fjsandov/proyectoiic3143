@@ -1,0 +1,107 @@
+<%= form_for @shift, url: @url_form do |f| %>
+    <h4>Datos del turno <%=@name%></h4>
+    <div class="row-fluid">
+      <div class="control-group span3">
+        <div class="controls">
+          <%= f.label :start_time, 'Inicio', class:'control-label' %>
+          <div class="timepicker input-append date span12">
+            <%= f.text_field :start_time, value: @shift.start_time_for_form,
+                             class:'input-medium span8', required: true%>
+            <span class="add-on">
+                  <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="control-group span3">
+        <div class="controls">
+          <%= f.label :end_time, 'Término', class:'control-label' %>
+          <div class="timepicker input-append date span12">
+            <%= f.text_field :end_time, value: @shift.end_time_for_form,
+                             class: 'input-medium span8',required: true %>
+            <span class="add-on">
+                  <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="control-group span6">
+        <%= f.label :name, 'Turno', class:'control-label' %>
+        <div class="controls">
+          <%= f.text_field :name, class: "span12", required: true%>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span3">
+        <div class="row-fluid">
+          <div class="span12">
+            Días del turno
+          </div>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :monday do %>
+            <%= f.check_box :monday%> Lunes
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :tuesday do %>
+              <%= f.check_box :tuesday%> Martes
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :wednesday do %>
+              <%= f.check_box :wednesday%> Miércoles
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :thursday do %>
+              <%= f.check_box :thursday%> Jueves
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :friday do %>
+              <%= f.check_box :friday%> Viernes
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :saturday do %>
+              <%= f.check_box :saturday%> Sábado
+          <% end %>
+        </div>
+        <div class="row-fluid">
+          <%= label_tag :sunday do %>
+              <%= f.check_box :sunday%> Domingo
+          <% end %>
+        </div>
+      </div>
+      <div class="span9">
+        <div class="row-fluid">
+          <div class="span5">
+            <%= label_tag "tasks_collection", "Total de tareas", :class => "tasks_label" %>
+            <%= select_tag :tasks_collection, options_from_collection_for_select(@tasks, :id, :name), multiple: true%>
+          </div>
+          <div class="span2">
+            <div class="row-fluid">
+              <div id="add_task_button" class="btn">
+                <div class="icon-chevron-right"></div>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div id="remove_task_button" class="btn">
+                <div class="icon-chevron-left"></div>
+              </div>
+            </div>
+          </div>
+          <div class="span5">
+            <%= label_tag "shift_tasks_collection", "Tareas asignadas", :class => "shift_tasks_label" %>
+            <%= select_tag :shift_tasks_collection, options_from_collection_for_select(@shift.tasks, :id, :name),
+                           multiple: true%>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <%= f.submit @submit_str, :class => 'btn btn-primary pull-right' %>
+      </div>
+    </div>
+<% end %>
