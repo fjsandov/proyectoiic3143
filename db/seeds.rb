@@ -31,4 +31,15 @@ e2 = Employee.create(name: 'Pablo', last_name1: 'Cruz', gender: 'M', occupation:
 e3 = Employee.create(name: 'Giovanni', last_name1: 'De Lucca', gender: 'M', occupation: oc1)
 e4 = Employee.create(name: 'Larry', last_name1: 'Capizza', gender: 'M', occupation: oc2)
 
+sh1 = Shift.create(name: 'Turno mañana lun-vie',
+                   monday: true, tuesday: true, wednesday: true, thursday: true, friday: true,
+                   start_time: Time.new(2013, nil, nil, 6, 0),
+                   end_time: Time.new(2013, nil, nil, 12, 0))
+sh2 = Shift.create(name: 'Turno tarde lun-dom',
+                   monday: true, tuesday: true, wednesday: true, thursday: true, friday: true, saturday: true, sunday: true,
+                   start_time: Time.new(2013, nil, nil, 12, 0),
+                   end_time: Time.new(2013, nil, nil, 18, 0))
 
+e1.shifts << sh1
+e2.shifts << sh1
+e3.shifts << sh2
