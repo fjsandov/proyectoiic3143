@@ -33,6 +33,15 @@ function init_yield_container(){
         pickTime: false
     });
 
+    var timepickers = $(".timepicker",yield_container);
+    timepickers.datetimepicker({
+        format: 'HH:mm PP',
+        language: 'es',
+        pick12HourFormat: true,
+        pickSeconds: false,
+        pickDate: false
+    });
+
     var datetimepickers = $('.datetimepicker',yield_container);
     datetimepickers.datetimepicker({
         format: 'dd-MM-yyyy HH:mm PP',
@@ -47,8 +56,6 @@ function init_yield_container(){
 
 $(
     function(){
-        init_yield_container();
-
         //---------------------------------------I18N de datetimepicker----------------------------------------------//
         $.fn.datetimepicker.dates['es'] = {
             days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
@@ -74,6 +81,8 @@ $(
             formatLoadMore: function (pageNumber) { return "Cargando más resultados..."; },
             formatSearching: function () { return "Buscando..."; }
         });
+
+        init_yield_container();
 
         // buscar notificaciones cada 15 segundos
         last_checked = (new Date()).getTime() / 1000 | 0;

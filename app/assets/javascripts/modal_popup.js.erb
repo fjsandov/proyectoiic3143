@@ -44,6 +44,15 @@ function init_modal_popup(modal_popup){
         weekStart: 1
     });
 
+    var timepickers = $(".timepicker",modal_popup);
+    timepickers.datetimepicker({
+        format: 'HH:mm PP',
+        language: 'es',
+        pick12HourFormat: true,
+        pickSeconds: false,
+        pickDate: false
+    });
+
     var datetimepickers = $('.datetimepicker',modal_popup);
     datetimepickers.datetimepicker({
         format: 'dd-MM-yyyy HH:mm PP',

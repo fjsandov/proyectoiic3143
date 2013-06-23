@@ -31,17 +31,19 @@
         </div>
 
         <div class="control-group form-horizontal">
-          <%= label_tag 'now_check', 'Pedir ahora', :class=>"control-label" %>
+          <%= label_tag 'date_required_at', 'Fecha de Solicitud', :class=>"control-label" %>
           <div class="controls">
-            <%= check_box_tag 'now_check', nil, true, :onchange=>"$('.date_to_handle').toggle();" %>
+            <%= label_tag 'now_check' do%>
+                <%= check_box_tag 'now_check', nil, true, :onchange=>"$('.date_to_handle').toggle();" %> Ahora
+            <%end%>
           </div>
         </div>
 
         <div class="control-group form-horizontal date_to_handle" style="display:none;">
-            <%= f.label :requested_at, 'Agendar para', :class=>"control-label" %>
             <div class="controls">
               <div class="datetimepicker input-append date">
-                <%= f.text_field :requested_at,:value => @cleanup_request.requested_at_for_form %>
+                <%= f.text_field :requested_at,:value => @cleanup_request.requested_at_for_form,
+                                 :class=>'input-medium',:required=>true %>
                 <span class="add-on">
                       <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
                 </span>
