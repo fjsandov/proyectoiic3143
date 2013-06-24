@@ -16,8 +16,12 @@ function pretty_excel_input(){
         $('#pretty-excel').val($(this).val());
     });
 }
+
+$(function(){
+   init_agenda_view();
+});
 //2. Crear listbox AJAX
-$(function()
+function init_agenda_view()
 {
     pretty_excel_input();
 
@@ -139,7 +143,7 @@ $(function()
             $('#agenda').fullCalendar( 'gotoDate', year, month, day);
         }
     });
-});
+}
 
 function updateAgendaFullCalendar()
 {
