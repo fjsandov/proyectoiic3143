@@ -22,9 +22,9 @@
       <% end %>
     </li>
     <%unless @current_user.coordinator? %>
-        <li class="<%= "active" if @current_controller == "CONTROLADOR_VACACIONES_PERMISOS" %>">
+        <li class="<%= "active" if @current_controller == "vacations" %>">
           <%= link_to personal_vacations_path do %>
-              <i class="icon-star icon-<% if @current_controller == "CONTROLADOR_VACACIONES_PERMISOS" %>white<% else %>black<% end %>"></i>
+              <i class="icon-star icon-<% if @current_controller == "vacations" %>white<% else %>black<% end %>"></i>
               Vacaciones y Permisos
           <% end %>
         </li>
