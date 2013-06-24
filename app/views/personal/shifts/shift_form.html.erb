@@ -1,5 +1,5 @@
 <%= form_for @shift, url: @url_form do |f| %>
-    <h4>Datos del turno <%=@name%></h4>
+    <h4>Datos de <%=@name%></h4>
     <div class="row-fluid">
       <div class="control-group span3">
         <div class="controls">
@@ -40,37 +40,37 @@
           </div>
         </div>
         <div class="row-fluid">
-          <%= label_tag :monday do %>
+          <%= f.label :monday do %>
             <%= f.check_box :monday%> Lunes
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :tuesday do %>
+          <%= f.label :tuesday do %>
               <%= f.check_box :tuesday%> Martes
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :wednesday do %>
+          <%= f.label :wednesday do %>
               <%= f.check_box :wednesday%> Miércoles
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :thursday do %>
+          <%= f.label :thursday do %>
               <%= f.check_box :thursday%> Jueves
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :friday do %>
+          <%= f.label :friday do %>
               <%= f.check_box :friday%> Viernes
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :saturday do %>
+          <%= f.label :saturday do %>
               <%= f.check_box :saturday%> Sábado
           <% end %>
         </div>
         <div class="row-fluid">
-          <%= label_tag :sunday do %>
+          <%= f.label :sunday do %>
               <%= f.check_box :sunday%> Domingo
           <% end %>
         </div>
@@ -97,6 +97,10 @@
             <%= label_tag "shift_tasks_collection", "Tareas asignadas", :class => "shift_tasks_label" %>
             <%= select_tag :shift_tasks_collection, options_from_collection_for_select(@shift.tasks, :id, :name),
                            multiple: true%>
+            <%= hidden_field_tag 'task_list'%>
+            <% if defined?(@sec) %>
+                <%= hidden_field_tag :sec, @sec %>
+            <%end%>
           </div>
         </div>
       </div>

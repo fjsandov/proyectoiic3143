@@ -18,7 +18,7 @@ class Limpieza::AgendaController < ApplicationController
           id: "cleanup-#{cleanup.id}",
           start: cleanup.requested_at,
           allDay: false,
-          title: cleanup.room.name + ' - ' + cleanup.request_type + ' : ' + cleanup.start_comments[0..20],
+          title: cleanup.room.name + ' - ' + cleanup.get_request_type_str + ' : ' + cleanup.start_comments[0..20],
           className: "status-" + cleanup.status,
           popupUrl: limpieza_show_cleanup_request_path(id: cleanup.id),
           cleanupStatus: cleanup.status

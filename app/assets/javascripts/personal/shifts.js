@@ -20,6 +20,27 @@ $(function()
             }
         });
     });
+
+    $('#shifts_collection').change(function()
+    {
+        $.ajax({
+            type: "GET",
+            url: "/personal/turnos/ver_turno",
+            data: {
+                id: $('#shifts_collection :selected').val()
+            },
+            success: function(data)
+            {
+                $('#shift_form_panel').html(data);
+                init_shift_form_js();
+            }
+            ,
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
+            }
+        });
+    });
 });
 
 function init_shift_form_js()
@@ -48,6 +69,15 @@ function init_shift_form_js()
 
             $(selected).remove();
         });
+    })
+
+    $('#shift_form_panel form').submit(function()
+    {
+       $('#shift_tasks_collection option').each(function(i, elem)
+       {
+           text = $('#task_list').val() + ";" + $(elem).val();
+           $('#task_list').val(text);
+       });
     });
 
     init_yield_container();

@@ -1,14 +1,14 @@
 <h2>Vista de salas</h2>
 
-<div class="span9 rooms_selector_panel">
+<div class="span11 rooms_selector_panel">
   <div class="row-fluid">
-      <div class="span5">
+      <div class="span6">
         <%= label_tag "zones_collection", "Zona", :class => "zone_label span3" %>
-        <%= select_tag :zones_collection, options_for_select(@zones), :class => "span7" %>
+        <%= select_tag :zones_collection, options_for_select(@zones), :class => "span8" %>
       </div>
-      <div class="span5">
+      <div class="span6">
         <%= label_tag "sectors_collection", "Sector", :class => "sector_label span3" %>
-        <%= select_tag :sectors_collection, options_from_collection_for_select(@sectors, "id", "name"), :class => "span7" %>
+        <%= select_tag :sectors_collection, options_from_collection_for_select(@sectors, "id", "name"), :class => "span8" %>
       </div>
   </div>
 </div>
