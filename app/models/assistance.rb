@@ -2,9 +2,12 @@
 require 'modules/utils_lib'
 class Assistance < ActiveRecord::Base
   include Modules::UtilsLib
-  attr_accessible :date, :entry_time, :start_time, :end_time, :exit_time
+  # start_time: hora de entrada según shift
+  # entry_time: hora de entrada real del empleado
+  attr_accessible :date, :entry_time, :start_time, :end_time, :exit_time, :employee_id, :shift_id
 
-  has_and_belongs_to_many :employees
+  belongs_to :shift
+  belongs_to :employee
 
   def get_formatted_date
     get_formatted_day(self.date)
