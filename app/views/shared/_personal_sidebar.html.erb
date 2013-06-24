@@ -20,8 +20,8 @@
       <% end %>
     </li>
     <li class="<%= "active" if @current_controller == "CONTROLADOR_VACACIONES_PERMISOS" %>">
-      <%= link_to '#' do %>
-          <i class="icon-flag icon-<% if @current_controller == "CONTROLADOR_VACACIONES_PERMISOS" %>white<% else %>black<% end %>"></i>
+      <%= link_to personal_vacations_path do %>
+          <i class="icon-star icon-<% if @current_controller == "CONTROLADOR_VACACIONES_PERMISOS" %>white<% else %>black<% end %>"></i>
           Vacaciones y Permisos
       <% end %>
     </li>

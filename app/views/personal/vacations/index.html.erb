@@ -1,0 +1,83 @@
+<h2>Vacaciones y permisos</h2>
+
+<div id="calendar" style="margin-bottom: 40px"></div>
+
+<div style="margin-bottom: 40px">
+  Leyenda:
+  <span class="fc-event cal-vacation">Vacaciones</span>
+  <span class="fc-event cal-administrative">Día administrativo</span>
+</div>
+
+<div style="margin-bottom: 20px">
+  <a href='<%= personal_new_vacation_path %>' class="btn btn-primary" data-modal="true">
+    <i class="icon-plus"></i> Ingresar vacaciones para empleado
+  </a>
+</div>
+
+<style>
+  .cal-vacation {
+
+  }
+
+  .cal-administrative {
+      background-color: gray;
+  }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            // options
+            theme: false,
+            firstDay: 1,
+            weekMode: 'variable',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            buttonText: { today : 'Hoy' },
+            // sources
+            events: {
+                url: '<%= url_for :action => :get_events %>',
+                type: 'GET',
+                data: {
+                },
+                error: function() {
+                    alert('there was an error while fetching events!');
+                }
+            },
+            // callbacks
+            dayClick: function(date, allDay, jsEvent, view) {
+                //alert('a day has been clicked! Current view: ' + view.name);
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                //alert('a event has been clicked! Event: ' + calEvent.title);
+                var year = calEvent.start.getFullYear();
+                var month = calEvent.start.getMonth();
+                var day = calEvent.start.getDate();
+                if (calEvent.eventType == 'vacation')
+                {
+                    alert('Detalles vacaciones... (TO DO)')
+                    return;
+
+                    var id = calEvent.id.split('-')[1]; // "rule-42"
+                    show_modal('<%= limpieza_new_tc_instance_path %>' +
+                            '?tc_id=' + id +
+                            '&tc_year=' + year +
+                            '&tc_month=' + (month+1) +
+                            '&tc_day=' + day);
+                }
+                else if (calEvent.eventType == 'administrative')
+                {
+                    alert('Detalles administrativo... (TO DO)')
+                    return;
+
+                    var id = calEvent.id.split('-')[1]; // "instance-42"
+                    show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
+                }
+                else
+                    alert('???');
+            }
+        });
+    });
+</script>

@@ -83,9 +83,15 @@ CUALimpieza::Application.routes.draw do
     get 'shifts/shift_form', :as => 'shift_form'
     put 'turnos/actualizar/:id' => 'shifts#update', :as => 'update_shift'
 
-    #Assitances_Controller:
+    #Assistances_Controller:
     get 'asistencias' => 'assistances#index', :as => 'assistances'
     post 'asistencia_update' => 'assistances#update', :as => 'update'
+
+    #Vacations controller:
+    get 'vacaciones' => 'vacations#index', :as => 'vacations'
+    get 'vacaciones/get_events' => 'vacations#get_events'
+    get 'vacaciones/new' => 'vacations#new', :as => 'new_vacation'
+    post 'vacaciones/create' => 'vacations#create', :as => 'create_vacation'
   end
 
   namespace :administracion do
