@@ -83,6 +83,7 @@ CUALimpieza::Application.routes.draw do
 
     #Assitances_Controller:
     get 'asistencias' => 'assistances#index', :as => 'assistances'
+    post 'asistencia_update' => 'assistances#update', :as => 'update'
   end
 
   namespace :administracion do

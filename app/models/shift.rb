@@ -6,6 +6,20 @@ class Shift < ActiveRecord::Base
   has_and_belongs_to_many :employees
   has_and_belongs_to_many :tasks
 
+  # true si en 'date' está vigente este shift
+  def active_date_for_shift?(date)
+    false unless date.is_a?(Date) or date.is_a?(Time) or date.is_a?(DateTime)
+    case date.wday
+      when 0 then return sunday
+      when 1 then return monday
+      when 2 then return tuesday
+      when 3 then return wednesday
+      when 4 then return thursday
+      when 5 then return friday # FUN! FUN! FUN!
+      when 6 then return saturday
+    end
+  end
+
   #Obtengo las tareas que no están incluidas en el turno
   def get_not_included_task
     if self.tasks.any?

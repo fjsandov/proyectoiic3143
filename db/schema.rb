@@ -11,27 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621215248) do
+ActiveRecord::Schema.define(:version => 20130623234138) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
-    t.time     "start_time"
-    t.time     "entry_time"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.time     "end_time"
-    t.time     "exit_time"
-  end
-
-  create_table "assistances_employees", :force => true do |t|
-    t.integer  "assistance_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "employee_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "shift_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "entry_time"
+    t.datetime "exit_time"
   end
 
-  add_index "assistances_employees", ["assistance_id"], :name => "index_assistances_employees_on_assistance_id"
-  add_index "assistances_employees", ["employee_id"], :name => "index_assistances_employees_on_employee_id"
+  add_index "assistances", ["employee_id"], :name => "index_assistances_on_employee_id"
+  add_index "assistances", ["shift_id"], :name => "index_assistances_on_shift_id"
 
   create_table "cleanup_requests", :force => true do |t|
     t.integer  "room_id"
