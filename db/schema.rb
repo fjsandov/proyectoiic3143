@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130623234138) do
+ActiveRecord::Schema.define(:version => 20130624041202) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
@@ -227,6 +227,9 @@ ActiveRecord::Schema.define(:version => 20130623234138) do
     t.boolean  "is_vacation"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "employee_id"
   end
+
+  add_index "vacations", ["employee_id"], :name => "index_vacations_on_employee_id"
 
 end
