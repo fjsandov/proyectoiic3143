@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class Administracion::AdministrationController < ApplicationController
+class Administracion::UsersController < ApplicationController
   def list
     @users = User.paginate(:page => params[:page], :per_page => 10)
     render 'index'

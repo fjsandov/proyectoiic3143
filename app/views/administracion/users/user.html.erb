@@ -3,7 +3,7 @@
     <h2><%= @is_new ? 'Nuevo Usuario' : 'Editando a '+@user.complete_name%></h2>
   </div>
   <div class='span12'>
-    <% url_form = @is_new ? administracion_create_path : administracion_update_path(@user) %>
+    <% url_form = @is_new ? administracion_create_user_path : administracion_update_user_path(@user) %>
     <%= form_for @user, :url => url_form do |f|%>
 
         <%= render :partial => 'shared/model_errors',:object => @user, :as => 'token' %>
@@ -82,7 +82,7 @@
         <div>
             <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
             <%= f.submit submit_str, :class => 'btn btn-primary' %>
-            <%= link_to 'Volver a lista', administracion_users_list_path, :class => 'btn btn-primary' %>
+            <%= link_to 'Volver a lista', administracion_users_list_path, :class => 'btn btn-info' %>
         </div>
     <% end %>
   </div>

@@ -1,10 +1,16 @@
 <div class='sidebar-nav well'>
   <ul class='nav nav-pills nav-stacked'>
     <li class='nav-header'>Módulo Administración</li>
-    <li class='<%= 'active' if @current_controller == 'administration' %>'>
+    <li class='<%= 'active' if @current_controller == 'users' %>'>
       <%= link_to administracion_users_list_path do %>
-          <i class='icon-home icon-<% if @current_controller == 'administration' %>white<% else %>black<% end %>'></i>
-          Lista de Usuarios
+          <i class='icon-user icon-<% if @current_controller == 'users' %>white<% else %>black<% end %>'></i>
+          Usuarios
+      <% end %>
+    </li>
+    <li class='<%= 'active' if @current_controller == 'rooms' %>'>
+      <%= link_to administracion_rooms_list_path do %>
+          <i class='icon-th-large icon-<% if @current_controller == 'rooms' %>white<% else %>black<% end %>'></i>
+          Salas
       <% end %>
     </li>
   </ul>

@@ -2,7 +2,7 @@
   <div class="span12">
     <h3>
       Lista de Usuarios
-      <%= link_to administracion_new_path do%>
+      <%= link_to administracion_new_user_path do%>
           <i class="icon-plus-sign no-underline"></i>
       <% end %>
     </h3>
@@ -35,7 +35,7 @@
                   <% end %>
                 </td>
                 <td>
-                  <%= link_to administracion_edit_path(user) do%>
+                  <%= link_to administracion_edit_user_path(user) do%>
                       <i class="icon-pencil icon-black"></i>
                   <% end %> |
                   <%= link_to administracion_password_change_path(user) do%>
@@ -45,7 +45,7 @@
               </tr>
           <% end %>
         </table>
-        <%= render 'legend_user_list' %>
+        <%= render 'legend_users_list' %>
         <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
     <% end %>
   </div>

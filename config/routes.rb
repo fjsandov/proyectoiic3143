@@ -95,13 +95,21 @@ CUALimpieza::Application.routes.draw do
   end
 
   namespace :administracion do
-    get 'index' => 'administration#list', :as => 'users_list'
-    get 'nuevo_usuario' => 'administration#new', :as => 'new'
-    post 'crear_usuario' => 'administration#create', :as => 'create'
-    get 'editar_usuario/:id' => 'administration#edit', :as => 'edit'
-    put 'actualizar_usuario/:id' => 'administration#update', :as => 'update'
-    get 'cambio_contrasena/:id' => 'administration#password_change', :as =>'password_change'
-    put 'actualizar_contrasena/:id' => 'administration#password_update', :as =>'password_update'
+    #--------------------------usuarios------------------------------
+    get 'index' => 'users#list', :as => 'users_list'
+    get 'usuarios/nuevo' => 'users#new', :as => 'new_user'
+    post 'usuarios/crear' => 'users#create', :as => 'create_user'
+    get 'usuarios/editar/:id' => 'users#edit', :as => 'edit_user'
+    put 'usuarios/actualizar/:id' => 'users#update', :as => 'update_user'
+    get 'usuarios/cambio_contrasena/:id' => 'users#password_change', :as =>'password_change'
+    put 'usuarios/actualizar_contrasena/:id' => 'users#password_update', :as =>'password_update'
+
+    #--------------------------salas------------------------------
+    get 'salas/lista' => 'rooms#list', :as => 'rooms_list'
+    get 'salas/nuevo' => 'rooms#new', :as => 'new_room'
+    post 'salas/crear' => 'rooms#create', :as => 'create_room'
+    get 'salas/editar/:id' => 'rooms#edit', :as => 'edit_room'
+    put 'salas/actualizar/:id' => 'rooms#update', :as => 'update_room'
   end
 
   get 'cambiar_contrasena' => 'home#my_password_change', :as =>'my_password_change'

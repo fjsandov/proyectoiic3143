@@ -1,0 +1,2 @@
+module Administracion::RoomsHelper
+end

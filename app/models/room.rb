@@ -8,18 +8,21 @@ class Room < ActiveRecord::Base
   has_many :maintenance_records
 
   validates_uniqueness_of :name
+  validates_presence_of :name
 
-  #Salas sobre las que se puede realizar una solicitud de limpieza
   def self.get_cleanup_requestable_rooms
-    #posible_status = ['free','maintenance','occupied']
-    #Room.where('status in (?)',posible_status)
-    Room.all #TODO: Revisar si basta con que sean todos (y si es necesario)
+    Room.all
   end
 
   def self.exist_requestable_rooms?
      !Room.get_cleanup_requestable_rooms.blank?
   end
 
+  def self.sector_options
+    Sector.all.collect do |sector|
+      [sector.name, sector.id]
+    end
+  end
 
   def get_status_str
     case self.status
@@ -34,6 +37,11 @@ class Room < ActiveRecord::Base
       else #when 'cleaning'
         'En Limpieza'
     end
+  end
+
+  def save_new_room
+    self.status = 'free'
+    self.save
   end
 
 end
