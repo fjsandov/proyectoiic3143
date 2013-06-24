@@ -7,7 +7,11 @@
  */
 
 //2. Crear listbox AJAX
-$(function() {
+$(function(){
+    init_rooms_view();
+});
+
+function init_rooms_view() {
     $('#zones_collection').change(function() {
         //incrusta html devuelto dentro del <option> sectors
         if($('#zones_collection').val())
@@ -53,7 +57,7 @@ $(function() {
             }
         });
     });
-});
+}
 
 function fillRoomButtons(data)
 {
