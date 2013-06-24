@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     else
       cn = self.name
       unless self.last_name1.blank?
-        if (cn.length + self.last_name1.length < 15)
+        if cn.length + self.last_name1.length < 15
           cn = cn + ' ' +self.last_name1
         end
       end
@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 
   def admin?
     self.user_type == 'admin'
+  end
+
+  def coordinator?
+    self.user_type == 'coordinator'
   end
 
   def read_only?

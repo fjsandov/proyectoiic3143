@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :current_user, :set_controller_action_and_module, :session_control,
-                :check_if_ajax_request, :check_read_only_user, :check_admin_module
+                :check_if_ajax_request, :check_read_only_user, :check_coordinator_user,
+                :check_admin_module
   layout :check_if_display_layout
 
   def set_controller_action_and_module
@@ -55,6 +56,16 @@ class ApplicationController < ActionController::Base
   end
 
 #-------------------------------------- Authorization methods --------------------------------------
+  def check_coordinator_user
+    if signed_in?
+      if @current_user.coordinator?
+        if @current_module=='personal' && @current_controller != 'assistances'
+          redirect_to :personal_assistances and return
+        end
+      end
+    end
+  end
+
   def check_read_only_user
     if signed_in?
       if @current_user.read_only? && !read_only_sites

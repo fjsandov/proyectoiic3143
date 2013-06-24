@@ -40,8 +40,8 @@ a .icon-black{
  color: black!important;
 }
 
-a .no-underline:hover{
-   text-decoration: none;
+.no-underline:hover{
+   text-decoration: none!important;
 }
 
 @media (min-width:768px)

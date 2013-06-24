@@ -10,7 +10,7 @@
             <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
             <div class="controls">
               <%= f.collection_select :room_id, @requestable_rooms, :id, :name,{}, {
-                 :selected => @cleanup_request.room_id} %>
+                 :selected => @cleanup_request.room_id, :class=>'select2'} %>
             </div>
           </div>
 
