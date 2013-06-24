@@ -9,12 +9,14 @@ class Assistance < ActiveRecord::Base
   belongs_to :shift
   belongs_to :employee
 
+  validates_presence_of :date, :start_time, :end_time
+
   def get_formatted_date
     get_formatted_day(self.date)
   end
 
   def get_formatted_entry_time
-    get_formatted_time(self.entry_time)
+   self.entry_time ? get_formatted_time(self.entry_time) : 'No ha entrado'
   end
 
   def get_formatted_start_time
@@ -26,6 +28,6 @@ class Assistance < ActiveRecord::Base
   end
 
   def get_formatted_exit_time
-    get_formatted_time(self.exit_time)
+    self.exit_time ? get_formatted_time(self.exit_time) : 'No ha salido'
   end
 end
