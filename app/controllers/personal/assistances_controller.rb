@@ -5,7 +5,7 @@ class Personal::AssistancesController < ApplicationController
     @date = Time.zone.today if @date.nil?
 
     @shifts = Shift.all
-    @shift = Shift.find(params[:shift_id]) unless params[:shift_id].empty?
+    @shift = Shift.find(params[:shift_id]) unless params[:shift_id].blank?
     if @shift and @shift.active_date_for_shift?(@date)
       # recuperar registros de asistencia
       @assistances = Assistance.where(:date => @date).where(:shift_id => @shift.id)
