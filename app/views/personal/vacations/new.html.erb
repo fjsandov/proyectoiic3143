@@ -14,11 +14,12 @@
       </div>
 
       <div class="control-group">
-        <%= f.label :is_vacation, 'Motivo', :class => "control-label" %>
+        <%= f.label :vacation_type, 'Motivo', :class => "control-label" %>
         <div class="controls">
-          <select name='vacation[is_vacation]'>
-            <option value='true'>Vacaciones</option>
-            <option value=''>Permiso administrativo</option>
+          <select name='vacation[vacation_type]'>
+            <option value='vacation'>Vacaciones</option>
+            <option value='administrative'>Permiso administrativo</option>
+            <option value='license'>Licencia</option>
           </select>
         </div>
       </div>
@@ -48,14 +49,20 @@
       </div>
 
       <div class='control-group'>
+        <label class='control-label'>Información</label>
         <div class='controls'>
-          <dl>
-            <dt>Vacaciones</dt>
-            <dd><em>Seleccione un empleado</em></dd>
+          <em>Días tomados por el empleado seleccionado desde el 1 de Enero.</em>
+          <strong>Vacaciones:</strong>
+          <em id='vacation-count'><!-- rellenado por javascript --></em>
+          <br/>
 
-            <dt>Días administrativos</dt>
-            <dd><em>Seleccione un empleado</em></dd>
-          </dl>
+          <strong>Días administrativos</strong>
+          <em id='administrative-count'><!-- rellenado por javascript --></em>
+          <br/>
+
+          <strong>Licencias</strong>
+          <em id='license-count'><!-- rellenado por javascript --></em>
+          <br/>
         </div>
       </div>
 
@@ -69,33 +76,25 @@
 <script>
     $(function() {
         // actualizar el select de Salas al cambiar el Sector
-        $('#terminal_cleanup_sector_id').change(loadRoomSelect);
-        loadRoomSelect();
+        $('#vacation_employee_id').change(loadVacationCounters);
+        loadVacationCounters();
     });
 
-    function loadRoomSelect() {
-        var sector_id = $('#terminal_cleanup_sector_id').val();
-        if (sector_id) {
-            var $room_select = $('#terminal_cleanup_room_id');
-            $room_select.html('');  // clear options
-            $room_select.append('<option value="">Cargando...</option>');
-
-            $.getJSON('/api/rooms/sector/:id.json'.replace(':id', sector_id),
+    function loadVacationCounters() {
+        var employee_id = $('#vacation_employee_id').val();
+        if (employee_id) {
+            $('#vacation-count, #administrative-count, #license-count').html('Cargando...');
+            $.getJSON('/api/employees/:id/vacations.json'.replace(':id', employee_id),
                     function(data) {
-                        $room_select.html('');  // clear options
-                        $room_select.append('<option value="">Todas las de '+
-                                $('#terminal_cleanup_sector_id option:selected').text() +
-                                '</option>');
-                        for (var i = 0; i < data.length; i++) {
-                            var $option = $('<option></option>');
-                            $option.val(data[i]['id']);
-                            $option.text(data[i]['name']);
-                            $room_select.append($option);
-                        }
+                        $('#vacation-count').html(data['vacation'] + ' días.');
+                        $('#administrative-count').html(data['administrative'] + ' días.');
+                        $('#license-count').html(data['license'] + ' días.');
+                    }).fail(function() {
+                        $('#vacation-count, #administrative-count, #license-count').html('Error. Intente más tarde.');
                     });
         }
         else {
-            $('#terminal_cleanup_room_id').html('<optgroup label="Elija un sector..."></optgroup>');
+            $('#vacation-count, #administrative-count, #license-count').html('---');
         }
     }
 </script>
