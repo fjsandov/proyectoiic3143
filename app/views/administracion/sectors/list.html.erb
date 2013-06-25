@@ -1,39 +1,39 @@
 <div class="row-fluid">
   <div class="span12">
     <h3>
-      Lista de Salas
-      <%= link_to administracion_new_room_path do%>
+      Lista de Sectores
+      <%= link_to administracion_new_sector_path do%>
           <i class="icon-plus-sign no-underline"></i>
       <% end %>
     </h3>
 
     <br>
 
-    <% if @rooms.blank? %>
+    <% if @sectors.blank? %>
         <div class="alert alert-info text-center">
-            <h6>No se han encontrado salas</h6>
+            <h6>No se han encontrado sectores</h6>
         </div>
     <% else %>
         <table class='table table-striped table-bordered'>
           <tr>
-            <th>Sector</th>
-            <th>Nombre de Sala</th>
+            <th>Nombre del Sector</th>
+            <th>Zona del Sector</th>
             <th>Acciones</th>
           </tr>
-          <% @rooms.each do |room| %>
+          <% @sectors.each do |sector| %>
               <tr>
-                <td><%= room.sector.name %></td>
-                <td><%= room.name %></td>
+                <td><%= sector.name %></td>
+                <td><%= sector.zone %></td>
                 <td>
-                  <%= link_to administracion_edit_room_path(room) do%>
+                  <%= link_to administracion_edit_sector_path(sector) do%>
                       <i class="icon-pencil icon-black"></i>
                   <% end %>
                 </td>
               </tr>
           <% end %>
         </table>
-        <%= render 'legend_rooms_list' %>
-        <%= will_paginate @rooms, renderer: BootstrapPagination::Rails %>
+        <%= render 'legend_sectors_list' %>
+        <%= will_paginate @sectors, renderer: BootstrapPagination::Rails %>
     <% end %>
   </div>
 </div>

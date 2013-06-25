@@ -35,3 +35,14 @@ es:
         interval: "Intervalo"
         start_date: "Fecha de inicio"
         end_date: "Fecha de finalización"
+
+      sector:
+        name: "Nombre"
+        zone: "Zona"
+
+      room:
+        floor: "Piso"
+        name: "Nombre"
+        status: "Estado"
+        sector_id: "Sector"
+        sector: "Sector"

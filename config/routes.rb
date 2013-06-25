@@ -112,6 +112,15 @@ CUALimpieza::Application.routes.draw do
     post 'salas/crear' => 'rooms#create', :as => 'create_room'
     get 'salas/editar/:id' => 'rooms#edit', :as => 'edit_room'
     put 'salas/actualizar/:id' => 'rooms#update', :as => 'update_room'
+
+    #--------------------------sectores------------------------------
+    get 'sectores/lista' => 'sectors#list', :as => 'sectors_list'
+    get 'sectores/nuevo' => 'sectors#new', :as => 'new_sector'
+    post 'sectores/crear' => 'sectors#create', :as => 'create_sector'
+    get 'sectores/editar/:id' => 'sectors#edit', :as => 'edit_sector'
+    put 'sectores/actualizar/:id' => 'sectors#update', :as => 'update_sector'
+
+
   end
 
   get 'cambiar_contrasena' => 'home#my_password_change', :as =>'my_password_change'

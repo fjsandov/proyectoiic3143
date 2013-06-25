@@ -1,6 +1,12 @@
 <div class='fluid-row'>
   <div class='span12'>
-    <h2><%= @is_new ? 'Nueva Sala' : 'Editando sala '+@room.name%></h2>
+    <% @page_title = @is_new ? 'Nueva Sala' : 'Editando Sala ' %>
+    <ul class="breadcrumb">
+      <li><a href=<%= administracion_rooms_list_path %>>Lista de Salas</a> <span class="divider">/</span></li>
+      <li class="active"><%= @page_title %></li>
+    </ul>
+
+    <h2><%= @page_title %></h2>
   </div>
   <div class='span12'>
     <% url_form = @is_new ? administracion_create_room_path : administracion_update_room_path(@room) %>
@@ -25,10 +31,9 @@
           </div>
         </div>
 
-        <div>
+        <div class='offset6'>
           <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
           <%= f.submit submit_str, :class => 'btn btn-primary' %>
-          <%= link_to 'Volver a lista', administracion_rooms_list_path, :class => 'btn btn-info' %>
         </div>
     <% end %>
   </div>

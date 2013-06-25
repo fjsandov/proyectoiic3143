@@ -7,9 +7,15 @@
           Usuarios
       <% end %>
     </li>
+    <li class='<%= 'active' if @current_controller == 'sectors' %>'>
+      <%= link_to administracion_sectors_list_path do %>
+          <i class='icon-th-large icon-<% if @current_controller == 'sectors' %>white<% else %>black<% end %>'></i>
+          Sectores
+      <% end %>
+    </li>
     <li class='<%= 'active' if @current_controller == 'rooms' %>'>
       <%= link_to administracion_rooms_list_path do %>
-          <i class='icon-th-large icon-<% if @current_controller == 'rooms' %>white<% else %>black<% end %>'></i>
+          <i class='icon-th icon-<% if @current_controller == 'rooms' %>white<% else %>black<% end %>'></i>
           Salas
       <% end %>
     </li>

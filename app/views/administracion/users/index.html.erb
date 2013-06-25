@@ -10,7 +10,9 @@
     <br>
 
     <% if @users.blank? %>
-        <h6>No se han encontrado usuarios</h6>
+        <div class="alert alert-info text-center">
+            <h6>No se han encontrado usuarios</h6>
+        </div>
     <% else %>
         <table class='table table-striped table-bordered'>
           <tr>

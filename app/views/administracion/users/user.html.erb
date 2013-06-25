@@ -1,6 +1,12 @@
 <div class='fluid-row'>
   <div class='span12'>
-    <h2><%= @is_new ? 'Nuevo Usuario' : 'Editando a '+@user.complete_name%></h2>
+    <% @page_title = @is_new ? 'Nuevo Usuario' : 'Editando Usuario' %>
+    <ul class="breadcrumb">
+      <li><a href=<%= administracion_users_list_path %>>Lista de Usuarios</a> <span class="divider">/</span></li>
+      <li class="active"><%= @page_title %></li>
+    </ul>
+    <% @page_title = @is_new ? 'Nuevo Usuario' : 'Editando a '+@user.complete_name %>
+    <h2><%= @page_title %></h2>
   </div>
   <div class='span12'>
     <% url_form = @is_new ? administracion_create_user_path : administracion_update_user_path(@user) %>
@@ -79,10 +85,9 @@
             </div>
         <% end %>
 
-        <div>
+        <div class='offset6'>
             <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
             <%= f.submit submit_str, :class => 'btn btn-primary' %>
-            <%= link_to 'Volver a lista', administracion_users_list_path, :class => 'btn btn-info' %>
         </div>
     <% end %>
   </div>

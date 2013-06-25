@@ -1,0 +1,53 @@
+<div class='fluid-row'>
+  <div class='span12'>
+    <% @page_title = @is_new ? 'Nuevo Sector' : 'Editando Sector' %>
+    <ul class="breadcrumb">
+      <li><a href=<%= administracion_sectors_list_path %>>Lista de Sectores</a> <span class="divider">/</span></li>
+      <li class="active"><%= @page_title %></li>
+    </ul>
+
+    <h2><%= @page_title %></h2>
+  </div>
+  <div class='span12'>
+    <% url_form = @is_new ? administracion_create_sector_path : administracion_update_sector_path(@sector) %>
+    <%= form_for @sector, :url => url_form do |f|%>
+
+        <%= render :partial => 'shared/model_errors',:object => @sector, :as => 'token' %>
+
+        <% unless @is_new %>
+            <%= hidden_field_tag :sec, @sec %>
+        <%end%>
+        <div class="control-group form-horizontal">
+          <%= f.label :name, 'Nombre', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :name, :required=>true %>
+          </div>
+        </div>
+
+        <div class="control-group form-horizontal">
+          <%= f.label :zone, 'Zona', :class=>'control-label' %>
+          <div class="controls">
+            <%= f.text_field :zone, :required=>true %>
+          </div>
+        </div>
+
+        <div class='offset6'>
+          <% submit_str = @is_new ? 'Crear' : 'Actualizar' %>
+          <%= f.submit submit_str, :class => 'btn btn-primary' %>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    $(function() {
+        var availableTags = [
+            <% @available_zones.each_with_index do |available_zone, i| %>
+                "<%=available_zone.zone %>",
+            <% end %>
+        ];
+        $( "#sector_zone" ).autocomplete({
+            source: availableTags
+        });
+    });
+</script>

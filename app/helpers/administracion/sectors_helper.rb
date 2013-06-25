@@ -1,0 +1,2 @@
+module Administracion::SectorsHelper
+end

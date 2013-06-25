@@ -3,7 +3,9 @@
     <div class="span6">
       <h3>Aseos calendarizados</h3>
       <% if @next_terminal_cleanups.blank? %>
-          <h6>No hay aseos calendarizados para hoy</h6>
+          <div class="alert alert-info text-center">
+            <h6>No hay aseos calendarizados para hoy</h6>
+          </div>
       <% else %>
           <table class="table table-striped table-bordered">
             <thead>
@@ -52,7 +54,9 @@
         <%end%>
       </h3>
       <% if @unfinished_cleanup_requests.blank? %>
-          <h6>No hay solicitudes de limpieza pendientes</h6>
+          <div class="alert alert-info text-center">
+            <h6>No hay solicitudes de limpieza pendientes</h6>
+          </div>
       <% else %>
           <table class="table table-condensed table-bordered">
             <tr>
@@ -85,7 +89,9 @@
     <div class='span12'>
       <h3>Actividad reciente</h3>
       <% if @recent_activity.blank? %>
-          <h6>No hay registros de actividad disponibles</h6>
+          <div class="alert alert-info text-center">
+            <h6>No hay registros de actividad disponibles</h6>
+          </div>
       <% else %>
           <table class="table table-striped table-bordered table-condensed">
             <% @recent_activity.each do |activity| %>

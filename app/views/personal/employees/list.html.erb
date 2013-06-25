@@ -10,7 +10,9 @@
         <br>
 
         <% if @employees.blank? %>
+          <div class="alert alert-info text-center">
             <h6>No se han creado empleados</h6>
+          </div>
         <% else %>
             <table class='table table-striped table-bordered'>
                 <tr>

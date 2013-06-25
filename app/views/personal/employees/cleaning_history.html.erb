@@ -5,11 +5,13 @@
       <li class="active">Historial de Limpieza</li>
     </ul>
     <h3>
-      Historial de Limpieza de <%= link_to @employee.complete_name, personal_edit_path(@employee)%>
+      Historial de Limpieza de <%= @employee.complete_name%>
     </h3>
 
     <% if @employee_cleaning_history.blank? %>
-        <h6>Empleado no ha realizado limpiezas</h6>
+        <div class="alert alert-info text-center">
+          <h6>Empleado no ha realizado limpiezas</h6>
+        </div>
     <% else %>
         <table class='table table-striped table-bordered'>
           <tr>
