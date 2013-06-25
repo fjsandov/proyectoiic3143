@@ -17,11 +17,11 @@ class Personal::VacationsController < ApplicationController
               .each do |v|
         @events << {
             :id => "vacation-#{v.id}",
-            :eventType => v.is_vacation? ? 'vacation' : 'administrative',
+            :eventType => v.vacation_type,
             :start => v.start_date,
             :end => v.end_date,
             :title => v.employee.complete_name,
-            :className => v.is_vacation? ? 'cal-vacation' : 'cal-administrative',
+            :className => 'cal-'  + v.vacation_type,
         }
       end
 

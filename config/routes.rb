@@ -62,6 +62,8 @@ CUALimpieza::Application.routes.draw do
     get 'rooms/load_sector' => 'rooms#load_sector'
     resources :rooms
     get 'logs/show' => 'logs#show'
+    get 'employees/:id' => 'employees#show'
+    get 'employees/:id/vacations' => 'employees#employee_vacations'
   end
 
   namespace :personal do
