@@ -11,6 +11,7 @@ class Personal::AssistancesController < ApplicationController
       @assistances = Assistance.where(:date => @date).where(:shift_id => @shift.id)
 
       # Si no existen, autogenerar registros de asistencia para ese día
+      # Nota: Se generan incluso si estan de vacaciones (eso se distingue en la vista)
       if @assistances.length == 0
         @shift.employees.each do |e|
           a = Assistance.create(date: @date, start_time: @shift.start_time, end_time: @shift.end_time,

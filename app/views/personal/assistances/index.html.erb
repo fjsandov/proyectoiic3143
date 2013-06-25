@@ -43,8 +43,13 @@
         <tr data-id='<%= a.id %>'>
           <td><%= a.employee.name %></td>
           <td><%= a.employee.last_name1 %> <%= a.employee.last_name2 %></td>
-          <td><button class="btn assistance-btn"><i class="icon-ok"></i> Asistencia</button></td>
-          <td class="hour-td"><%= a.entry_time ? a.get_formatted_entry_time : 'Ausente' %></td>
+          <% if a.employee.is_on_vacation?(@date) %>
+              <td>---</td>
+              <td><em><%= a.employee.is_on_vacation_str(@date) %></em></td>
+          <% else %>
+              <td><button class="btn assistance-btn"><i class="icon-ok"></i> Asistencia</button></td>
+              <td class="hour-td"><%= a.entry_time ? a.get_formatted_entry_time : 'Ausente' %></td>
+          <% end %>
         </tr>
       <% end %>
   <% else %>

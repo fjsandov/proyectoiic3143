@@ -54,6 +54,7 @@ class Employee < ActiveRecord::Base
 
   def get_status
     #TODO: que diga si el empleado esta de vacaciones, permiso, en turno o atendiendo limpieza
+    return is_on_vacation_str if is_on_vacation?
     'SIN IMPLEMENTAR'
   end
 
@@ -65,5 +66,15 @@ class Employee < ActiveRecord::Base
     aux = CleanupRequest.joins(:employees).where('employees.id = ? and
                               cleanup_requests.status = ?',self.id,'finished')
     aux.order('requested_at DESC')
+  end
+
+  # Retorna un bool indicando si el empleado esta en vacaciones, con permiso, o con licencia.
+  def is_on_vacation?(date=Time.current)
+    Vacation.is_on_vacation?(self.id, date)
+  end
+
+  # Idem a is_on_vacation?, pero retorna el string con el tipo de vacacion.
+  def is_on_vacation_str(date=Time.current)
+    Vacation.is_on_vacation_str(self.id, date)
   end
 end
