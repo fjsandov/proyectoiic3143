@@ -14,18 +14,18 @@
     <% else %>
         <table class='table table-striped table-bordered'>
           <tr>
-            <th>Nombre</th>
             <th>Apellido Paterno</th>
             <th>Apellido Materno</th>
+            <th>Nombre</th>
             <th>Tipo</th>
             <th>Activo?</th>
             <th>Acciones</th>
           </tr>
           <% @users.each do |user| %>
               <tr>
-                <td><%= user.name %></td>
                 <td><%= user.last_name1 %></td>
                 <td><%= user.last_name2 %></td>
+                <td><%= user.name %></td>
                 <td><%= user.get_user_type_str %></td>
                 <td>
                   <% if user.active? %>

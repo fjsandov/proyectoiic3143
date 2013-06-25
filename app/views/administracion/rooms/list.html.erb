@@ -14,14 +14,14 @@
     <% else %>
         <table class='table table-striped table-bordered'>
           <tr>
-            <th>Nombre</th>
             <th>Sector</th>
+            <th>Nombre de Sala</th>
             <th>Acciones</th>
           </tr>
           <% @rooms.each do |room| %>
               <tr>
-                <td><%= room.name %></td>
                 <td><%= room.sector.name %></td>
+                <td><%= room.name %></td>
                 <td>
                   <%= link_to administracion_edit_room_path(room) do%>
                       <i class="icon-pencil icon-black"></i>

@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   end
 #--------------END Validations-------------
 
+  def self.get_list
+    User.order(:last_name1)
+  end
+
   def self.user_type_options
     [['Administrador/a','admin'],['Coordinador/a','coordinator'], ['Solo Lectura', 'read-only']]
   end

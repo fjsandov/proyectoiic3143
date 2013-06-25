@@ -11,6 +11,10 @@ class Employee < ActiveRecord::Base
   has_and_belongs_to_many :shifts
   has_many :vacations
 
+  def self.get_list
+    Employee.order(:last_name1)
+  end
+
   def self.on_turn_employees  #TODO: Que en verdad sean los que estan de turno
      Employee.all
   end

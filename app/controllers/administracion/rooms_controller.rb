@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Administracion::RoomsController < ApplicationController
   def list
-    @rooms = Room.paginate(:page => params[:page], :per_page => 10)
+    @rooms = Room.get_list.paginate(:page => params[:page], :per_page => 10)
   end
 
   def new

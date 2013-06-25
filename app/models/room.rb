@@ -10,6 +10,10 @@ class Room < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
 
+  def self.get_list
+    Room.joins(:sector).order('CONCAT(sectors.name,rooms.name)')
+  end
+
   def self.count_for_status(target_status)
      Room.find_all_by_status(target_status).count()
   end
