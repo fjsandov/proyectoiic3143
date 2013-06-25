@@ -1,31 +1,33 @@
 <h2>Control de Asistencia</h2>
 
-<form id="assistance-selector-form">
-  <div class="row-fluid span6">
-    <%= label_tag "date", "Fecha", :class => "span3" %>
+<form id="assistance-selector-form" class="form-inline">
+    <%= label_tag "date", "Fecha" %>
     <div class="datepicker input-append date">
       <input id="date" name="date" type="text" value="<%= @date.strftime('%d-%m-%Y') %>" />
       <span class="add-on">
         <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
       </span>
     </div>
-  </div>
-  <div class="row-fluid span6">
-    <%= label_tag "shifts_collection", "Turno", :class => "span3" %>
+    <%= label_tag "shift_id", "Turno" %>
     <%= select_tag 'shift_id', options_from_collection_for_select(@shifts, :id, :name, (@shift.id if @shift)),
                    { :include_blank => true } %>
-  </div>
+    <input type="submit" class="btn btn-primary" value="Ver">
 </form>
 
 <% if @shift %>
-    <dl class="dl-horizontal pull-right">
-      <dt>Fecha</dt>
-      <dd><%= @date.strftime('%d-%m-%Y') %></dd>
+    <h3>Asistencia: <%= I18n.localize(@date.to_date, :format => :long) %></h3>
+    <dl style="display: inline-block; margin-right: 20px">
       <dt>Hora inicio</dt>
       <dd><%= @shift.start_time.strftime('%H:%M') %></dd>
+    </dl>
+    <dl style="display: inline-block">
       <dt>Hora salida</dt>
       <dd><%= @shift.end_time.strftime('%H:%M') %></dd>
     </dl>
+
+    <% if not @editable %>
+        <em>Esta asistencia ocurrió hace más de 48 horas, por lo tanto no es editable.</em>
+    <% end %>
 <% end %>
 
 <table class="table table-bordered">
@@ -43,8 +45,13 @@
         <tr data-id='<%= a.id %>'>
           <td><%= a.employee.name %></td>
           <td><%= a.employee.last_name1 %> <%= a.employee.last_name2 %></td>
-          <td><button class="btn assistance-btn"><i class="icon-ok"></i> Asistencia</button></td>
-          <td class="hour-td"><%= a.entry_time ? a.get_formatted_entry_time : 'Ausente' %></td>
+          <% if a.employee.is_on_vacation?(@date) %>
+              <td>---</td>
+              <td><em><%= a.employee.is_on_vacation_str(@date) %></em></td>
+          <% else %>
+              <td><button class="btn assistance-btn" <%= 'disabled' unless @editable %>><i class="icon-ok"></i> Asistencia</button></td>
+              <td class="hour-td"><%= a.entry_time ? a.get_formatted_entry_time : 'Ausente' %></td>
+          <% end %>
         </tr>
       <% end %>
   <% else %>
@@ -64,9 +71,6 @@
 <script>
   $(function() {
       $('#shift_id').on('change', function() {
-          $('#assistance-selector-form').submit();
-      });
-      $('#date').bind('input', function() {
           $('#assistance-selector-form').submit();
       });
 
