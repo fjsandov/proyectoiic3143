@@ -94,6 +94,8 @@ CUALimpieza::Application.routes.draw do
     get 'vacaciones/get_events' => 'vacations#get_events'
     get 'vacaciones/new' => 'vacations#new', :as => 'new_vacation'
     post 'vacaciones/create' => 'vacations#create', :as => 'create_vacation'
+    get 'vacaciones/edit/:id' => 'vacations#edit', :as => 'edit_vacation'
+    put 'vacaciones/edit/:id' => 'vacations#update', :as => 'update_vacation'
   end
 
   namespace :administracion do

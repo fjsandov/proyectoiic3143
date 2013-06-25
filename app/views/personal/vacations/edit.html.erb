@@ -1,7 +1,7 @@
 <div class="modal-header">
-  <h1>Nuevo registro de vacaciones/permiso</h1>
+  <h1>Editar registro de vacaciones</h1>
 </div>
-<%= form_for @vacation, :url => personal_create_vacation_path, :html => {:class => 'form-horizontal'} do |f| %>
+<%= form_for @vacation, :url => personal_update_vacation_path, :html => {:class => 'form-horizontal'} do |f| %>
     <div class="modal-body">
       <%= bootstrap_flash %>
       <%= render :partial => 'shared/model_errors', :object => @vacation, :as => 'token' %>
@@ -9,7 +9,7 @@
       <div class="control-group">
         <%= label_tag :employee_id, 'Empleado', :class => 'control-label' %>
         <div class="controls">
-          <%= f.collection_select :employee_id, @employees, :id, :complete_name, { :include_blank => true } %>
+          <span class='uneditable-input'><%= @vacation.employee.complete_name %></span>
         </div>
       </div>
 
@@ -17,9 +17,9 @@
         <%= f.label :vacation_type, 'Motivo', :class => "control-label" %>
         <div class="controls">
           <select name='vacation[vacation_type]'>
-            <option value='vacation'>Vacaciones</option>
-            <option value='administrative'>Permiso administrativo</option>
-            <option value='license'>Licencia</option>
+            <% {'vacation' => 'Vacaciones', 'administrative' => 'Permiso administrativo', 'license' => 'Licencia'}.each do |val, name| %>
+                <option value='<%= val %>' <%= 'selected' if @vacation.vacation_type == val %>><%= name %></option>
+            <% end %>
           </select>
         </div>
       </div>
@@ -48,53 +48,29 @@
         </div>
       </div>
 
+      <% vacation_days = @vacation.employee.get_vacation_days %>
       <div class='control-group'>
         <label class='control-label'>Información</label>
         <div class='controls'>
           <em>Días tomados por el empleado seleccionado desde el 1 de Enero.</em>
           <strong>Vacaciones:</strong>
-          <em id='vacation-count'><!-- rellenado por javascript --></em>
+          <em id='vacation-count'><%= vacation_days['vacation'] %> días.</em>
           <br/>
 
           <strong>Días administrativos</strong>
-          <em id='administrative-count'><!-- rellenado por javascript --></em>
+          <em id='administrative-count'><%= vacation_days['administrative'] %> días.</em>
           <br/>
 
           <strong>Licencias</strong>
-          <em id='license-count'><!-- rellenado por javascript --></em>
+          <em id='license-count'><%= vacation_days['license'] %> días.</em>
           <br/>
         </div>
       </div>
 
     </div>
     <div class="modal-footer">
-      <%= f.submit 'Crear', :class => 'btn btn-primary' %>
+      <%= f.submit 'Modificar', :class => 'btn btn-primary' %>
+      <%= f.submit 'Eliminar', :name => 'delete', :class =>'btn btn-danger pull-left' %>
       <%= link_to 'Cerrar', '#', :class => 'btn', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
-
-<script>
-    $(function() {
-        // actualizar el select de Salas al cambiar el Sector
-        $('#vacation_employee_id').change(loadVacationCounters);
-        loadVacationCounters();
-    });
-
-    function loadVacationCounters() {
-        var employee_id = $('#vacation_employee_id').val();
-        if (employee_id) {
-            $('#vacation-count, #administrative-count, #license-count').html('Cargando...');
-            $.getJSON('/api/employees/:id/vacations.json'.replace(':id', employee_id),
-                    function(data) {
-                        $('#vacation-count').html(data['vacation'] + ' días.');
-                        $('#administrative-count').html(data['administrative'] + ' días.');
-                        $('#license-count').html(data['license'] + ' días.');
-                    }).fail(function() {
-                        $('#vacation-count, #administrative-count, #license-count').html('Error. Intente más tarde.');
-                    });
-        }
-        else {
-            $('#vacation-count, #administrative-count, #license-count').html('---');
-        }
-    }
-</script>
