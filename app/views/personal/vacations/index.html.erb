@@ -80,6 +80,14 @@
                     var id = calEvent.id.split('-')[1]; // "instance-42"
                     show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
                 }
+                else if (calEvent.eventType == 'license')
+                {
+                    alert('Detalles licencia... (TO DO)')
+                    return;
+
+                    var id = calEvent.id.split('-')[1]; // "instance-42"
+                    show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
+                }
                 else
                     alert('???');
             }

@@ -32,7 +32,7 @@ class Vacation < ActiveRecord::Base
       when 'administrative'
         'Día administrativo'
       when 'license'
-        'Licencia'
+        'Licencia médica'
       else
         self.vacation_type
     end

@@ -2,7 +2,7 @@
 class Personal::AssistancesController < ApplicationController
   def index
     @date = Time.zone.parse(params[:date]) if params[:date]
-    @date = Time.zone.today if @date.nil?
+    @date = Time.current.beginning_of_day if @date.nil?
 
     @shifts = Shift.all
     @shift = Shift.find(params[:shift_id]) unless params[:shift_id].blank?
@@ -23,6 +23,9 @@ class Personal::AssistancesController < ApplicationController
       # ordenar asistencia por apellido empleado
       @assistances.sort! { |x,y| x.employee.last_name1 <=> y.employee.last_name1 }
     end
+
+    # No editar asistencias muy en el pasado
+    @editable = (Time.current.beginning_of_day - @date) <= 2.days
   end
 
   # POST
