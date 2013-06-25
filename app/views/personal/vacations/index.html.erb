@@ -17,14 +17,16 @@
 
 <style>
   .cal-vacation {
-
+      cursor: pointer;
   }
 
   .cal-administrative {
+      cursor: pointer;
       background-color: darkgoldenrod;
   }
 
   .cal-license {
+      cursor: pointer;
       background-color: darkgreen;
   }
 </style>
@@ -56,40 +58,8 @@
                 //alert('a day has been clicked! Current view: ' + view.name);
             },
             eventClick: function(calEvent, jsEvent, view) {
-                //alert('a event has been clicked! Event: ' + calEvent.title);
-                var year = calEvent.start.getFullYear();
-                var month = calEvent.start.getMonth();
-                var day = calEvent.start.getDate();
-                if (calEvent.eventType == 'vacation')
-                {
-                    alert('Detalles vacaciones... (TO DO)')
-                    return;
-
-                    var id = calEvent.id.split('-')[1]; // "rule-42"
-                    show_modal('<%= limpieza_new_tc_instance_path %>' +
-                            '?tc_id=' + id +
-                            '&tc_year=' + year +
-                            '&tc_month=' + (month+1) +
-                            '&tc_day=' + day);
-                }
-                else if (calEvent.eventType == 'administrative')
-                {
-                    alert('Detalles administrativo... (TO DO)')
-                    return;
-
-                    var id = calEvent.id.split('-')[1]; // "instance-42"
-                    show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
-                }
-                else if (calEvent.eventType == 'license')
-                {
-                    alert('Detalles licencia... (TO DO)')
-                    return;
-
-                    var id = calEvent.id.split('-')[1]; // "instance-42"
-                    show_modal('<%= limpieza_edit_tc_instance_path %>' + '?id=' + id);
-                }
-                else
-                    alert('???');
+                    var id = calEvent.id.split('-')[1]; // "vacation-42"
+                    show_modal('/personal/vacaciones/edit/:id'.replace(':id', id));
             }
         });
     });

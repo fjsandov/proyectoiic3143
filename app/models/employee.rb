@@ -72,6 +72,18 @@ class Employee < ActiveRecord::Base
     aux.order('requested_at DESC')
   end
 
+  # Diccionario con los distintos dias de vacaciones que ha tomado desde 01/Enero
+  def get_vacation_days
+    vacations = self.vacations.where('start_date > ?', Time.current.at_beginning_of_year)
+
+    totals = {'vacation' => 0, 'administrative' => 0, 'license' => 0}
+    vacations.each do |v|
+      # start_date y end_date son inclusivos
+      totals[v.vacation_type] += ((v.end_date.tomorrow.at_beginning_of_day - v.start_date.at_beginning_of_day) / 1.day).to_i
+    end
+    totals
+  end
+
   # Retorna un bool indicando si el empleado esta en vacaciones, con permiso, o con licencia.
   def is_on_vacation?(date=Time.current)
     Vacation.is_on_vacation?(self.id, date)

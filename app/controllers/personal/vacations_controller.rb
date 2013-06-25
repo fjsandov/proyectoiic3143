@@ -48,4 +48,24 @@ class Personal::VacationsController < ApplicationController
       render 'new'
     end
   end
+
+  # GET
+  def edit
+    @vacation = Vacation.find(params[:id])
+  end
+
+  # PUT
+  def update
+    @vacation = Vacation.find(params[:id])
+    if params[:submit_type] != 'delete'
+      if @vacation.update_attributes(params[:vacation])
+        render 'shared/modal_popup_success'
+      else
+        render 'edit'
+      end
+    else
+      @vacation.destroy
+      render 'shared/modal_popup_success'
+    end
+  end
 end

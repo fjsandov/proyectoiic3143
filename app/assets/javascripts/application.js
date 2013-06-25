@@ -85,8 +85,11 @@ $(
         init_yield_container();
 
         // buscar notificaciones cada 15 segundos
-        last_checked = (new Date()).getTime() / 1000 | 0;
-        updateNotifications();
+        if (!stop_checks) {
+            console.info('Iniciando busqueda de notificaciones cada ' + check_interval + ' seg.');
+            last_checked = (new Date()).getTime() / 1000 | 0;
+            updateNotifications();
+        }
     }
 )
 
@@ -95,7 +98,6 @@ function updateNotifications() {
     if (stop_checks)
         return; // esto mata todos los updates futuros tambien
 
-    console.info('Buscando notificaciones...');
     $.getJSON('/api/logs/show.json?start=' + last_checked, function(data) {
         console.info('Encontrado ' + data.length + ' notificaciones.');
         if (data.length > 0) {
