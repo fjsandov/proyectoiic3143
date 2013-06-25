@@ -9,7 +9,7 @@
     <h2><%= @page_title %></h2>
   </div>
   <div class='span12'>
-    <% url_form = @is_new ? personal_create_path : personal_update_path(@employee) %>
+    <% url_form = @is_new ? personal_create_employee_path : personal_update_employee_path(@employee) %>
     <%= form_for @employee, :url => url_form do |f|%>
         <% unless @is_new %>
             <%= hidden_field_tag :sec, @sec %>

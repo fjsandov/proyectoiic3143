@@ -69,10 +69,10 @@ CUALimpieza::Application.routes.draw do
   namespace :personal do
     # Employees_Controller:
     get 'index' => 'employees#list', :as => 'employees_list'
-    get 'nuevo_empleado' => 'employees#new', :as => 'new'
-    post 'crear_empleado' => 'employees#create', :as => 'create'
-    get 'editar_empleado/:id' => 'employees#edit', :as => 'edit'
-    put 'actualizar_empleado/:id' => 'employees#update', :as => 'update'
+    get 'nuevo_empleado' => 'employees#new', :as => 'new_employee'
+    post 'crear_empleado' => 'employees#create', :as => 'create_employee'
+    get 'editar_empleado/:id' => 'employees#edit', :as => 'edit_employee'
+    put 'actualizar_empleado/:id' => 'employees#update', :as => 'update_employee'
 
     get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
     get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
