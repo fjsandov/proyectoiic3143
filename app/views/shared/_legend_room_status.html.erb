@@ -1,7 +1,21 @@
 <div class='legend-room-status'>
-  Leyenda: <span class="legend-square status-free"></span> Libre
-  <span class="legend-square status-occupied"></span> Ocupada
-  <span class="legend-square status-maintenance"></span> En Mantenimiento
-  <span class="legend-square status-pending"></span> Solicitud pendiente
-  <span class="legend-square status-cleaning"></span> En Limpieza
+  <div class = 'row-fluid'>
+    <div class='span4'>
+      <span class="legend-square status-free"></span> Libre (<%=Room.count_for_status('free')%>)
+    </div>
+    <div class='span4'>
+      <span class="legend-square status-occupied"></span> Ocupada (<%=Room.count_for_status('occupied')%>)
+    </div>
+    <div class='span4'>
+      <span class="legend-square status-maintenance"></span> En Mantenimiento (<%=Room.count_for_status('maintenance')%>)
+    </div>
+  </div>
+  <div class='row-fluid'>
+    <div class='span4'>
+      <span class="legend-square status-pending"></span> Solicitud pendiente  (<%=Room.count_for_status('pending')%>)
+    </div>
+    <div class='span4'>
+      <span class="legend-square status-cleaning"></span> En Limpieza (<%=Room.count_for_status('cleaning')%>)
+    </div>
+  </div>
 </div>

@@ -10,6 +10,10 @@ class Room < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name
 
+  def self.count_for_status(target_status)
+     Room.find_all_by_status(target_status).count()
+  end
+
   def self.get_cleanup_requestable_rooms
     Room.all
   end
