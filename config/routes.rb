@@ -1,11 +1,9 @@
 # -*- encoding : utf-8 -*-
 CUALimpieza::Application.routes.draw do
 
-  get "errors/not_found"
-
-  get "errors/server_error"
-
-  get "logs/show_since"
+  get 'errors/not_found'
+  get 'errors/server_error'
+  get 'logs/show_since'
 
   namespace :limpieza do
     get 'general/index', :as => 'general'

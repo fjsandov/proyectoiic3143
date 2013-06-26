@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624180215) do
+ActiveRecord::Schema.define(:version => 20130626180949) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
@@ -131,14 +131,13 @@ ActiveRecord::Schema.define(:version => 20130624180215) do
 
   create_table "rooms", :force => true do |t|
     t.string   "name"
-    t.integer  "floor"
     t.string   "status"
     t.integer  "sector_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "building"
   end
 
-  add_index "rooms", ["floor"], :name => "index_rooms_on_floor"
   add_index "rooms", ["sector_id"], :name => "index_rooms_on_sector_id"
   add_index "rooms", ["status"], :name => "index_rooms_on_status"
 

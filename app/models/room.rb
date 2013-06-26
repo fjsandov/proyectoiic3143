@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Room < ActiveRecord::Base
-  attr_accessible :floor, :name, :status, :sector_id, :sector
+  attr_accessible :building, :name, :status, :sector_id, :sector
 
   belongs_to :sector
   has_many :terminal_cleanups

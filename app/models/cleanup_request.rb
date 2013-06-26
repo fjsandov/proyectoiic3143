@@ -73,11 +73,10 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
-  #Entrega las solicitudes tanto "Pendiente" como "En Limpieza" cuya fecha de inicio ya paso (evito mostrar
-  # las que aun no han sido solicitadas segun la programacion). Se muestran arriba las mas antiguas (esas se
+  #Entrega las solicitudes tanto "Pendiente" como "En Limpieza" . Se muestran arriba las mas antiguas (esas se
   # deberian tratar de resolver primero)
   def self.get_unfinished_and_requested
-    CleanupRequest.get_unfinished.where('requested_at < ?',Time.current).order('requested_at ASC')
+    CleanupRequest.get_unfinished.order('requested_at ASC')
   end
 
   def self.get_unfinished
