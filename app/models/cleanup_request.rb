@@ -109,7 +109,7 @@ class CleanupRequest < ActiveRecord::Base
 
   #TODO: ver que este forma de abordar tipos es correcta.
   def self.request_type_options
-    [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
+    [['Normal','normal'], ['Rutina','rutine'], ['Terminal','terminal']]
   end
 
   ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
@@ -167,6 +167,21 @@ class CleanupRequest < ActiveRecord::Base
         'Eliminada'
       else #when inactive
         'Inactiva'
+    end
+  end
+
+  def get_status_icon
+    case self.status
+      when 'pending'
+        'icon-time'
+      when 'being-attended'
+        'icon-refresh'
+      when 'finished'
+        'icon-ok'
+      when 'deleted'
+        'icon-trash'
+      else #when inactive
+        'icon-time'
     end
   end
 

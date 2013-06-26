@@ -7,16 +7,16 @@ class TerminalCleanup < ActiveRecord::Base
   has_many :terminal_cleanup_instances
 
   validates_presence_of :interval, :start_date
-  validate :room_or_sector_is_present
+  validate :validate_room_or_sector_is_present
 
-  def room_or_sector_is_present
+  def validate_room_or_sector_is_present
     if room_id.blank? && sector_id.blank?
       errors[:base] << 'Se debe seleccionar un sector o una sala.'
     end
   end
 
   def name
-    room ? room.name : sector.name
+    room ? room.name : 'Sector ' + sector.name
   end
 
   def self.get_today_instances

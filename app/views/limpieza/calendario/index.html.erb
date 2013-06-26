@@ -1,12 +1,11 @@
-<h1>Aseos calendarizados</h1>
+<h2>Aseos calendarizados</h2>
 
 <div id="calendar" style="margin-bottom: 40px"></div>
 
 <div style="margin-bottom: 40px">
   Leyenda:
-  <span class="fc-event cleanup-rule">Regla</span>
-  <span class="fc-event cleanup-instance">Instancia pendiente</span>
-  <span class="fc-event cleanup-instance-finished">Instancia finalizada</span>
+  <span class="fc-event legend cleanup-rule">Regla de aseo</span>
+  <span class="fc-event legend cleanup-instance-finished">Instancia finalizada</span>
 </div>
 
 <h3>Reglas de aseo</h3>
@@ -46,26 +45,22 @@
 </table>
 
 <style>
-.cleanup-instance {
-    color: white;
-    font-weight: bold;
+.legend {
+    padding: 3px;
     border-radius: 3px;
-    cursor: hand;
 }
 
 .cleanup-instance-finished {
     color: white;
     background-color: gray;
-    border-radius: 3px;
-    cursor: hand;
+    cursor: pointer;
 }
 
 .cleanup-rule {
     color: yellow;
     font-weight: bold;
     font-style: italic;
-    border-radius: 3px;
-    cursor: hand;
+    cursor: pointer;
 }
 </style>
 
