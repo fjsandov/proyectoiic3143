@@ -8,7 +8,10 @@
     </h3>
 
     <br>
-
+    <%= render partial: 'shared/search_form',
+               locals: {action_url: administracion_rooms_list_path,
+                        current_search: params[:search],
+                        search_label: 'Buscar Sala'} %>
     <% if @rooms.blank? %>
         <div class="alert alert-info text-center">
             <h6>No se han encontrado salas</h6>

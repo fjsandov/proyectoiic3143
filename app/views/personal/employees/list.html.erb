@@ -9,6 +9,11 @@
 
         <br>
 
+        <%= render partial: 'shared/search_form',
+                 locals: {action_url: personal_employees_list_path,
+                          current_search: params[:search],
+                          search_label: 'Buscar Empleado'} %>
+
         <% if @employees.blank? %>
           <div class="alert alert-info text-center">
             <h6>No se han creado empleados</h6>

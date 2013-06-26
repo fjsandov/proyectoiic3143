@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Personal::EmployeesController < ApplicationController
   def list
-    @employees = Employee.get_list.paginate(:page => params[:page], :per_page => 10)
+    @employees = Employee.get_list.search(params[:search]).paginate(:page => params[:page], :per_page => 10)
   end
 
   def new

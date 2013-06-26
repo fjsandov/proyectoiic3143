@@ -15,6 +15,15 @@ class Employee < ActiveRecord::Base
     Employee.order(:last_name1)
   end
 
+  def self.search(search)
+    if search
+      where('employees.name LIKE ? or employees.last_name1 LIKE ? or employees.last_name2 LIKE ?',
+            "%#{search}%","%#{search}%","%#{search}%")
+    else
+      scoped
+    end
+  end
+
   def self.on_turn_employees  #TODO: Que en verdad sean los que estan de turno
      Employee.all
   end
