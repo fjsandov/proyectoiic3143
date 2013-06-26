@@ -23,10 +23,6 @@ class Room < ActiveRecord::Base
     end
   end
 
-  def self.search(search)
-
-  end
-
   def self.count_for_status(target_status)
      Room.find_all_by_status(target_status).count()
   end
