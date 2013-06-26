@@ -1,45 +1,52 @@
 <div class="modal-header">
   <h1>Nueva Solicitud de Limpieza</h1>
 </div>
-<%= form_for @cleanup_request, :url => limpieza_create_cleanup_request_path do |f| %>
+<%= form_for @cleanup_request, :url => limpieza_create_cleanup_request_path, :html => {:class => 'form-horizontal'}  do |f| %>
     <div class="modal-body">
-          <%= bootstrap_flash %>
-          <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
-      <div class='fluid-row'>
-          <div class="control-group form-horizontal">
-            <%= label_tag :room_id, 'Sala', :class=>'control-label' %>
-            <div class="controls">
-              <%= f.collection_select :room_id, @requestable_rooms, :id, :name,{}, {
-                 :selected => @cleanup_request.room_id, :class=>'select2'} %>
-            </div>
-          </div>
+      <%= bootstrap_flash %>
+      <%= render :partial => 'shared/model_errors', :object => @cleanup_request, :as => 'token' %>
 
-        <div class="control-group form-horizontal">
-            <%= f.label 'cleanup_request[priority]', 'Urgencia', :class=>"control-label" %>
+      <div class="control-group">
+        <%= label_tag :sector_id, 'Sector', :class => 'control-label' %>
+        <div class="controls">
+          <%= select_tag :sector_id, options_from_collection_for_select(@sectors, :id, :name), { :include_blank => true } %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= f.label :room_id, 'Sala', :class => 'control-label' %>
+        <div class="controls">
+          <%= select_tag 'cleanup_request[room_id]', '' %>
+          <%# select rellenado con javascript... %>
+        </div>
+      </div>
+
+        <div class="control-group">
+            <%= f.label :priority, 'Urgencia', :class=>"control-label" %>
             <div class="controls">
                 <%= select_tag 'cleanup_request[priority]', options_for_select(CleanupRequest.priority_options,
                                                                                @cleanup_request.priority) %>
             </div>
         </div>
 
-        <div class="control-group form-horizontal">
-          <%= f.label 'cleanup_request[request_type]', 'Tipo', :class=>"control-label" %>
+        <div class="control-group">
+          <%= f.label :request_type, 'Tipo', :class=>"control-label" %>
           <div class="controls">
             <%= select_tag 'cleanup_request[request_type]', options_for_select(CleanupRequest.request_type_options,
                                                                                @cleanup_request.request_type) %>
           </div>
         </div>
 
-        <div class="control-group form-horizontal">
+        <div class="control-group">
           <%= label_tag 'date_required_at', 'Fecha de Solicitud', :class=>"control-label" %>
           <div class="controls">
             <%= label_tag 'now_check' do%>
-                <%= check_box_tag 'now_check', nil, true, :onchange=>"now_check_clicked();" %> Ahora
+                <%= check_box_tag 'now_check', nil, true %> Ahora
             <%end%>
           </div>
         </div>
 
-        <div class="control-group form-horizontal date_to_handle" style="display:none;">
+        <div class="control-group date_to_handle" style="display:none;">
             <div class="controls">
               <div class="datetimepicker input-append date">
                 <%= f.text_field :requested_at,:value => @cleanup_request.requested_at_for_form,
@@ -52,22 +59,29 @@
         </div>
 
         <div class="control-group span11">
-            <%= f.label :start_comments, 'Comentarios', :class=>"control-label" %>
+            <%= f.label :start_comments, 'Comentarios' %>
               <%= f.text_area :start_comments %>
           </div>
         </div>
     </div>
     <div class="modal-footer">
       <%= f.submit 'Crear',:name => 'just_create', :class =>'btn btn-primary' %>
-      <% if @requestable_rooms.size > 1 %>
-        <%= f.submit 'Crear y seguir agregando', :name => 'create_and_continue', :class =>'btn btn-primary' %>
-      <%end%>
+      <%= f.submit 'Crear y seguir agregando', :name => 'create_and_continue', :class =>'btn btn-primary' %>
       <%= link_to 'Cerrar', '#', :class => 'btn btn-primary', 'data-dismiss' => 'modal' %>
     </div>
 <% end %>
 
 <script>
- function now_check_clicked(){
+
+  $(function() {
+      $('#now_check').on('click', now_check_clicked);
+
+      // actualizar el select de Salas al cambiar el Sector
+      $('#sector_id').change(loadRoomSelect);
+      loadRoomSelect();
+  });
+
+  function now_check_clicked(){
     var date_to_handle = $('.date_to_handle');
     date_to_handle.toggle();
      if(date_to_handle.css('display')=='none'){
@@ -76,5 +90,28 @@
      else{
          $('#cleanup_request_requested_at').attr('required',true);
      }
- }
+  }
+
+  function loadRoomSelect() {
+    var sector_id = $('#sector_id').val();
+    if (sector_id) {
+        var $room_select = $('#cleanup_request_room_id');
+        $room_select.html('');  // clear options
+        $room_select.append('<option value="">Cargando...</option>');
+
+        $.getJSON('/api/rooms/sector/:id.json'.replace(':id', sector_id),
+                function(data) {
+                    $room_select.html('');  // clear options
+                    for (var i = 0; i < data.length; i++) {
+                        var $option = $('<option></option>');
+                        $option.val(data[i]['id']);
+                        $option.text(data[i]['name']);
+                        $room_select.append($option);
+                    }
+                });
+    }
+    else {
+        $('#cleanup_request_room_id').html('<optgroup label="Elija un sector..."></optgroup>');
+    }
+  }
 </script>
