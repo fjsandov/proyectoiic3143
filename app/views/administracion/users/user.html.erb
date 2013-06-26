@@ -60,7 +60,28 @@
                          options_for_select(User.user_type_options, @user.user_type),
                          {:prompt => 'Seleccione un tipo'}
             %>
+
+            <a href="#" id='user-type-help' data-toggle='popover' data-placement='right' data-content=
+                "<div id='user-type-info'>
+                    <ul>
+                      <li><strong>Administrador:</strong> Puede realizar cualquier acción en los 3 módulos.</li>
+                      <li>
+                        <strong>Coordinador:</strong> Puede realizar cualquier acción en el módulo de Limpieza y marcar asistencias en el
+                        módulo de Personal. No tiene acceso al módulo de Administración.
+                      </li>
+                      <li>
+                        <strong>Solo Lectura:</strong> Tiene disponible solo una vista especial de estado de salas en donde solo
+                        puede ver el estado actual sin modificar nada.
+                      </li>
+                    </ul>
+                </div>"
+               title="" data-original-title="<strong>Información de los tipos</strong>"><i class='icon-question-sign'></i></a>
           </div>
+
+          <script>
+              $('#user-type-help').popover({ html : true });
+          </script>
+
         </div>
 
         <div class="control-group form-horizontal">
