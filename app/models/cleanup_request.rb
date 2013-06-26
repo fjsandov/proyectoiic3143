@@ -135,6 +135,7 @@ class CleanupRequest < ActiveRecord::Base
     aux_time = row[1].to_s+' '+Time.at(row[2]).utc.strftime("%I:%M%p").to_s
     cleanup_request.requested_at = Time.parse(aux_time)
     cleanup_request.priority = row[3]
+    cleanup_request.start_comments = 'Importado desde excel'
     case row[4]
       when 1 then cleanup_request.request_type = 'rutine'
       when 2 then cleanup_request.request_type = 'normal'
