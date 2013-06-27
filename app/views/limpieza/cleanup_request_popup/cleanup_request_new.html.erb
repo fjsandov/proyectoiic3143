@@ -9,14 +9,14 @@
       <div class="control-group">
         <%= label_tag :sector_id, 'Sector', :class => 'control-label' %>
         <div class="controls">
-          <%= select_tag :sector_id, options_from_collection_for_select(@sectors, :id, :name), { :include_blank => true } %>
+          <%= select_tag :sector_id, options_from_collection_for_select(@sectors, :id, :name, @cleanup_request.get_sector_id), { :include_blank => true } %>
         </div>
       </div>
 
       <div class="control-group">
         <%= f.label :room_id, 'Sala', :class => 'control-label' %>
         <div class="controls">
-          <%= select_tag 'cleanup_request[room_id]', '' %>
+          <%= select_tag 'cleanup_request[room_id]', '', 'data-room-id' => @cleanup_request.room_id %>
           <%# select rellenado con javascript... %>
         </div>
       </div>
@@ -107,6 +107,11 @@
                         $option.val(data[i]['id']);
                         $option.text(data[i]['name']);
                         $room_select.append($option);
+                    }
+                    var room_id = $room_select.data('room-id');
+                    if(room_id){
+                        $room_select.val(room_id);
+                        $room_select.data('room-id','');
                     }
                 });
     }

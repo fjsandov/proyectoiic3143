@@ -157,6 +157,14 @@ class CleanupRequest < ActiveRecord::Base
 
   ##--------------------------------------------METODOS DE INSTANCIA--------------------------------------------##
 
+  def get_sector_id
+    if self.room.blank?
+      nil
+    else
+      self.room.sector_id
+    end
+  end
+
   def get_status_str
     case self.status
       when 'pending'

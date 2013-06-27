@@ -32,7 +32,7 @@
             <tr>
               <td> <%=@cleanup_request.get_requested_at_smart_str%></td>
               <td> <%=@cleanup_request.get_started_at_smart_str%></td>
-              <td> <%=(Time.now).strftime("%H:%M")%></td>
+              <td> <%=(Time.current).strftime("%H:%M")%></td>
             </tr>
           </table>
         </div>
