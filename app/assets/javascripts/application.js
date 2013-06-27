@@ -99,8 +99,8 @@ function updateNotifications() {
         return; // esto mata todos los updates futuros tambien
 
     $.getJSON('/api/logs/show.json?start=' + last_checked, function(data) {
-        console.info('Encontrado ' + data.length + ' notificaciones.');
         if (data.length > 0) {
+            console.info('Encontrado ' + data.length + ' notificaciones.');
             var $notif_template = $('<li><a><i class="icon-info-sign"></i> </a></li>');
             var $container = $('#realtime-notification-container');
 
