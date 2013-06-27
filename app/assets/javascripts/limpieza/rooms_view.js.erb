@@ -44,18 +44,22 @@ function init_rooms_view() {
     });
 
     $('#sectors_collection').change(function() {
-        $.ajax({
-            type: "GET",
-            url: "/api/rooms/load_sector",
-            data: { 'sector': $('#sectors_collection').val() },
-            success: function(data) {
-                fillRoomButtons(data);
-            }
-            ,
-            error: function (jqXHR, textStatus, errorThrown){
-                console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
-            }
-        });
+        ajax_load_rooms()
+    });
+}
+
+function ajax_load_rooms() {
+    $.ajax({
+      type: "GET",
+      url: "/api/rooms/load_sector",
+      data: { 'sector': $('#sectors_collection').val() },
+      success: function(data) {
+        fillRoomButtons(data);
+      }
+      ,
+      error: function (jqXHR, textStatus, errorThrown){
+        console.error("OCURRIO EL SIGUIENTE ERROR: " + textStatus, errorThrown);
+      }
     });
 }
 
@@ -82,4 +86,8 @@ function fillRoomButtons(data)
         $('#rooms_container').append(row);
     }
     init_links_to_modal();
+}
+
+function modal_hidden_callback() {
+  ajax_load_rooms();
 }
