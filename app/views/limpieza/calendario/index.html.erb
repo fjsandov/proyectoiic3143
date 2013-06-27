@@ -114,4 +114,9 @@
             }
         });
     });
+
+    // Refrescar calendario al cerrar popup
+    function modal_hidden_callback() {
+      $('#calendar').fullCalendar('refetchEvents');
+    }
 </script>
