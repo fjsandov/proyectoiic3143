@@ -170,8 +170,3 @@ function updateCalendarForAgendaDate()
     var currentDate = $('#agenda').fullCalendar('getDate');
     $('#calendar_for_agenda').datepicker('setDate', currentDate);
 }
-
-// Refrescar calendar despues de cerrar modal
-function modal_hidden_callback() {
-  updateAgendaFullCalendar();
-}

@@ -84,7 +84,7 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def self.get_closed
-    CleanupRequest.where("status = ? or status = ?", "finished", "deleted").order(:finished_at)
+    CleanupRequest.where("status = ? or status = ?", "finished", "deleted").order(:requested_at)
   end
 
   def self.get_today_request

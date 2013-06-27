@@ -35,3 +35,9 @@
 <% if @is_ajax_request %>
     <script>init_rooms_view();</script>
 <% end %>
+
+<script>
+  function modal_hidden_callback() {
+    ajax_load_rooms();
+  }
+</script>

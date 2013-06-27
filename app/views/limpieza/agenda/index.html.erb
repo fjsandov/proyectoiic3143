@@ -67,3 +67,10 @@
 <% if @is_ajax_request %>
     <script> init_agenda_view();</script>
 <% end %>
+
+<script>
+  // Refrescar calendar despues de cerrar modal
+  function modal_hidden_callback() {
+    updateAgendaFullCalendar();
+  }
+</script>
