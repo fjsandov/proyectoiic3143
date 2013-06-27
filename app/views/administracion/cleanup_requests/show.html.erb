@@ -1,0 +1,140 @@
+<div class='fluid-row'>
+  <div class='span12'>
+    <ul class="breadcrumb">
+      <li>
+        <a href=<%= administracion_cleanup_requests_list_path %>>Lista de Solicitudes de Limpieza</a>
+        <span class="divider">/</span>
+      </li>
+      <li class="active">Ver Solicitud de Limpieza</li>
+    </ul>
+
+    <h2>Solicitud de Limpieza N°<%= @cleanup_request.id %></h2>
+  </div>
+</div>
+
+<div class='fluid-row'>
+  <table class="table table-striped table-bordered table-condensed center">
+    <tr>
+      <th>Sala</th>
+      <th>Tipo</th>
+      <th>Urgencia</th>
+      <th>Estado</th>
+    </tr>
+    <tr>
+      <td><%=@cleanup_request.room.name%></td>
+      <td><%=@cleanup_request.get_request_type_str%></td>
+      <td><%=@cleanup_request.get_priority_str%></td>
+      <td><%=@cleanup_request.get_status_str%></td>
+    </tr>
+  </table>
+</div>
+
+<div class='fluid-row'>
+  <div class='span12'>
+    <table class="table table-striped table-bordered table-condensed center">
+      <tr>
+        <th>Ingresada por</th>
+        <th>Respondida por</th>
+        <th>Terminada por</th>
+      </tr>
+      <tr>
+        <td> <%=@cleanup_request.get_who_requested.complete_name%></td>
+        <td> <%=@cleanup_request.get_who_started.complete_name%></td>
+        <td> <%=@cleanup_request.get_who_ended.complete_name%></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class='fluid-row'>
+    <div class='span6'>
+        <table class="table table-striped table-bordered table-condensed center">
+          <tr>
+            <th>Fecha Ingreso</th>
+            <th>Fecha Respuesta</th>
+            <th>Fecha Término</th>
+          </tr>
+          <tr>
+            <td> <%=@cleanup_request.get_requested_at_smart_str%></td>
+            <td> <%=@cleanup_request.get_started_at_smart_str%></td>
+            <td> <%=@cleanup_request.get_end_at_smart_str%></td>
+          </tr>
+        </table>
+    </div>
+    <div class='span6'>
+        <table class="table table-striped table-bordered table-condensed center">
+          <tr>
+            <th>Tiempo de respuesta</th>
+            <th>Tiempo de limpieza</th>
+          </tr>
+          <tr>
+            <td><%=@cleanup_request.get_waiting_time_str%></td>
+            <td><%=@cleanup_request.get_cleaning_time_str%></td>
+          </tr>
+        </table>
+    </div>
+ </div>
+
+ <div class='fluid-row'>
+  <div class="control-group span11">
+    <%= label_tag :employees_assigned, 'Empleados asignados' %>
+    <p>
+      <% if @cleanup_request.blank? %>
+          <span class="label"> No se asignaron empleados</span>
+      <%else%>
+          <% @cleanup_request.employees.each do |e| %>
+              <span class="label"><%= e.complete_name %></span>
+          <% end %>
+      <% end %>
+    </p>
+  </div>
+ </div>
+
+
+<div class='fluid-row'>
+  <div class='span12'>
+  <div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+          Comentario de Creación
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <%=@cleanup_request.start_comments %>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+          Comentario de Respuesta
+        </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <%=@cleanup_request.response_comments%>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+          Comentario de Término
+        </a>
+      </div>
+      <div id="collapseThree" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <%=@cleanup_request.end_comments%>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+
+<script>
+    $(function() {
+        $( ".collapse" ).collapse();
+    });
+</script>

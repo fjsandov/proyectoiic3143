@@ -67,8 +67,11 @@ class Employee < ActiveRecord::Base
 
   def get_status
     #TODO: que diga si el empleado esta de vacaciones, permiso, en turno o atendiendo limpieza
-    return is_on_vacation_str if is_on_vacation?
-    'SIN IMPLEMENTAR'
+    if is_on_vacation?
+      is_on_vacation_str
+    else
+      'Activo'
+    end
   end
 
   def get_work_history

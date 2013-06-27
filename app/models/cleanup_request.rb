@@ -83,6 +83,10 @@ class CleanupRequest < ActiveRecord::Base
     CleanupRequest.where("status = ? or status = ?", "pending", "being-attended")
   end
 
+  def self.get_closed
+    CleanupRequest.where("status = ? or status = ?", "finished", "deleted").order(:finished_at)
+  end
+
   def self.get_today_request
     CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
         where('Date(requested_at) = ?', Time.zone.today)
@@ -107,7 +111,6 @@ class CleanupRequest < ActiveRecord::Base
       [['Baja',3],['Media',2], ['Alta',1]]
   end
 
-  #TODO: ver que este forma de abordar tipos es correcta.
   def self.request_type_options
     [['Normal','normal'], ['Rutina','rutine'], ['Terminal','terminal']]
   end
@@ -221,6 +224,26 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def get_end_at_smart_str
+    self.status == 'deleted' ? get_deleted_at_str : get_finished_at_str
+  end
+
+  def get_finished_at_str
+    if Time.current.to_date == self.finished_at.to_date
+      get_formatted_time(self.finished_at)
+    else
+      get_formatted_datetime(self.finished_at)
+    end
+  end
+
+  def get_deleted_at_str
+    if Time.current.to_date == self.deleted_at.to_date
+      get_formatted_time(self.deleted_at)
+    else
+      get_formatted_datetime(self.deleted_at)
+    end
+  end
+
   def requested_at_for_form
     self.requested_at.blank? ? '' : self.requested_at.strftime("%d-%m-%Y %I:%M %p")
   end
@@ -283,6 +306,10 @@ class CleanupRequest < ActiveRecord::Base
       else #when 3
         'Baja'
     end
+  end
+
+  def get_who_ended
+    self.status=='deleted' ? get_who_deleted : get_who_finished
   end
 
   def get_who_requested

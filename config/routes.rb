@@ -120,6 +120,9 @@ CUALimpieza::Application.routes.draw do
     get 'sectores/editar/:id' => 'sectors#edit', :as => 'edit_sector'
     put 'sectores/actualizar/:id' => 'sectors#update', :as => 'update_sector'
 
+    #--------------------------solicitudes de limpieza------------------------------
+    get 'solicitudes_limpieza/lista' => 'cleanup_requests#list', :as => 'cleanup_requests_list'
+    get 'solicitudes_limpieza/ver/:id' => 'cleanup_requests#show', :as => 'cleanup_request_show'
 
   end
 

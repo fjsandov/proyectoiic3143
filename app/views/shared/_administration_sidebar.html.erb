@@ -19,5 +19,11 @@
           Salas
       <% end %>
     </li>
+    <li class='<%= 'active' if @current_controller == 'cleanup_requests' %>'>
+      <%= link_to administracion_cleanup_requests_list_path do %>
+          <i class='icon-file icon-<% if @current_controller == 'cleanup_requests' %>white<% else %>black<% end %>'></i>
+          Solicitudes de Limpieza Cerradas
+      <% end %>
+    </li>
   </ul>
 </div><!--/.well -->
