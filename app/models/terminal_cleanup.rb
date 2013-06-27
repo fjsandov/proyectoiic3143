@@ -26,10 +26,12 @@ class TerminalCleanup < ActiveRecord::Base
 
   # Retorna un arreglo de diccionarios con info simple sobre cada aseo terminal agendado
   # para la fecha dada.
-  def self.get_instances(start_date, end_date)
+  def self.get_instances(start_date, end_date, sector_id=nil)
     events = []
 
     TerminalCleanup.find_each do |tc|
+      next if sector_id and tc.sector.id != sector_id
+
       rule_date = tc.start_date
       # Primera fecha debe ser >= start_date
       while rule_date < start_date

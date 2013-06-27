@@ -8,6 +8,8 @@ class Limpieza::AgendaController < ApplicationController
   end
 
   def get_cleanup_request
+    return render(:json => []) if params[:sector].blank?
+
     sector = Sector.find(params[:sector])
     start_date = Time.zone.at(params[:start].to_i)
     end_date =  Time.zone.at(params[:end].to_i)
@@ -22,6 +24,20 @@ class Limpieza::AgendaController < ApplicationController
           className: "status-" + cleanup.status,
           popupUrl: limpieza_show_cleanup_request_path(id: cleanup.id),
           cleanupStatus: cleanup.status
+      }
+    end
+
+    TerminalCleanup.get_instances(start_date, end_date, sector.id).each do |tci|
+      @events << {
+          id: "tc#{tci[:eventType]}-#{tci[:id]}",
+          start: tci[:start],
+          allDay: tci[:eventType] != 'instance',
+          title: 'Aseo calendarizado: ' + tci[:title],
+          className: "terminal-cleanup-#{tci[:eventType]}",
+          popupUrl: tci[:eventType] == 'instance' ?
+                        limpieza_edit_tc_instance_path + "?id=#{tci[:id]}" :
+                        limpieza_new_tc_instance_path + "?tc_id=#{tci[:id]}",
+          cleanupStatus: ''
       }
     end
 
