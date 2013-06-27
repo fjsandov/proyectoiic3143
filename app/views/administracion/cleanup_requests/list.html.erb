@@ -16,11 +16,13 @@
             <th>Fecha de término</th>
             <th>Nombre de Sala</th>
             <th>Estado</th>
+            <th>Acciones</th>
           </tr>
           <% @cleanup_requests.each do |cr| %>
               <tr>
                 <td><%= cr.get_end_at_smart_str %></td>
                 <td><%= cr.room.name %></td>
+                <td><%= cr.get_status_str %></td>
                 <td>
                   <%= link_to administracion_cleanup_request_show_path(cr) do%>
                       <i class="icon-eye-open icon-black"></i>
