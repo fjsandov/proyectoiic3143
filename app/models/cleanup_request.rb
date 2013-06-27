@@ -120,7 +120,9 @@ class CleanupRequest < ActiveRecord::Base
       ActiveRecord::Base.transaction do
         (2..spreadsheet.last_row).each do |i|
           cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
-          cleanup_request.create_request(user)
+          unless cleanup_request.create_request(user)
+             raise 'Una solicitud no pudo ser creada'
+          end
         end
       end
       true
@@ -167,6 +169,22 @@ class CleanupRequest < ActiveRecord::Base
         'Eliminada'
       else #when inactive
         'Inactiva'
+    end
+  end
+
+  def start_comments_limited
+    if self.start_comments.length >= 250
+      self.start_comments[0..249]+'...'
+    else
+      self.start_comments
+    end
+  end
+
+  def response_comments_limited
+    if self.response_comments.length >= 250
+      self.response_comments[0..249]+'...'
+    else
+      self.response_comments
     end
   end
 
@@ -276,25 +294,30 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def create_request(user)
-    self.requested_by = user.id
-    if self.requested_at.blank?
-      self.status = 'pending'
-      self.requested_at = Time.current
-      active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
-                                                 "pending", "being-attended" ).first
-      if active_request.blank?
-        message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
-        self.save_with_log(user, message)
-      else
-        self.requested_at = nil
-        self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala en este momento")
-        false
-      end
+    if self.room.blank?
+      self.errors.add(:base, "Debe seleccionar una sala")
+      false
     else
-      self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
-      self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
-      message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
-      self.save_with_log(user, message)
+    self.requested_by = user.id
+      if self.requested_at.blank?
+        self.status = 'pending'
+        self.requested_at = Time.current
+        active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
+                                                   "pending", "being-attended" ).first
+        if active_request.blank?
+          message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
+          self.save_with_log(user, message)
+        else
+          self.requested_at = nil
+          self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala en este momento")
+          false
+        end
+      else
+        self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
+        self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
+        message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
+        self.save_with_log(user, message)
+      end
     end
   end
 

@@ -41,7 +41,7 @@ es:
         zone: "Zona"
 
       room:
-        floor: "Piso"
+        building: "Edificio"
         name: "Nombre"
         status: "Estado"
         sector_id: "Sector"
