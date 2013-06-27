@@ -29,32 +29,22 @@
       border-left: solid 1px #DDD;
       border-bottom: solid 1px #DDD;
 
-      select
-      {
-        width: 100%;
-        height: 180px;
-      }
-
-      #add_task_button
-      {
-        margin-top: 75px;
-        margin-left: 8px;
-        height: 15px;
-      }
-
-      #remove_task_button
-      {
-        margin-top: 20px;
-        margin-left: 8px;
-        height: 15px;
-      }
-
       .timepicker
       {
         .icon-time
         {
           margin-top: 3px;
         }
+      }
+
+      .btn-primary
+      {
+        margin-top: 10px;
+      }
+
+      .shift_comments_textarea
+      {
+        height: 150px;
       }
     }
   }

@@ -1,0 +1,11 @@
+<h3>Horario semanal de <%= @employee.name %></h3>
+
+<div id="shift_assign_calendar" data-id="<%= @employee.id %>" class="row-fluid">
+
+</div>
+<%= form_for @employee, url: personal_update_shifts_path(@employee), html: {class: "selection_shift_form row-fluid"} do |f| %>
+  <%= label_tag :assign_shift_collection, "Lista de turnos asignados" %>
+  <%= select_tag :assign_shift_collection, options_from_collection_for_select(@shifts, "id", "name"),
+                   multiple: true %>
+  <%= f.submit "Actualizar", name: "Actualizar", class: "btn btn-primary"%>
+<% end %>

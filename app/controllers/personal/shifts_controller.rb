@@ -6,17 +6,11 @@ class Personal::ShiftsController < ApplicationController
 
   def create
     @shift = Shift.new(params[:shift])
-    tasks_text = params[:task_list]
-    tasks_id = tasks_text[1..tasks_text.size - 1].split(';')
-      tasks = Task.where(["id in (?)", tasks_id])
-
-      #Se agregan las tareas nuevas
-      tasks.each do |task|
-        unless @shift.tasks.include?(task)
-          @shift.tasks << task
-        end
-      end
+    if @shift.save
       flash.now[:notice] = 'Turno creado exitosamente'
+    else
+      flash.now[:error] = 'Error al crear el nuevo turno'
+    end
 
     redirect_to controller: 'personal/shifts', action: 'index'
   end
@@ -27,19 +21,7 @@ class Personal::ShiftsController < ApplicationController
     else
       @shift = Shift.find(params[:id])
       if @shift.update_attributes(params[:shift])
-        tasks_text = params[:task_list]
-        tasks_id = tasks_text[1..tasks_text.size - 1].split(';')
-        tasks = Task.where(["id in (?)", tasks_id])
 
-        #Se agregan las tareas nuevas
-        tasks.each do |task|
-          unless @shift.tasks.include?(task)
-            @shift.tasks << task
-          end
-        end
-
-        #Se eliminan las tareas no borradas
-        @shift.tasks = @shift.tasks.select {|task| tasks.include? task}
         @shift.save
         flash.now[:notice] = 'Turno actualizado exitosamente'
       else
@@ -52,7 +34,6 @@ class Personal::ShiftsController < ApplicationController
 
   def get_new_shift
     @shift = Shift.new
-    @tasks = @shift.get_not_included_task
     @url_form = personal_create_shift_path()
     @name = "nuevo turno"
     @submit_str = "Crear"
@@ -61,8 +42,7 @@ class Personal::ShiftsController < ApplicationController
   end
 
   def get_shift
-    @shift = Shift.find(params[:id]) #me devuelve un arreglo en vez de un shift (magia rails)
-    @tasks = @shift.get_not_included_task
+    @shift = Shift.find(params[:id])
     @url_form = personal_update_shift_path(@shift)
     @name = @shift.name
     @submit_str = "Actualizar"

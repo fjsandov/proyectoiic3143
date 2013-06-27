@@ -45,32 +45,6 @@ $(function()
 
 function init_shift_form_js()
 {
-    $('#add_task_button').click(function()
-    {
-        $('#tasks_collection :selected').each(function(i, selected)
-        {
-            var  opt = $('<option></option>');
-            opt.val($(selected).val());
-            opt.text($(selected).text());
-            $('#shift_tasks_collection').append(opt);
-
-            $(selected).remove();
-        });
-    });
-
-    $('#remove_task_button').click(function()
-    {
-        $('#shift_tasks_collection :selected').each(function(i, selected)
-        {
-            var  opt = $('<option></option>');
-            opt.val($(selected).val());
-            opt.text($(selected).text());
-            $('#tasks_collection').append(opt);
-
-            $(selected).remove();
-        });
-    })
-
     $('#shift_form_panel form').submit(function()
     {
        $('#shift_tasks_collection option').each(function(i, elem)

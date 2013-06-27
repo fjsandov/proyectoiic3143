@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626180949) do
+ActiveRecord::Schema.define(:version => 20130626182146) do
 
   create_table "assistances", :force => true do |t|
     t.datetime "date"
@@ -162,22 +162,7 @@ ActiveRecord::Schema.define(:version => 20130626180949) do
     t.boolean  "sunday"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-  end
-
-  create_table "shifts_tasks", :force => true do |t|
-    t.integer  "task_id"
-    t.integer  "shift_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "shifts_tasks", ["shift_id"], :name => "index_shifts_tasks_on_shift_id"
-  add_index "shifts_tasks", ["task_id"], :name => "index_shifts_tasks_on_task_id"
-
-  create_table "tasks", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "comments"
   end
 
   create_table "terminal_cleanup_instances", :force => true do |t|

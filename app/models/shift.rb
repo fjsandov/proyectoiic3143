@@ -1,10 +1,9 @@
 # -*- encoding : utf-8 -*-
 class Shift < ActiveRecord::Base
-  attr_accessible :name, :start_time, :end_time, :expiration_date,
+  attr_accessible :name, :start_time, :end_time, :expiration_date, :comments,
                   :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday
 
   has_and_belongs_to_many :employees
-  has_and_belongs_to_many :tasks
 
   # true si en 'date' está vigente este shift
   def active_date_for_shift?(date)
@@ -20,14 +19,39 @@ class Shift < ActiveRecord::Base
     end
   end
 
-  #Obtengo las tareas que no están incluidas en el turno
-  def get_not_included_task
-    if self.tasks.any?
-      return Task.where(["tasks.id not in (?)",self.tasks.map(&:id)])
-    else
-      return Task.all
-    end
+  def get_days_array
+    [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
   end
+
+  def get_diff_days_array
+    actualDif = -6
+    if(Time.current.wday != 0)
+      actualDif = 1 - Time.current.wday
+    end
+
+    days = []
+    get_days_array().each_with_index do |day, i|
+      if(day)
+        days << actualDif + i
+      end
+    end
+
+    days #lo que devuelve
+  end
+
+  def get_days_of_the_week
+    diffs = get_diff_days_array
+    time = Time.current.midnight
+
+    dates = []
+
+    diffs.each do |diff|
+      dates << time + diff.days
+    end
+
+    dates #lo que devuelve
+  end
+
 
   def start_time_for_form
     self.start_time.blank? ? '' : self.start_time.strftime("%I:%M %p")

@@ -1,3 +1,18 @@
 // Place all the styles related to the personal/employees controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.selection_shift_form
+{
+  width: 100%;
+  padding-top: 40px;
+
+  #s2id_assign_shift_collection
+  {
+
+  }
+
+  .btn-primary
+  {
+    display: none;
+  }
+}

@@ -74,6 +74,9 @@ CUALimpieza::Application.routes.draw do
 
     get 'historial_trabajo/:id' => 'employees#work_history', :as => 'work_history'
     get 'historial_limpieza/:id' => 'employees#cleaning_history', :as => 'cleaning_history'
+    get 'asignar_turno/:id' => 'employees#assign_shift', :as => 'assign_shift'
+    get 'get_shifts' => 'employees#get_shifts', :as => 'get_shifts'
+    put 'update_shifts/:id' => 'employees#update_shifts', :as => 'update_shifts'
 
     #Shifts_Controller:
     get 'turnos' => 'shifts#index', :as => 'shifts'
