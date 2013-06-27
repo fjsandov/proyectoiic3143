@@ -26,7 +26,13 @@
                     %>
                   </td>
                   <td><%= tc[:title] %></td>
-                  <td><%= tc[:eventType] == 'instance' ? 'Realizado' : 'Pendiente' %></td>
+                  <td>
+                    <% if tc[:eventType] == 'instance' %>
+                      <i class="icon-ok"></i> Realizado
+                    <% else %>
+                      <i class="icon-time"></i> Pendiente
+                    <% end %>
+                  </td>
                   <td>
                     <% if tc[:eventType] == 'instance' %>
                         <% url_tc = limpieza_edit_tc_instance_path + "?id=#{tc[:id]}" %>
