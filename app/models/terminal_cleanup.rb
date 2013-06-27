@@ -7,16 +7,16 @@ class TerminalCleanup < ActiveRecord::Base
   has_many :terminal_cleanup_instances
 
   validates_presence_of :interval, :start_date
-  validate :room_or_sector_is_present
+  validate :validate_room_or_sector_is_present
 
-  def room_or_sector_is_present
+  def validate_room_or_sector_is_present
     if room_id.blank? && sector_id.blank?
       errors[:base] << 'Se debe seleccionar un sector o una sala.'
     end
   end
 
   def name
-    room ? room.name : sector.name
+    room ? room.name : 'Sector ' + sector.name
   end
 
   def self.get_today_instances
@@ -26,10 +26,12 @@ class TerminalCleanup < ActiveRecord::Base
 
   # Retorna un arreglo de diccionarios con info simple sobre cada aseo terminal agendado
   # para la fecha dada.
-  def self.get_instances(start_date, end_date)
+  def self.get_instances(start_date, end_date, sector_id=nil)
     events = []
 
     TerminalCleanup.find_each do |tc|
+      next if sector_id and tc.sector.id != sector_id
+
       rule_date = tc.start_date
       # Primera fecha debe ser >= start_date
       while rule_date < start_date

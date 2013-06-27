@@ -30,7 +30,7 @@ class Limpieza::RoomsViewController < ApplicationController
       if room.status == 'free' || room.status == 'occupied'
         if status == 'pending'
           @cleanup_request = CleanupRequest.new(:room_id => room.id)
-          @requestable_rooms = Room.get_cleanup_requestable_rooms
+          @sectors = Sector.all
           @room_disable = true
           render_view = 'limpieza/cleanup_request_popup/cleanup_request_new'
         else

@@ -1,0 +1,39 @@
+<div class="row-fluid">
+  <div class="span12">
+    <h3>
+      Lista de Solicitudes de Limpieza Cerradas
+    </h3>
+
+    <br>
+
+    <% if @cleanup_requests.blank? %>
+        <div class="alert alert-info text-center">
+          <h6>No se han encontrado solicitudes de limpieza cerradas</h6>
+        </div>
+    <% else %>
+        <table class='table table-striped table-bordered'>
+          <tr>
+            <th>Fecha de término</th>
+            <th>Nombre de Sala</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+          <% @cleanup_requests.each do |cr| %>
+              <tr>
+                <td><%= cr.get_end_at_smart_str %></td>
+                <td><%= cr.room.name %></td>
+                <td><%= cr.get_status_str %></td>
+                <td>
+                  <%= link_to administracion_cleanup_request_show_path(cr) do%>
+                      <i class="icon-eye-open icon-black"></i>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+        </table>
+        <%= render 'legend_cleanup_requests_list' %>
+        <%= will_paginate @cleanup_requests, renderer: BootstrapPagination::Rails %>
+    <% end %>
+  </div>
+</div>
+

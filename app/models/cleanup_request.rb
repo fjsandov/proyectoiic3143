@@ -83,6 +83,10 @@ class CleanupRequest < ActiveRecord::Base
     CleanupRequest.where("status = ? or status = ?", "pending", "being-attended")
   end
 
+  def self.get_closed
+    CleanupRequest.where("status = ? or status = ?", "finished", "deleted").order(:requested_at)
+  end
+
   def self.get_today_request
     CleanupRequest.where("cleanup_requests.status = ? or cleanup_requests.status = ?", "pending", "being-attended").
         where('Date(requested_at) = ?', Time.zone.today)
@@ -107,9 +111,8 @@ class CleanupRequest < ActiveRecord::Base
       [['Baja',3],['Media',2], ['Alta',1]]
   end
 
-  #TODO: ver que este forma de abordar tipos es correcta.
   def self.request_type_options
-    [['Rutina','rutine'],['Normal','normal'], ['Terminal','terminal']]
+    [['Normal','normal'], ['Rutina','rutine'], ['Terminal','terminal']]
   end
 
   ##--------------------------------------------ZONA DE EXCEL--------------------------------------------##
@@ -120,7 +123,9 @@ class CleanupRequest < ActiveRecord::Base
       ActiveRecord::Base.transaction do
         (2..spreadsheet.last_row).each do |i|
           cleanup_request = new_cleanup_request_from_row(spreadsheet.row(i))
-          cleanup_request.create_request(user)
+          unless cleanup_request.create_request(user)
+             raise 'Una solicitud no pudo ser creada'
+          end
         end
       end
       true
@@ -135,6 +140,7 @@ class CleanupRequest < ActiveRecord::Base
     aux_time = row[1].to_s+' '+Time.at(row[2]).utc.strftime("%I:%M%p").to_s
     cleanup_request.requested_at = Time.parse(aux_time)
     cleanup_request.priority = row[3]
+    cleanup_request.start_comments = 'Importado desde excel'
     case row[4]
       when 1 then cleanup_request.request_type = 'rutine'
       when 2 then cleanup_request.request_type = 'normal'
@@ -154,6 +160,14 @@ class CleanupRequest < ActiveRecord::Base
 
   ##--------------------------------------------METODOS DE INSTANCIA--------------------------------------------##
 
+  def get_sector_id
+    if self.room.blank?
+      nil
+    else
+      self.room.sector_id
+    end
+  end
+
   def get_status_str
     case self.status
       when 'pending'
@@ -169,6 +183,37 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def start_comments_limited
+    if self.start_comments.length >= 250
+      self.start_comments[0..249]+'...'
+    else
+      self.start_comments
+    end
+  end
+
+  def response_comments_limited
+    if self.response_comments.length >= 250
+      self.response_comments[0..249]+'...'
+    else
+      self.response_comments
+    end
+  end
+
+  def get_status_icon
+    case self.status
+      when 'pending'
+        'icon-time'
+      when 'being-attended'
+        'icon-refresh'
+      when 'finished'
+        'icon-ok'
+      when 'deleted'
+        'icon-trash'
+      else #when inactive
+        'icon-time'
+    end
+  end
+
   # Entrega "Hoy" y la hora del request en caso de ser el mismo dia de la consulta,
   # y timestamp con dia y hora en caso de no ser del mismo dia de la consulta.
   def get_requested_at_smart_str
@@ -176,6 +221,26 @@ class CleanupRequest < ActiveRecord::Base
       get_formatted_time(self.requested_at)
     else
       get_formatted_datetime(self.requested_at)
+    end
+  end
+
+  def get_end_at_smart_str
+    self.status == 'deleted' ? get_deleted_at_str : get_finished_at_str
+  end
+
+  def get_finished_at_str
+    if Time.current.to_date == self.finished_at.to_date
+      get_formatted_time(self.finished_at)
+    else
+      get_formatted_datetime(self.finished_at)
+    end
+  end
+
+  def get_deleted_at_str
+    if Time.current.to_date == self.deleted_at.to_date
+      get_formatted_time(self.deleted_at)
+    else
+      get_formatted_datetime(self.deleted_at)
     end
   end
 
@@ -243,6 +308,10 @@ class CleanupRequest < ActiveRecord::Base
     end
   end
 
+  def get_who_ended
+    self.status=='deleted' ? get_who_deleted : get_who_finished
+  end
+
   def get_who_requested
     User.find(self.requested_by)
   end
@@ -260,25 +329,30 @@ class CleanupRequest < ActiveRecord::Base
   end
 
   def create_request(user)
-    self.requested_by = user.id
-    if self.requested_at.blank?
-      self.status = 'pending'
-      self.requested_at = Time.current
-      active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
-                                                 "pending", "being-attended" ).first
-      if active_request.blank?
-        message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
-        self.save_with_log(user, message)
-      else
-        self.requested_at = nil
-        self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala en este momento")
-        false
-      end
+    if self.room.blank?
+      self.errors.add(:base, "Debe seleccionar una sala")
+      false
     else
-      self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
-      self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
-      message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
-      self.save_with_log(user, message)
+    self.requested_by = user.id
+      if self.requested_at.blank?
+        self.status = 'pending'
+        self.requested_at = Time.current
+        active_request = CleanupRequest.where('room_id = ? and (status = ? or status = ?)', self.room_id,
+                                                   "pending", "being-attended" ).first
+        if active_request.blank?
+          message = user.complete_name+" ha creado una Solicitud de Limpieza para la sala " + self.room.name
+          self.save_with_log(user, message)
+        else
+          self.requested_at = nil
+          self.errors.add(:base, "Ya hay una solicitud de limpieza activa asociada a esta sala en este momento")
+          false
+        end
+      else
+        self.status = 'inactive' #NOTA: Pasará "solo" a pending cuando el método en config/schedule.rb lo active.
+        self.requested_at = Time.parse(self.requested_at.strftime("%d-%m-%Y %I:%M %p"))
+        message = user.complete_name+" ha agendado una Solicitud de Limpieza para la sala " + self.room.name
+        self.save_with_log(user, message)
+      end
     end
   end
 

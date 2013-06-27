@@ -92,7 +92,7 @@ function init_agenda_view()
                 success: function(data)
                 {
                     $('#sectors_collection').html('');
-                    for(i = 0; i < data['sectors'].length; i++)
+                    for(var i = 0; i < data['sectors'].length; i++)
                     {
                         var opt = $('<option></option>');
                         opt.val(data['sectors'][i]['id']);

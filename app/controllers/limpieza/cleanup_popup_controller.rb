@@ -3,13 +3,13 @@ class Limpieza::CleanupPopupController < ApplicationController
   def popup_cleanup_request_new
     @cleanup_request = CleanupRequest.new
     @room_disable = false
-    @requestable_rooms = Room.get_cleanup_requestable_rooms
+    @sectors = Sector.all
     render 'limpieza/cleanup_request_popup/cleanup_request_new'
   end
 
   def create
     @cleanup_request = CleanupRequest.new(params[:cleanup_request])
-    @requestable_rooms = Room.get_cleanup_requestable_rooms
+    @sectors = Sector.all
 
     #Si se pide para ahora, se deja en nil el campo.
     if params[:now_check] == 'on'
