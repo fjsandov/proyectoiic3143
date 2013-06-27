@@ -64,11 +64,15 @@
         <table class="table table-striped table-bordered table-condensed center">
           <tr>
             <th>Tiempo de respuesta</th>
-            <th>Tiempo de limpieza</th>
+            <% if @cleanup_request.status == 'finished' %>
+                <th>Tiempo de limpieza</th>
+            <%end%>
           </tr>
           <tr>
             <td><%=@cleanup_request.get_waiting_time_str%></td>
-            <td><%=@cleanup_request.get_cleaning_time_str%></td>
+            <% if @cleanup_request.status == 'finished' %>
+                <td><%=@cleanup_request.get_cleaning_time_str%></td>
+            <%end%>
           </tr>
         </table>
     </div>
